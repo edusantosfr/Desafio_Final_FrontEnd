@@ -21,5 +21,5 @@ export function Profile() {
     const [modalCard, setModalCard] = useState(false);
     const [modalOpen, setModalOpen] = useState<number | null>(null)
 
-
+ 
 }
