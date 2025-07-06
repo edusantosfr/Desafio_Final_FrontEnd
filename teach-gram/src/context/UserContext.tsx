@@ -1,35 +1,47 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface User {
-  name: string;
-  bio: string;
-  avatar: string;
-}
-
-interface Repository {
   id: number;
   name: string;
+  username: string;
+  phone: string;
+  mail: string;
+  profileLink: string;
   description: string;
-  visibility: string;
-  url: string;
-  language: string;
 }
 
 interface UserContextType {
-  user: User[];  
-  repos: Repository[];  
-  setUser: React.Dispatch<React.SetStateAction<User[]>>;
-  setRepository: React.Dispatch<React.SetStateAction<Repository[]>>;
+  user: User | null;
+  isAuthenticated: boolean;
+  setUser: (user: User) => void;
+  setIsAuthenticated: (auth: boolean) => void;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User[]>([]);
-  const [repos, setRepository] = useState<Repository[]>([]);
+  const [user, setUserState] = useState<User | null>(null);
+  const [isAuthenticated, setAuthState] = useState<boolean>(false);
+
+  const setUser = (user: User) => {
+    setUserState(user);
+    setAuthState(true);
+  };
+
+  const setIsAuthenticated = (auth: boolean) => {
+    setAuthState(auth);
+    if (!auth) setUserState(null);
+  };
+
+  const logout = () => {
+    setUserState(null);
+    setAuthState(false);
+    // se usar localStorage/token, limpe aqui também
+  };
 
   return (
-    <UserContext.Provider value={{ user, setUser, repos, setRepository }}>
+    <UserContext.Provider value={{ user, isAuthenticated, setUser, setIsAuthenticated, logout }}>
       {children}
     </UserContext.Provider>
   );
@@ -37,8 +49,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("Erro");
-  }
+  if (!context) throw new Error("useUser deve estar dentro de <UserProvider>");
   return context;
 };
