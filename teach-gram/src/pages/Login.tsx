@@ -68,7 +68,6 @@ export function Login() {
                 profileLink: user.profileLink,
                 description: user.description
             });
-
             navigate('/Profile');
         } catch (error) {
             console.error("Erro ao fazer login:", error);
@@ -117,10 +116,10 @@ export function Login() {
                                 <h1 className="text-[20px] font-semibold text-[#303030]">Faça seu login</h1>
                             </div>
 
-                            <form onSubmit={handleLogin} className="flex flex-col w-full items-center">
+                            <form onSubmit={handleLogin} className="flex flex-col w-full items-center gap-4">
                                 <div className="flex flex-col w-full max-w-xs gap-2">
                                     <label htmlFor="mail" className="text-sm text-[#666666]">E-mail</label>
-                                    <input name="mail" value={loginData.mail} onChange={handleChange} 
+                                    <input id="mail" name="mail" value={loginData.mail} onChange={handleChange} 
                                     type="email" 
                                     placeholder="Digite seu E-mail" 
                                     className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"
@@ -129,8 +128,8 @@ export function Login() {
 
                                 <div className="flex flex-col w-full max-w-xs gap-2">
                                     <label htmlFor="password" className="text-sm text-[#666666]">Senha</label>
-                                    <input name="password" value={loginData.password} onChange={handleChange} 
-                                    type="text" 
+                                    <input id="password" name="password" value={loginData.password} onChange={handleChange} 
+                                    type="password" 
                                     placeholder="Digite sua senha" 
                                     className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
 
@@ -174,28 +173,33 @@ export function Login() {
                         //CADASTRO
                         <section>
                             {isChoosingProfilePicture ? (
-                                <section className="flex flex-col items-center justify-center min-h-screen px-4 bg-white">
-                                    <button onClick={() => setIsChoosingProfilePicture(false)} type="button">
-                                        <img src={back_button} alt="Voltar" className="w-8" />
+                                <section className="flex flex-col items-center justify-center gap-3 w-full min-h-screen px-4 bg-white">
+                                    <button className="cursor-pointer"
+                                        onClick={() => setIsChoosingProfilePicture(false)} type="button"> 
+                                        <img src={back_button} alt="botão de voltar" className="-translate-y-50 -translate-x-110 w-8"/>
                                     </button>
 
-                                    <img src={logo} alt="Logo" className="w-90 mb-4" />
-                                    <h1 className="text-[25px] font-semibold text-[#303030] mb-4">Insira o link da sua foto de perfil</h1>
+                                    <img src={logo} alt="logo imagem" className="w-90 -translate-y-40" />
 
-                                    <input
-                                        name="profileLink"
-                                        value={formData.profileLink}
-                                        onChange={handleChange}
-                                        type="url"
-                                        placeholder="https://..."
-                                        className="p-3 pl-4 border border-[#B5B5B5] rounded-lg w-full max-w-xs text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"
-                                    />
+                                    <div className="flex flex-col items-center justify-center gap-20">
+                                        <div className="flex justify-center w-100">
+                                            <h1 className="text-[25px] font-semibold text-[#303030]">Insira o link da sua foto de perfil</h1>
+                                        </div>
 
-                                    <button
+                                        <div className="flex flex-col w-full max-w-xs gap-1">
+                                            <label htmlFor="profileLink" className="text-sm">Link</label>
+                                            <input name="profileLink" 
+                                            type="url" 
+                                            placeholder="Insira seu link" 
+                                            value={formData.profileLink}
+                                            onChange={handleChange}
+                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
+                                        </div>
+                                    </div>
+
+                                    <button className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors"
                                         onClick={handleFinalRegister}
-                                        className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg hover:bg-[#f15e59] transition-colors"
-                                    >
-                                        Finalizar cadastro
+                                        type="submit"> Salvar
                                     </button>
                                 </section>
                             ) : (
