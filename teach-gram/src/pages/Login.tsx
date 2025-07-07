@@ -21,6 +21,7 @@ export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [isChoosingProfilePicture, setIsChoosingProfilePicture] = useState(false);
     const [status, setStatus] = useState(false);
+    const [verify, setVerify] = useState(false);
 
     const [loginData, setLoginData] = useState({
         mail: '',
@@ -68,9 +69,10 @@ export function Login() {
                 profileLink: user.profileLink,
                 description: user.description
             });
-            navigate('/Profile');
+            navigate('/Profile/profilesec');
         } catch (error) {
             console.error("Erro ao fazer login:", error);
+            setVerify(true)
         } finally {
             setStatus(false);
         }
@@ -119,29 +121,41 @@ export function Login() {
                             <form onSubmit={handleLogin} className="flex flex-col w-full items-center gap-4">
                                 <div className="flex flex-col w-full max-w-xs gap-2">
                                     <label htmlFor="mail" className="text-sm text-[#666666]">E-mail</label>
-                                    <input id="mail" name="mail" value={loginData.mail} onChange={handleChange} 
-                                    type="email" 
-                                    placeholder="Digite seu E-mail" 
-                                    className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"
+                                    <input id="mail" name="mail" value={loginData.mail} onChange={handleChange}
+                                        type="email"
+                                        placeholder="Digite seu E-mail"
+                                        className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"
                                     />
                                 </div>
 
                                 <div className="flex flex-col w-full max-w-xs gap-2">
                                     <label htmlFor="password" className="text-sm text-[#666666]">Senha</label>
-                                    <input id="password" name="password" value={loginData.password} onChange={handleChange} 
-                                    type="password" 
-                                    placeholder="Digite sua senha" 
-                                    className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
+                                    <input id="password" name="password" value={loginData.password} onChange={handleChange}
+                                        type="password"
+                                        placeholder="Digite sua senha"
+                                        className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
 
                                     <div className="flex justify-between items-center w-full max-w-xs text-sm text-[13px]">
-                                        <label className="flex items-center gap-1 text-[#303030]">
-                                            <input type="checkbox" className="accent-[#F37671]" /> Lembra senha
+                                        <label className="flex items-center gap-1 text-[#303030] cursor-pointer">
+                                            <input type="checkbox" className="accent-[#F37671] cursor-pointer" /> Lembrar senha
                                         </label>
                                         <a href="#" className="text-[#666666] hover:underline">Esqueci minha senha</a>
                                     </div>
+
+                                    <div className="flex justify-end font-bold text-[15px] text-[#F37671]">
+                                        {verify ? (
+                                            <div className="flex flex-row items-center gap-1.5">
+                                                <div className="w-2.5 h-2.5 rounded-full bg-[#F37671]"></div>
+                                                <h1>Senha incorreta</h1>
+                                            </div>
+                                        ) : (
+                                            <h1 className="invisible">Senha incorreta</h1>
+                                        )}
+                                    </div>
+
                                 </div>
 
-                                <button className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors"
+                                <button className="w-full max-w-xs py-2 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors cursor-pointer"
                                     type="submit"> Entrar</button>
                             </form>
 
@@ -156,13 +170,13 @@ export function Login() {
                             </div>
 
                             <div className="w-full flex flex-col items-center gap-4" >
-                                <button className="w-full max-w-xs py-3 text-white text-[20px] font-bold rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.10)] hover:bg-gray-100 transition-colors flex justify-center"
+                                <button className="w-full max-w-xs py-3 text-white text-[20px] font-bold rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.10)] hover:bg-gray-100 transition-colors flex justify-center cursor-pointer"
                                     //onClick={loadingLogin}
                                     type="submit">
                                     <img src={google_login} alt="logo imagem" className="w-45" />
                                 </button>
 
-                                <button className="w-full max-w-xs py-3 text-white text-[20px] font-bold rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.10)] hover:bg-gray-100 transition-colors flex justify-center"
+                                <button className="w-full max-w-xs py-3 text-white text-[20px] font-bold rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.10)] hover:bg-gray-100 transition-colors flex justify-center cursor-pointer"
                                     //onClick={loadingLogin}
                                     type="submit">
                                     <img src={apple_login} alt="logo imagem" className="w-45" />
@@ -175,8 +189,8 @@ export function Login() {
                             {isChoosingProfilePicture ? (
                                 <section className="flex flex-col items-center justify-center gap-3 w-full min-h-screen px-4 bg-white">
                                     <button className="cursor-pointer"
-                                        onClick={() => setIsChoosingProfilePicture(false)} type="button"> 
-                                        <img src={back_button} alt="botão de voltar" className="-translate-y-50 -translate-x-110 w-8"/>
+                                        onClick={() => setIsChoosingProfilePicture(false)} type="button">
+                                        <img src={back_button} alt="botão de voltar" className="-translate-y-50 -translate-x-110 w-8" />
                                     </button>
 
                                     <img src={logo} alt="logo imagem" className="w-90 -translate-y-40" />
@@ -188,12 +202,12 @@ export function Login() {
 
                                         <div className="flex flex-col w-full max-w-xs gap-1">
                                             <label htmlFor="profileLink" className="text-sm">Link</label>
-                                            <input name="profileLink" 
-                                            type="url" 
-                                            placeholder="Insira seu link" 
-                                            value={formData.profileLink}
-                                            onChange={handleChange}
-                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
+                                            <input name="profileLink"
+                                                type="url"
+                                                placeholder="Insira seu link"
+                                                value={formData.profileLink}
+                                                onChange={handleChange}
+                                                className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
                                         </div>
                                     </div>
 
@@ -215,7 +229,7 @@ export function Login() {
                                         <input name="name" value={formData.name} onChange={handleChange}
                                             type="text"
                                             placeholder="Digite seu nome"
-                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"/>
+                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
                                     </div>
 
                                     <div className="flex flex-col w-full max-w-xs gap-1">
@@ -223,7 +237,7 @@ export function Login() {
                                         <input name="mail" value={formData.mail} onChange={handleChange}
                                             type="email"
                                             placeholder="Digite seu E-mail"
-                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]"/>
+                                            className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
                                     </div>
 
                                     <div className="flex flex-col w-full max-w-xs gap-1">
@@ -262,7 +276,7 @@ export function Login() {
                                     </div>
 
                                     <button
-                                        className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors"
+                                        className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors cursor-pointer"
                                         onClick={() => setIsChoosingProfilePicture(true)}
                                         type="button">
                                         Próximo

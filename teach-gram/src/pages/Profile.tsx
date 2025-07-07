@@ -5,8 +5,6 @@ import feed_button from "../assets/feed-button.png";
 import create_post_button from "../assets/create-post-button.png";
 import friends_button from "../assets/friends-button.png";
 import configuration_button from "../assets/configuration-button.png";
-
-// import { useUser } from "../context/UserContext";
 // import { LoadingSpinner } from "../components/loadingSpinner";
 
 import { useContext } from "react";
