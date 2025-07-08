@@ -26,7 +26,7 @@ export function Login() {
     const [loginData, setLoginData] = useState({
         mail: '',
         password: ''
-    });
+    })
 
     const [formData, setFormData] = useState({
         name: '',
@@ -36,7 +36,7 @@ export function Login() {
         password: '',
         profileLink: '',
         description: '',
-    });
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (isLogin) {
@@ -44,7 +44,7 @@ export function Login() {
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
-    };
+    }
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -72,11 +72,11 @@ export function Login() {
             navigate('/Profile/profilesec');
         } catch (error) {
             console.error("Erro ao fazer login:", error);
-            setVerify(true)
+            setVerify(true);
         } finally {
             setStatus(false);
         }
-    };
+    }
 
     const handleRegister = async () => {
         setStatus(true);
@@ -99,7 +99,7 @@ export function Login() {
             setIsLogin(true);
             setIsChoosingProfilePicture(false);
         }
-    };
+    }
 
     return (
         <div >
