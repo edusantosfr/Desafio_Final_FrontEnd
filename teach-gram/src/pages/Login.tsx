@@ -78,7 +78,7 @@ export function Login() {
         }
     };
 
-    const handleFinalRegister = async () => {
+    const handleRegister = async () => {
         setStatus(true);
         try {
             const newUser = await createUser(formData);
@@ -212,7 +212,7 @@ export function Login() {
                                     </div>
 
                                     <button className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors"
-                                        onClick={handleFinalRegister}
+                                        onClick={handleRegister}
                                         type="submit"> Salvar
                                     </button>
                                 </section>
