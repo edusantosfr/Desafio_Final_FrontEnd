@@ -21,6 +21,26 @@ export const loginUser = async (credentials: {
     return response.data;
 };
 
+export const patchUserEdit = async (credentials: {
+    profileLink: string;
+    name: string;
+    username: string;
+    description: string;
+}) => {
+    const response = await api.post('/users/loged', credentials);
+    return response.data;
+};
+
+export const patchUserInfo = async (credentials: {
+    name: string;
+    mail: string;
+    phone: string;
+    password: string;
+}) => {
+    const response = await api.post('/users/loged', credentials);
+    return response.data;
+};
+
 export const deleteUser = () => {
     return api.patch("/users/delete");
 };

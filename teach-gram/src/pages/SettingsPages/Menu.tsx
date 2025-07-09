@@ -51,8 +51,8 @@ export function Menu() {
                             <div className="flex justify-center items-center">
                                 <section className="w-[80%] h-[90%] flex flex-col gap-12">
 
-                                    <NavButton icon={arrow} label="Configurações de Conta" to="/Settings/Edit" />
-                                    <NavButton icon={arrow} label="Editar Perfil" to="/Settings/Info" />
+                                    <NavButton icon={arrow} label="Configurações de Conta" to="/Settings/Info" />
+                                    <NavButton icon={arrow} label="Editar Perfil" to="/Settings/Edit" />
 
                                     <button className="flex cursor-pointer w-[14vw]"
                                         onClick={() => setModalOpen(true)}>
