@@ -19,9 +19,6 @@ export function Menu() {
         setStatus(true);
         setModalOpen(false);
 
-        const token = localStorage.getItem("token");
-        console.log(token)
-
         try {
             await deleteUser();
         } catch (error) {

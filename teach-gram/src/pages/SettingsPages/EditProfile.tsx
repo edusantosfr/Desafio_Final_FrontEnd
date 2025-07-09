@@ -2,9 +2,11 @@ import back_button from "../../assets/backButton.png";
 import config_detail from "../../assets/config-detail.png";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
 import { patchUserEdit } from "../../services/user.service";
+import { getLogedUser } from "../../services/user.service";
 import { useUser } from "../../context/UserContext";
 
 export function EditProfile() {
@@ -13,31 +15,57 @@ export function EditProfile() {
   const [status, setStatus] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setEditUserData({ ...editUserData, [e.target.name]: e.target.value });
+
+    const { name, value } = e.target;
+    setEditUserData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   }
 
-  const [loginData, setLoginData] = useState({
+  const [editUserData, setEditUserData] = useState({
     profileLink: '',
     name: '',
     username: '',
     description: ''
   })
 
+  useEffect(() => {
+    const handleLogedUser = async () => {
+      setStatus(true);
+
+      try {
+        const user = await getLogedUser();
+
+        setUser({
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          phone: user.phone,
+          mail: user.mail,
+          profileLink: user.profileLink,
+          description: user.description
+        });
+
+        setEditUserData(user);
+
+      } catch (error) {
+        console.error("Erro ao fazer a edição:", error);
+      } finally {
+        setStatus(false);
+      }
+    }
+    handleLogedUser();
+  }, []);
+
   const handleEditProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(true);
+
     try {
-      const response = await patchUserEdit({
-        profileLink: '',
-        name: '',
-        username: '',
-        description: ''
-      });
+      const user = await patchUserEdit(editUserData);
 
-      const token = response.token;
-      localStorage.setItem('token', token);
-
-      const user = response.user;
       setUser({
         id: user.id,
         name: user.name,
@@ -47,7 +75,9 @@ export function EditProfile() {
         profileLink: user.profileLink,
         description: user.description
       });
+
       navigate('/Settings/Menu');
+
     } catch (error) {
       console.error("Erro ao fazer a edição:", error);
     } finally {
@@ -80,40 +110,40 @@ export function EditProfile() {
 
                   <img
                     className="rounded-full object-cover aspect-square w-40 h-40"
-                    src="https://cdn.pixabay.com/photo/2024/02/26/19/39/monochrome-image-8598798_1280.jpg"
+                    src={editUserData.profileLink}
                     alt="foto de perfil" />
 
                   <form onSubmit={handleEditProfile} className="flex flex-col w-full gap-10">
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-col w-full max-w-xs gap-1">
                         <label htmlFor="profileLink" className="text-[18px]">Foto de perfil</label>
-                        <input id="profileLink" name="profileLink" value={loginData.profileLink} onChange={handleChange}
+                        <input id="profileLink" name="profileLink" value={editUserData.profileLink} onChange={handleChange}
                           type="url"
-                          className="pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                          className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
                         />
                       </div>
 
                       <div className="flex flex-col w-full max-w-xs gap-1">
                         <label htmlFor="name" className="text-[18px]">Nome</label>
-                        <input id="name" name="name" value={loginData.name} onChange={handleChange}
+                        <input id="name" name="name" value={editUserData.name} onChange={handleChange}
                           type="text"
-                          className="pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                          className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
                         />
                       </div>
 
                       <div className="flex flex-col w-full max-w-xs gap-1">
                         <label htmlFor="username" className="text-[18px]">Nome de Usuário</label>
-                        <input id="username" name="username" value={loginData.username} onChange={handleChange}
+                        <input id="username" name="username" value={editUserData.username} onChange={handleChange}
                           type="text"
-                          className="pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                          className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
                         />
                       </div>
 
                       <div className="flex flex-col w-full max-w-xs gap-1">
                         <label htmlFor="description" className="text-[18px]">Bio</label>
-                        <input id="description" name="description" value={loginData.description} onChange={handleChange}
+                        <input id="description" name="description" value={editUserData.description} onChange={handleChange}
                           type="text"
-                          className="pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                          className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[18px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
                         />
                       </div>
                     </div>
@@ -130,7 +160,7 @@ export function EditProfile() {
                       </button>
                     </div>
                   </form>
-                  
+
                 </div>
               )}
 

@@ -61,6 +61,7 @@ export function Login() {
             setIsAuthenticated(true);
 
             const user = response.user;
+            
             setUser({
                 id: user.id,
                 name: user.name,
@@ -71,8 +72,9 @@ export function Login() {
                 description: user.description
             });
             navigate('/Profile/profilesec');
-        } catch (error) {
-            console.error("Erro ao fazer login:", error);
+        } catch (error: any) {
+            const msg = error.response?.data?.message;
+            console.log(msg);
             setVerify(true);
         } finally {
             setStatus(false);
@@ -93,8 +95,9 @@ export function Login() {
                 description: newUser.description
             });
             setIsAuthenticated(true);
-        } catch (error) {
-            console.error('Erro ao registrar:', error);
+        } catch (error: any) {
+            const msg = error.response?.data?.message;
+            console.log(msg);
         } finally {
             setStatus(false);
             setIsLogin(true);
