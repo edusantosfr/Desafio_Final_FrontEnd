@@ -32,24 +32,24 @@ export function Profile() {
                         </section>
 
                         <section className="flex flex-col mt-8 items-center gap-8">
-                            <NavButton icon={feed_button} label="Feed" to="feed" />
-                            <NavButton icon={friends_button} label="Amigos" to="friends" />
-                            <NavButton icon={feed_button} label="Perfil" to="profilesec" />
+                            <NavButton icon={feed_button} label="Feed" to="Feed" />
+                            <NavButton icon={friends_button} label="Amigos" to="Friends" />
+                            <NavButton icon={feed_button} label="Perfil" to="Profilesec" />
                             {/* <NavButton icon={configuration_button} label="Configurações" to="settings" /> */}
 
                             <button
                                 type="button"
-                                onClick={() => navigate("../Settings")}
+                                onClick={() => navigate("../Settings/Menu")}
                                 className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                                 <div className="flex justify-center">
-                                    <img src={configuration_button} alt="settings" className="h-[3vh]" />
+                                    <img src={configuration_button} alt="Settings" className="h-[3vh]" />
                                 </div>
                                 <div className="flex justify-start">
                                     <h1 className="text-[20px] font-normal text-[#8E8E8E]">Configurações</h1>
                                 </div>
                             </button>
 
-                            <NavButton icon={create_post_button} label="Criar" to="create" />
+                            <NavButton icon={create_post_button} label="Criar" to="Create" />
                         </section>
                     </div>
                 </section>

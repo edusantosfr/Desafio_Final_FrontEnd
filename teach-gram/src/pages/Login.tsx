@@ -49,6 +49,7 @@ export function Login() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus(true);
+        localStorage.clear();
         try {
             const response = await loginUser({
                 mail: loginData.mail,

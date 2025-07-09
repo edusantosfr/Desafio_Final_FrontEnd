@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import { PrivateRoutes } from './PrivateRouts';
 import { Login } from "../pages/Login";
@@ -9,6 +9,7 @@ import { Friends } from "../pages/ProfilePages/Friends";
 import { ProfileSec } from "../pages/ProfilePages/ProfileSec";
 import { Settings } from "../pages/Settings.tsx";
 import { CreatePost } from "../pages/ProfilePages/CreatePost.tsx";
+import { Menu } from '../pages/SettingsPages/Menu.tsx';
 
 import { ProfileInfo } from '../pages/SettingsPages/ProfileInfo.tsx';
 import { EditProfile } from '../pages/SettingsPages/EditProfile.tsx';
@@ -25,16 +26,20 @@ export function AppRoutes() {
                         <Route path="/" element={<Login />} />
 
                         <Route element={<PrivateRoutes />}>
+                            <Route path="/Profile" element={<Navigate to="/Profile/profilesec" replace />} />
                             <Route path="/Profile" element={<Profile />}>
                                 <Route path="feed" element={<Feed />} />
                                 <Route path="friends" element={<Friends />} />
                                 <Route path="profilesec" element={<ProfileSec />} />
                                 <Route path="create" element={<CreatePost />} />
                             </Route>
-                        </Route>
-                        <Route path="Settings" element={<Settings />}>
-                            <Route path="editprofile" element={<EditProfile />} />
-                            <Route path="profileinfo" element={<ProfileInfo />} />
+
+                            <Route path="/Settings" element={<Settings />}>
+                                <Route index element={<Navigate to="menu" replace />} />
+                                <Route path="menu" element={<Menu />} />
+                                <Route path="edit" element={<EditProfile />} />
+                                <Route path="info" element={<ProfileInfo />} />
+                            </Route>
                         </Route>
                     </Routes>
                 </BrowserRouter>
