@@ -19,6 +19,7 @@ import { createPost } from "../services/post.service";
 
 export function Profile() {
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
     const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
     const [msg, setMsg] = useState('');
@@ -36,21 +37,6 @@ export function Profile() {
         username: '',
         description: ''
     })
-
-    const isValidImage = (url: string) => /\.(png|jpg|jpeg)$/i.test(url);
-
-    const isYouTubeLink = (url: string) =>
-        /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(url);
-
-    const getYouTubeThumbnail = (url: string): string | null => {
-        const regex = /(?:youtube\.com.*(?:v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(regex);
-        return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : null;
-    };
-
-    const handleCloseModalBtn = () => {
-        setIsConfirmingPhoto(false);
-    }
 
     useEffect(() => {
         const handleLogedUser = async () => {
@@ -84,6 +70,21 @@ export function Profile() {
         privatePost: false
     })
 
+    const isValidImage = (url: string) => /\.(png|jpg|jpeg)$/i.test(url)
+
+    const isYouTubeLink = (url: string) =>
+        /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(url)
+
+    const getYouTubeThumbnail = (url: string): string | null => {
+        const regex = /(?:youtube\.com.*(?:v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regex);
+        return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : null;
+    }
+
+    const handleCloseModalBtn = () => {
+        setIsConfirmingPhoto(false);
+    }
+
     useEffect(() => {
         if (imageUrl.startsWith("http")) {
             setIsConfirmingPhoto(true);
@@ -98,43 +99,45 @@ export function Profile() {
     }
 
     const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
 
-        if (name === 'media') {
-            setMediaInput(value);
-            setImageUrl(value);
+        setMediaInput(value);
+        setImageUrl(value);
 
-            if (isValidImage(value)) {
+        if (isValidImage(value)) {
+            setPostInfo((prev) => ({
+                ...prev,
+                photoLink: value,
+                videoLink: ''
+            }));
+        } else if (isYouTubeLink(value)) {
+            const thumbnail = getYouTubeThumbnail(value);
+            if (thumbnail) {
                 setPostInfo((prev) => ({
                     ...prev,
-                    photoLink: value,
-                    videoLink: ''
+                    photoLink: thumbnail,
+                    videoLink: value
                 }));
-            } else if (isYouTubeLink(value)) {
-                const thumbnail = getYouTubeThumbnail(value);
-                if (thumbnail) {
-                    setPostInfo((prev) => ({
-                        ...prev,
-                        photoLink: thumbnail,
-                        videoLink: value
-                    }));
-                    setImageUrl(thumbnail);
-                } else {
-                    setImageUrl('');
-                }
+                setImageUrl(thumbnail);
             } else {
-                setPostInfo((prev) => ({
-                    ...prev,
-                    photoLink: '',
-                    videoLink: ''
-                }));
+                setImageUrl('');
             }
+        } else {
+            setPostInfo((prev) => ({
+                ...prev,
+                photoLink: '',
+                videoLink: ''
+            }));
         }
     }
 
-    const handleRegisterPost = async () => {
+    const handleRegisterPost = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         try {
             await createPost(postInfo);
+            setIsConfirmingPhoto(false);
+            setModalOpen(false);
+            setIsConfirmedPhoto(false);
 
         } catch (error: any) {
             const msg = error.response?.data?.message;
@@ -159,14 +162,34 @@ export function Profile() {
                         </section>
 
                         <section className="flex flex-col mt-8 items-center gap-8">
-                            <NavButton icon={feed_button} label="Feed" to="Feed" />
-                            <NavButton icon={friends_button} label="Amigos" to="Friends" />
+                            <Link
+                                to="Feed"
+                                className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
+                                <div className="flex justify-center">
+                                    <img src={feed_button} alt="Feed" className="h-[3vh]" />
+                                </div>
+                                <div className="flex justify-start">
+                                    <h1 className="text-[20px] font-normal text-[#8E8E8E]">"Feed"</h1>
+                                </div>
+                            </Link>
+
+                            <button
+                                type="button"
+                                onClick={() => setFriendsModalOpen(true)}
+                                className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
+                                <div className="flex justify-center">
+                                    <img src={friends_button} alt="Amigos" className="h-[3vh]" />
+                                </div>
+                                <div className="flex justify-start">
+                                    <h1 className="text-[20px] font-normal text-[#8E8E8E]">Friends</h1>
+                                </div>
+                            </button>
 
                             <Link
                                 to="Profilesec"
                                 className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                                 <div className="flex justify-center">
-                                    <img src={userInfo.profileLink || no_profile} alt="Perfil" className="rounded-full object-cover aspect-square w-12 h-12" />
+                                    <img src={userInfo.profileLink || no_profile} alt="Perfil" className="rounded-full object-cover aspect-square w-10 h-10" />
                                 </div>
                                 <div className="flex justify-start">
                                     <h1 className="text-[20px] font-normal text-[#8E8E8E]">Perfil</h1>
@@ -190,7 +213,7 @@ export function Profile() {
                                 onClick={() => setModalOpen(true)}
                                 className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                                 <div className="flex justify-center">
-                                    <img src={create_post_button} alt="Settings" className="h-[3vh]" />
+                                    <img src={create_post_button} alt="Create" className="h-[3vh]" />
                                 </div>
                                 <div className="flex justify-start">
                                     <h1 className="text-[20px] font-normal text-[#8E8E8E]">Criar</h1>
@@ -201,64 +224,117 @@ export function Profile() {
                 </section>
                 <section className="flex justify-center items-center">
                     <div className="flex items-center w-[92%]">
+                        <Modal isOpen={isFriendsModalOpen} onClose={() => setFriendsModalOpen(false)}>
+                            <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
+                                <div className="w-full h-full flex flex-col p-5">
+                                    <button
+                                        onClick={() => setIsConfirmedPhoto(false)}
+                                        className="flex cursor-pointer">
+                                        <img src={back_button} alt="botão de fechar modal"
+                                            className="w-[18px] h-[18px]" />
+                                    </button>
+
+                                    <form onSubmit={handleRegisterPost} className="flex flex-col px-7 gap-5">
+                                        <div className="flex flex-row items-center justify-between">
+                                            <h1 className="text-[25px] font-semibold text-[#303030]">fds</h1>
+                                            <button type="submit"
+                                                className="flex cursor-pointer">
+                                                <p className="text-[#F37671] hover:underline">Compartilhar</p>
+                                            </button>
+                                        </div>
+                                        <div className="flex flex-col gap-3">
+                                            <img src={imageUrl}
+                                                alt="Imagem inserida"
+                                                className="h-90 w-full object-cover aspect-square rounded-2xl pb-2" />
+
+                                            <div className="flex flex-col w-full max-w-xs">
+                                                <label htmlFor="title" className="text-[15px] text-[#8E8E8E]">Título</label>
+                                                <input id="title" name="title" value={postInfo.title} onChange={handleChange}
+                                                    type="text"
+                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                />
+                                            </div>
+
+                                            <div className="flex flex-col w-full max-w-xs">
+                                                <label htmlFor="description" className="text-[15px] text-[#8E8E8E]">Descrição</label>
+                                                <input id="description" name="description" value={postInfo.description} onChange={handleChange}
+
+                                                    type="text"
+                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                />
+                                            </div>
+
+                                            <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
+                                                <input type="checkbox"
+                                                    checked={postInfo.privatePost}
+                                                    onChange={(e) =>
+                                                        setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
+                                                    }
+                                                    className="accent-[#F37671] cursor-pointer" /> Post Privado
+                                            </label>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </section>
+                        </Modal>
+
                         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
                             {isConfirmedPhoto ? (
-                                <div>
-                                    <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
-                                        <div className="w-full h-full flex flex-col p-5">
-                                            <button
-                                                onClick={() => setIsConfirmedPhoto(false)}
-                                                className="flex cursor-pointer">
-                                                <img src={back_button} alt="botão de fechar modal"
-                                                    className="w-[18px] h-[18px]" />
-                                            </button>
+                                <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
+                                    <div className="w-full h-full flex flex-col p-5">
+                                        <button
+                                            onClick={() => setIsConfirmedPhoto(false)}
+                                            className="flex cursor-pointer">
+                                            <img src={back_button} alt="botão de fechar modal"
+                                                className="w-[18px] h-[18px]" />
+                                        </button>
 
-                                            <form onSubmit={handleRegisterPost} className="flex flex-col px-7 gap-5">
-                                                <div className="flex flex-row items-center justify-between">
-                                                    <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
-                                                    <button type="submit"
-                                                        className="flex cursor-pointer">
-                                                        <p className="text-[#F37671] hover:underline">Compartilhar</p>
-                                                    </button>
+                                        <form onSubmit={handleRegisterPost} className="flex flex-col px-7 gap-5">
+                                            <div className="flex flex-row items-center justify-between">
+                                                <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
+                                                <button type="submit"
+                                                    className="flex cursor-pointer">
+                                                    <p className="text-[#F37671] hover:underline">Compartilhar</p>
+                                                </button>
+                                            </div>
+                                            <div className="flex flex-col gap-3">
+                                                <img src={imageUrl}
+                                                    alt="Imagem inserida"
+                                                    className="h-90 w-full object-cover aspect-square rounded-2xl pb-2" />
+
+                                                <div className="flex flex-col w-full max-w-xs">
+                                                    <label htmlFor="title" className="text-[15px] text-[#8E8E8E]">Título</label>
+                                                    <input id="title" name="title" value={postInfo.title} onChange={handleChange}
+                                                        type="text"
+                                                        className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                    />
                                                 </div>
-                                                <div className="flex flex-col gap-3">
-                                                    <img src={imageUrl}
-                                                        alt="Imagem inserida"
-                                                        className="h-90 w-full object-cover aspect-square rounded-2xl pb-2" />
 
-                                                    <div className="flex flex-col w-full max-w-xs">
-                                                        <label htmlFor="title" className="text-[15px] text-[#8E8E8E]">Título</label>
-                                                        <input id="title" name="title" value={postInfo.title} onChange={handleChange}
-                                                            type="text"
-                                                            className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
-                                                        />
-                                                    </div>
+                                                <div className="flex flex-col w-full max-w-xs">
+                                                    <label htmlFor="description" className="text-[15px] text-[#8E8E8E]">Descrição</label>
+                                                    <input id="description" name="description" value={postInfo.description} onChange={handleChange}
 
-                                                    <div className="flex flex-col w-full max-w-xs">
-                                                        <label htmlFor="description" className="text-[15px] text-[#8E8E8E]">Descrição</label>
-                                                        <input id="description" name="description" value={postInfo.description} onChange={handleChange}
-
-                                                            type="text"
-                                                            className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
-                                                        />
-                                                    </div>
-
-                                                    <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
-                                                        <input type="checkbox"
-                                                            checked={postInfo.privatePost}
-                                                            onChange={(e) =>
-                                                                setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
-                                                            }
-                                                            className="accent-[#F37671] cursor-pointer" /> Post Privado
-                                                    </label>
+                                                        type="text"
+                                                        className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                    />
                                                 </div>
-                                            </form>
 
-                                        </div>
-                                    </section>
-                                </div>
+                                                <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
+                                                    <input type="checkbox"
+                                                        checked={postInfo.privatePost}
+                                                        onChange={(e) =>
+                                                            setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
+                                                        }
+                                                        className="accent-[#F37671] cursor-pointer" /> Post Privado
+                                                </label>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </section>
                             ) : (
-                                <div>
+                                <section>
                                     {isConfirmingPhoto ? (
                                         <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
                                             <div className="w-full h-full flex flex-col p-5">
@@ -314,7 +390,7 @@ export function Profile() {
                                         </div>
                                     </section>
                                     )}
-                                </div>
+                                </section>
                             )}
                         </Modal>
 
@@ -325,19 +401,4 @@ export function Profile() {
             </div >
         </div >
     )
-}
-
-function NavButton({ icon, label, to }: { icon: string; label: string; to: string }) {
-    return (
-        <Link
-            to={to}
-            className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
-            <div className="flex justify-center">
-                <img src={icon} alt={label} className="h-[3vh]" />
-            </div>
-            <div className="flex justify-start">
-                <h1 className="text-[20px] font-normal text-[#8E8E8E]">{label}</h1>
-            </div>
-        </Link>
-    );
 }
