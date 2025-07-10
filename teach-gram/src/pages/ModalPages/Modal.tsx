@@ -11,10 +11,10 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 "
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
       onClick={onClose}>
       <div
-        className="bg-white rounded-[30px] shadow-lg z-60 max-w-lg w-full"
+        className="w-fit h-fit flex justify-center items-center"
         onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

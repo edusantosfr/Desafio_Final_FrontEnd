@@ -57,24 +57,26 @@ export function Menu() {
                                     </button>
 
                                     <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                                        <div className="pt-8 pb-3 pl-12">
-                                            <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Excluir conta</h2>
-                                        </div>
-                                        <hr className="border-[#CECECE] border-1" />
-                                        <div className="flex items-center justify-center">
-                                            <div className="flex flex-col w-[80%] pt-8 pb-8 gap-10">
-                                                <p className="mb-4 text-[15px] text-[#303030]">Todos os seus dados serão excluídos.</p>
-                                                <div className="flex justify-center gap-12">
-                                                    <button
-                                                        onClick={() => setModalOpen(false)}
-                                                        className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
-                                                        Cancelar
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete()}
-                                                        className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
-                                                        Confirmar
-                                                    </button>
+                                        <div className="bg-white rounded-[30px] shadow-lg z-60 max-w-lg w-[528px] h-fit">
+                                            <div className="pt-8 pb-3 pl-12">
+                                                <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Excluir conta</h2>
+                                            </div>
+                                            <hr className="border-[#CECECE] border-1" />
+                                            <div className="flex items-center justify-center">
+                                                <div className="flex flex-col w-[80%] pt-8 pb-8 gap-10">
+                                                    <p className="mb-4 text-[15px] text-[#303030]">Todos os seus dados serão excluídos.</p>
+                                                    <div className="flex justify-center gap-12">
+                                                        <button
+                                                            onClick={() => setModalOpen(false)}
+                                                            className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
+                                                            Cancelar
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete()}
+                                                            className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
+                                                            Confirmar
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

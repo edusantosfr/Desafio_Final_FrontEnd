@@ -6,6 +6,7 @@ import create_post_button from "../assets/create-post-button.png";
 import friends_button from "../assets/friends-button.png";
 import configuration_button from "../assets/configuration-button.png";
 import no_profile from "../assets/no-profile.png";
+import close_button from "../assets/close-button.png";
 
 import { useContext, useState, useEffect } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
@@ -17,9 +18,14 @@ import { useUser } from "../context/UserContext";
 
 export function Profile() {
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
+    const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
+
     const navigate = useNavigate();
+
     const { setIsAuthenticated } = useContext(AuthContext);
     const { setUser } = useUser();
+    const [imageUrl, setImageUrl] = useState("");
 
     const [userInfo, setUserInfo] = useState({
         profileLink: '',
@@ -27,6 +33,20 @@ export function Profile() {
         username: '',
         description: ''
     })
+
+    const handleCloseModalBtn = () => {
+        setIsConfirmingPhoto(false);
+        setModalOpen(false);
+    }
+
+    useEffect(() => {
+        //const isValidImage = imageUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i);
+        if (imageUrl.startsWith("http")) {
+            setIsConfirmingPhoto(true);
+        } else {
+            setIsConfirmingPhoto(false);
+        }
+    }, [imageUrl]);
 
     useEffect(() => {
         const handleLogedUser = async () => {
@@ -76,7 +96,7 @@ export function Profile() {
                                 to="Profilesec"
                                 className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                                 <div className="flex justify-center">
-                                    <img src={userInfo.profileLink || no_profile}  alt="Perfil" className="rounded-full object-cover aspect-square w-12 h-12" />
+                                    <img src={userInfo.profileLink || no_profile} alt="Perfil" className="rounded-full object-cover aspect-square w-12 h-12" />
                                 </div>
                                 <div className="flex justify-start">
                                     <h1 className="text-[20px] font-normal text-[#8E8E8E]">Perfil</h1>
@@ -112,29 +132,75 @@ export function Profile() {
                 <section className="flex justify-center items-center">
                     <div className="flex items-center w-[92%]">
                         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                            <div className="pt-8 pl-12">
-                                <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Criar nova publicação</h2>
-                            </div>
-                            <div className="flex items-center justify-center">
-                                <div className="flex flex-col w-[80%] pt-8 pb-12">
-                                    <div className="flex justify-center">
-                                        <div className="h-8 flex justify-center items-center rounded-[8px] text-[15px] bg-[#F37671] text-white w-[32%] relative z-10">
-                                            <p>Link da Imagem</p>
-                                        </div>
-                                        <div className="-translate-x-3">
-                                            <input id="mail" name="mail"
-                                                type="email"
-                                                placeholder="Insira aqui a url da imagem"
-                                                className="truncate h-8 p-1.5 pl-6 border border-[#B5B5B5] rounded-[8px] text-sm text-[#303030] text-[15px] focus:outline-none focus:border focus:border-[#F37671]" />
-                                        </div>
-                                    </div>
+                            {isConfirmedPhoto ? (
+                                <div>
+
                                 </div>
-                            </div>
+                            ) : (
+                                <div>
+                                    {isConfirmingPhoto ? (
+                                        <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
+                                            <div className="w-full h-full flex flex-col p-5">
+                                                <button
+                                                    onClick={handleCloseModalBtn}
+                                                    className="flex cursor-pointer">
+                                                    <img src={close_button} alt="botão de fechar modal"
+                                                        className="w-[15px] h-[15px]" />
+                                                </button>
+                                                <div className="flex flex-col px-7 gap-5">
+                                                    <div className="flex flex-row items-center justify-between">
+                                                        <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
+                                                        <button
+                                                            className="flex cursor-pointer">
+                                                            <p className="text-[#F37671] hover:underline">Avançar</p>
+                                                        </button>
+                                                    </div>
+                                                    <img src={imageUrl}
+                                                        alt="Imagem inserida"
+                                                        className="h-100 w-full object-cover mb-4 aspect-square pb-2 rounded-2xl" />
+                                                </div>
+                                            </div>
+                                        </section>
+                                    ) : (<section className="bg-white rounded-[30px] shadow-lg z-60 w-[512px]">
+                                        <div className="flex items-center justify-center">
+                                            <div className="mt-8 w-[80%] flex justify-between">
+                                                <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Criar nova publicação</h2>
+                                                <button
+                                                    onClick={() => setModalOpen(false)}
+                                                    className="flex cursor-pointer">
+                                                    <img src={close_button} alt="botão de fechar modal"
+                                                        className="w-[15px] h-[15px]" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            <div className="flex flex-col w-[80%] pt-8 pb-12">
+                                                <div className="flex justify-center">
+                                                    <div className="h-8 flex justify-center items-center rounded-[8px] text-[15px] bg-[#F37671] text-white w-[32%] relative z-10">
+                                                        <p>Link da Imagem</p>
+                                                    </div>
+                                                    <div className="-translate-x-3">
+                                                        <input id="url" name="url"
+                                                            type="url"
+                                                            value={imageUrl}
+                                                            onChange={(e) => setImageUrl(e.target.value)}
+                                                            placeholder="Insira aqui a url da imagem"
+                                                            className="truncate h-8 p-1.5 pl-6 border border-[#B5B5B5] rounded-[8px] text-sm text-[#303030] text-[15px] focus:outline-none focus:border focus:border-[#F37671]" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    )}
+                                </div>
+                            )}
                         </Modal>
+
                         <Outlet />
+
                     </div>
                 </section>
-            </div>
+            </div >
         </div >
     )
 }
