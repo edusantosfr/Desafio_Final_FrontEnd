@@ -7,7 +7,6 @@ import back_button from "../assets/backButton.png";
 import { useContext, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
 import { AuthContext } from "../context/AuthContext";
 
 import { createUser, loginUser } from "../services/user.service";
@@ -16,7 +15,6 @@ import { LoadingSpinner } from "../components/loadingSpinner";
 export function Login() {
     const [msg, setMsg] = useState('');
     const navigate = useNavigate();
-    const { setUser } = useUser();
     const { setIsAuthenticated } = useContext(AuthContext);
 
     const [isLogin, setIsLogin] = useState(true);
@@ -61,17 +59,6 @@ export function Login() {
             localStorage.setItem('token', token);
             setIsAuthenticated(true);
 
-            const user = response.user;
-
-            setUser({
-                id: user.id,
-                name: user.name,
-                username: user.username,
-                phone: user.phone,
-                mail: user.mail,
-                profileLink: user.profileLink,
-                description: user.description
-            });
             navigate('/Profile/profilesec');
         } catch (error: any) {
             const msg = error.response?.data?.message;
@@ -85,16 +72,7 @@ export function Login() {
     const handleRegister = async () => {
         setStatus(true);
         try {
-            const newUser = await createUser(formData);
-            setUser({
-                id: newUser.id,
-                name: newUser.name,
-                username: newUser.username,
-                phone: newUser.phone,
-                mail: newUser.mail,
-                profileLink: newUser.profileLink,
-                description: newUser.description
-            });
+            await createUser(formData);
             setIsAuthenticated(true);
             setStatus(false);
             setIsChoosingProfilePicture(false);
@@ -106,8 +84,6 @@ export function Login() {
             setStatus(false);
             setMsg(msg);
             setVerify(true);
-        } finally {
-        
         }
     }
 

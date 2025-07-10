@@ -15,17 +15,20 @@ import { Modal } from "./ModalPages/Modal";
 import { getLogedUser } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";
 import { useUser } from "../context/UserContext";
+import { createPost } from "../services/post.service";
 
 export function Profile() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
     const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
+    const [msg, setMsg] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const [mediaInput, setMediaInput] = useState('');
 
     const navigate = useNavigate();
 
     const { setIsAuthenticated } = useContext(AuthContext);
     const { setUser } = useUser();
-    const [imageUrl, setImageUrl] = useState("");
 
     const [userInfo, setUserInfo] = useState({
         profileLink: '',
@@ -34,19 +37,20 @@ export function Profile() {
         description: ''
     })
 
+    const isValidImage = (url: string) => /\.(png|jpg|jpeg)$/i.test(url);
+
+    const isYouTubeLink = (url: string) =>
+        /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(url);
+
+    const getYouTubeThumbnail = (url: string): string | null => {
+        const regex = /(?:youtube\.com.*(?:v=|\/embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regex);
+        return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : null;
+    };
+
     const handleCloseModalBtn = () => {
         setIsConfirmingPhoto(false);
-        setModalOpen(false);
     }
-
-    useEffect(() => {
-        //const isValidImage = imageUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i);
-        if (imageUrl.startsWith("http")) {
-            setIsConfirmingPhoto(true);
-        } else {
-            setIsConfirmingPhoto(false);
-        }
-    }, [imageUrl]);
 
     useEffect(() => {
         const handleLogedUser = async () => {
@@ -70,7 +74,73 @@ export function Profile() {
             }
         }
         handleLogedUser();
-    }, []);
+    }, [])
+
+    const [postInfo, setPostInfo] = useState({
+        title: '',
+        description: '',
+        photoLink: '',
+        videoLink: '',
+        privatePost: false
+    })
+
+    useEffect(() => {
+        if (imageUrl.startsWith("http")) {
+            setIsConfirmingPhoto(true);
+        } else {
+            setIsConfirmingPhoto(false);
+        }
+    }, [imageUrl])
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setPostInfo((prev) => ({ ...prev, [name]: value }));
+    }
+
+    const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+
+        if (name === 'media') {
+            setMediaInput(value);
+            setImageUrl(value);
+
+            if (isValidImage(value)) {
+                setPostInfo((prev) => ({
+                    ...prev,
+                    photoLink: value,
+                    videoLink: ''
+                }));
+            } else if (isYouTubeLink(value)) {
+                const thumbnail = getYouTubeThumbnail(value);
+                if (thumbnail) {
+                    setPostInfo((prev) => ({
+                        ...prev,
+                        photoLink: thumbnail,
+                        videoLink: value
+                    }));
+                    setImageUrl(thumbnail);
+                } else {
+                    setImageUrl('');
+                }
+            } else {
+                setPostInfo((prev) => ({
+                    ...prev,
+                    photoLink: '',
+                    videoLink: ''
+                }));
+            }
+        }
+    }
+
+    const handleRegisterPost = async () => {
+        try {
+            await createPost(postInfo);
+
+        } catch (error: any) {
+            const msg = error.response?.data?.message;
+            setMsg(msg);
+        }
+    }
 
     return (
         <div>
@@ -134,7 +204,58 @@ export function Profile() {
                         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
                             {isConfirmedPhoto ? (
                                 <div>
+                                    <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
+                                        <div className="w-full h-full flex flex-col p-5">
+                                            <button
+                                                onClick={() => setIsConfirmedPhoto(false)}
+                                                className="flex cursor-pointer">
+                                                <img src={back_button} alt="botão de fechar modal"
+                                                    className="w-[18px] h-[18px]" />
+                                            </button>
 
+                                            <form onSubmit={handleRegisterPost} className="flex flex-col px-7 gap-5">
+                                                <div className="flex flex-row items-center justify-between">
+                                                    <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
+                                                    <button type="submit"
+                                                        className="flex cursor-pointer">
+                                                        <p className="text-[#F37671] hover:underline">Compartilhar</p>
+                                                    </button>
+                                                </div>
+                                                <div className="flex flex-col gap-3">
+                                                    <img src={imageUrl}
+                                                        alt="Imagem inserida"
+                                                        className="h-90 w-full object-cover aspect-square rounded-2xl pb-2" />
+
+                                                    <div className="flex flex-col w-full max-w-xs">
+                                                        <label htmlFor="title" className="text-[15px] text-[#8E8E8E]">Título</label>
+                                                        <input id="title" name="title" value={postInfo.title} onChange={handleChange}
+                                                            type="text"
+                                                            className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-col w-full max-w-xs">
+                                                        <label htmlFor="description" className="text-[15px] text-[#8E8E8E]">Descrição</label>
+                                                        <input id="description" name="description" value={postInfo.description} onChange={handleChange}
+
+                                                            type="text"
+                                                            className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
+                                                        />
+                                                    </div>
+
+                                                    <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
+                                                        <input type="checkbox"
+                                                            checked={postInfo.privatePost}
+                                                            onChange={(e) =>
+                                                                setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
+                                                            }
+                                                            className="accent-[#F37671] cursor-pointer" /> Post Privado
+                                                    </label>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </section>
                                 </div>
                             ) : (
                                 <div>
@@ -145,12 +266,13 @@ export function Profile() {
                                                     onClick={handleCloseModalBtn}
                                                     className="flex cursor-pointer">
                                                     <img src={close_button} alt="botão de fechar modal"
-                                                        className="w-[15px] h-[15px]" />
+                                                        className="w-[18px] h-[18px]" />
                                                 </button>
                                                 <div className="flex flex-col px-7 gap-5">
                                                     <div className="flex flex-row items-center justify-between">
                                                         <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
                                                         <button
+                                                            onClick={() => setIsConfirmedPhoto(true)}
                                                             className="flex cursor-pointer">
                                                             <p className="text-[#F37671] hover:underline">Avançar</p>
                                                         </button>
@@ -180,10 +302,10 @@ export function Profile() {
                                                         <p>Link da Imagem</p>
                                                     </div>
                                                     <div className="-translate-x-3">
-                                                        <input id="url" name="url"
+                                                        <input id="media" name="media"
                                                             type="url"
-                                                            value={imageUrl}
-                                                            onChange={(e) => setImageUrl(e.target.value)}
+                                                            value={mediaInput}
+                                                            onChange={handleMediaChange}
                                                             placeholder="Insira aqui a url da imagem"
                                                             className="truncate h-8 p-1.5 pl-6 border border-[#B5B5B5] rounded-[8px] text-sm text-[#303030] text-[15px] focus:outline-none focus:border focus:border-[#F37671]" />
                                                     </div>
