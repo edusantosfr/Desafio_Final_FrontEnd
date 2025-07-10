@@ -14,6 +14,7 @@ import { createUser, loginUser } from "../services/user.service";
 import { LoadingSpinner } from "../components/loadingSpinner";
 
 export function Login() {
+    const [msg, setMsg] = useState('');
     const navigate = useNavigate();
     const { setUser } = useUser();
     const { setIsAuthenticated } = useContext(AuthContext);
@@ -61,7 +62,7 @@ export function Login() {
             setIsAuthenticated(true);
 
             const user = response.user;
-            
+
             setUser({
                 id: user.id,
                 name: user.name,
@@ -74,7 +75,7 @@ export function Login() {
             navigate('/Profile/profilesec');
         } catch (error: any) {
             const msg = error.response?.data?.message;
-            console.log(msg);
+            setMsg(msg);
             setVerify(true);
         } finally {
             setStatus(false);
@@ -95,13 +96,18 @@ export function Login() {
                 description: newUser.description
             });
             setIsAuthenticated(true);
+            setStatus(false);
+            setIsChoosingProfilePicture(false);
+            setIsLogin(true);
+            setVerify(false);
         } catch (error: any) {
             const msg = error.response?.data?.message;
-            console.log(msg);
-        } finally {
-            setStatus(false);
-            setIsLogin(true);
             setIsChoosingProfilePicture(false);
+            setStatus(false);
+            setMsg(msg);
+            setVerify(true);
+        } finally {
+        
         }
     }
 
@@ -150,7 +156,7 @@ export function Login() {
                                         {verify ? (
                                             <div className="flex flex-row items-center gap-1.5">
                                                 <div className="w-2.5 h-2.5 rounded-full bg-[#F37671]"></div>
-                                                <h1>Senha incorreta</h1>
+                                                <h1>{msg}</h1>
                                             </div>
                                         ) : (
                                             <h1 className="invisible">Senha incorreta</h1>
@@ -277,10 +283,21 @@ export function Login() {
                                             type="password"
                                             placeholder="Digite sua senha"
                                             className="p-3 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]" />
+
+                                        <div className="flex justify-end font-bold text-[15px] text-[#F37671]">
+                                            {verify ? (
+                                                <div className="flex flex-row items-center gap-1.5">
+                                                    <div className="w-2.5 h-2.5 rounded-full bg-[#F37671]"></div>
+                                                    <h1>{msg}</h1>
+                                                </div>
+                                            ) : (
+                                                <h1 className="invisible">Senha incorreta</h1>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <button
-                                        className="w-full max-w-xs py-2 mt-6 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors cursor-pointer"
+                                        className="w-full max-w-xs py-2 mt-2 bg-[#F37671] text-white text-[20px] font-bold rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:bg-[#f15e59] transition-colors cursor-pointer"
                                         onClick={() => setIsChoosingProfilePicture(true)}
                                         type="button">
                                         Próximo

@@ -1,5 +1,6 @@
 import back_button from "../../assets/backButton.png";
 import config_detail from "../../assets/config-detail.png";
+import no_profile from "../../assets/no-profile.png";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -110,7 +111,7 @@ export function EditProfile() {
 
                   <img
                     className="rounded-full object-cover aspect-square w-40 h-40"
-                    src={editUserData.profileLink}
+                    src={editUserData.profileLink || no_profile}
                     alt="foto de perfil" />
 
                   <form onSubmit={handleEditProfile} className="flex flex-col w-full gap-10">

@@ -8,7 +8,6 @@ import { Feed } from "../pages/ProfilePages/Feed";
 import { Friends } from "../pages/ProfilePages/Friends";
 import { ProfileSec } from "../pages/ProfilePages/ProfileSec";
 import { Settings } from "../pages/Settings.tsx";
-import { CreatePost } from "../pages/ProfilePages/CreatePost.tsx";
 import { Menu } from '../pages/SettingsPages/Menu.tsx';
 
 import { ProfileInfo } from '../pages/SettingsPages/ProfileInfo.tsx';
@@ -31,7 +30,6 @@ export function AppRoutes() {
                                 <Route path="feed" element={<Feed />} />
                                 <Route path="friends" element={<Friends />} />
                                 <Route path="profilesec" element={<ProfileSec />} />
-                                <Route path="create" element={<CreatePost />} />
                             </Route>
 
                             <Route path="/Settings" element={<Settings />}>
