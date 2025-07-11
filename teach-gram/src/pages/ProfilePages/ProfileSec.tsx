@@ -64,7 +64,7 @@ export function ProfileSec() {
   }, []);
 
   return (
-    <div className="w-[70%]">
+    <div className="w-[75%] pl-10">
       {status ? (
         <LoadingSpinnerSmall />
       ) : (
@@ -83,7 +83,7 @@ export function ProfileSec() {
           <section className="flex flex-col items-center gap-5">
             <div className="flex">
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">50</h1>
+                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">{posts.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light">Posts</p>
               </div>
 
@@ -97,7 +97,8 @@ export function ProfileSec() {
 
             <div className="grid grid-cols-4 gap-1">
               {posts.map(post => (
-                <div key={post.id}>
+                <div key={post.id}
+                className="cursor-pointer">
                   <img src={post.photoLink}
                     alt="Imagem de Post"
                     className="object-cover aspect-square" />

@@ -135,10 +135,11 @@ export function Profile() {
         e.preventDefault();
         try {
             await createPost(postInfo);
-            
+
             setIsConfirmingPhoto(false);
             setModalOpen(false);
             setIsConfirmedPhoto(false);
+            window.location.reload();
 
         } catch (error: any) {
             const msg = error.response?.data?.message;
