@@ -8,11 +8,9 @@ import { useState, useEffect } from "react";
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
 import { patchUserEdit } from "../../services/user.service";
 import { getLogedUser } from "../../services/user.service";
-import { useUser } from "../../context/UserContext";
 
 export function EditProfile() {
   const navigate = useNavigate();
-  const { setUser } = useUser();
   const [status, setStatus] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,16 +37,6 @@ export function EditProfile() {
       try {
         const user = await getLogedUser();
 
-        setUser({
-          id: user.id,
-          name: user.name,
-          username: user.username,
-          phone: user.phone,
-          mail: user.mail,
-          profileLink: user.profileLink,
-          description: user.description
-        });
-
         setEditUserData(user);
 
       } catch (error) {
@@ -58,24 +46,14 @@ export function EditProfile() {
       }
     }
     handleLogedUser();
-  }, []);
+  }, [])
 
   const handleEditProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(true);
 
     try {
-      const user = await patchUserEdit(editUserData);
-
-      setUser({
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        phone: user.phone,
-        mail: user.mail,
-        profileLink: user.profileLink,
-        description: user.description
-      });
+      await patchUserEdit(editUserData);
 
       navigate('/Settings/Menu');
 

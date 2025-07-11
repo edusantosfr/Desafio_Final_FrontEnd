@@ -78,6 +78,7 @@ export function Login() {
             setIsChoosingProfilePicture(false);
             setIsLogin(true);
             setVerify(false);
+            
         } catch (error: any) {
             const msg = error.response?.data?.message;
             setIsChoosingProfilePicture(false);

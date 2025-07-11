@@ -10,3 +10,8 @@ export const createPost = async (user: {
     const response = await api.post('/posts/create', user);
     return response.data;
 };
+
+export const getAllMyPosts = async () => {
+    const response = await api.get('/posts/allMyPosts');
+    return response.data;
+};

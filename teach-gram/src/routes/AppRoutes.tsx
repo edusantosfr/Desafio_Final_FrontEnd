@@ -5,7 +5,6 @@ import { Login } from "../pages/Login";
 import { Profile } from "../pages/Profile";
 
 import { Feed } from "../pages/ProfilePages/Feed";
-import { Friends } from "../pages/ProfilePages/Friends";
 import { ProfileSec } from "../pages/ProfilePages/ProfileSec";
 import { Settings } from "../pages/Settings.tsx";
 import { Menu } from '../pages/SettingsPages/Menu.tsx';
@@ -28,7 +27,6 @@ export function AppRoutes() {
                             <Route path="/Profile" element={<Navigate to="/Profile/profilesec" replace />} />
                             <Route path="/Profile" element={<Profile />}>
                                 <Route path="feed" element={<Feed />} />
-                                <Route path="friends" element={<Friends />} />
                                 <Route path="profilesec" element={<ProfileSec />} />
                             </Route>
 
