@@ -64,19 +64,20 @@ export function ProfileSec() {
   }, []);
 
   return (
-    <div className="w-[75%] pl-10">
+    <div className="w-[1000px]">
       {status ? (
         <LoadingSpinnerSmall />
       ) : (
-        <div className="grid grid-rows-[auto_auto]">
-          <section className="flex py-15 gap-25">
-            <img
-              className="rounded-full object-cover aspect-square w-70 h-70"
+        <div className="grid grid-rows-[auto_auto] justify-center w-full">
+          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto">
+            <img className="rounded-full object-cover aspect-square w-70 h-70"
               src={user.profileLink || no_profile}
               alt="foto de perfil" />
-            <div className="flex flex-col pt-10 gap-4">
-              <h1 className="capitalize text-[25px] font-semibold text-[#303030]">{user.name}</h1>
-              <p className="text-[20px] text-[#6b6b6b] font-light">{user.description}</p>
+
+            <div className="flex flex-col pt-10 gap-4 max-w-[650px]">
+              <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words">{user.name}</h1>
+
+              <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words">{user.description}</div>
             </div>
           </section>
 
@@ -98,7 +99,7 @@ export function ProfileSec() {
             <div className="grid grid-cols-4 gap-1">
               {posts.map(post => (
                 <div key={post.id}
-                className="cursor-pointer">
+                  className="cursor-pointer">
                   <img src={post.photoLink}
                     alt="Imagem de Post"
                     className="object-cover aspect-square" />

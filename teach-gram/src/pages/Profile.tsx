@@ -170,7 +170,7 @@ export function Profile() {
                                 <img src={feed_button} alt="Feed" className="h-[3vh]" />
                             </div>
                             <div className="flex justify-start">
-                                <h1 className="text-[20px] font-normal text-[#8E8E8E]">"Feed"</h1>
+                                <h1 className="text-[20px] font-normal text-[#8E8E8E]">Feed</h1>
                             </div>
                         </Link>
 
@@ -190,7 +190,7 @@ export function Profile() {
                             to="Profilesec"
                             className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                             <div className="flex justify-center">
-                                <img src={userInfo.profileLink || no_profile} alt="Perfil" className="rounded-full object-cover aspect-square w-10 h-10" />
+                                <img src={userInfo.profileLink || no_profile} alt="Perfil" className="rounded-full object-cover aspect-square w-12 h-12" />
                             </div>
                             <div className="flex justify-start">
                                 <h1 className="text-[20px] font-normal text-[#8E8E8E]">Perfil</h1>
