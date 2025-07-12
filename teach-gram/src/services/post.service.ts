@@ -15,3 +15,8 @@ export const getAllMyPosts = async () => {
     const response = await api.get('/posts/allMyPosts');
     return response.data;
 };
+
+export const getUsersPosts = async () => {
+    const response = await api.get('/posts/users/public');
+    return response.data;
+};

@@ -33,6 +33,7 @@ export function ProfileSec() {
     description: string;
     photoLink: string;
     videoLink: string;
+    createdAt: string;
   };
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export function ProfileSec() {
         setStatus(false);
       }
     }
-    handleLogedUser();
+    handleLogedUser()
 
 
     const handlePosts = async () => {
@@ -68,7 +69,7 @@ export function ProfileSec() {
       }
     };
     handlePosts();
-  }, []);
+  }, [])
 
   return (
     <div className="w-[1000px]">
