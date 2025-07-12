@@ -3,6 +3,7 @@ import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
 import { getUsersPosts } from "../../services/post.service";
+import { useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
 
 export function Feed() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const navigate = useNavigate();
 
   type User = {
     id: number;
@@ -44,16 +46,19 @@ export function Feed() {
       <div className="overflow-y-auto h-screen p-20 pt-45 flex flex-col gap-10">
 
         {posts.map((post) => (
-          <div className="h-fit flex flex-col gap-15">
+          <div key={post.id}
+            className="h-fit flex flex-col gap-15">
             <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_5px_rgba(0,0,0,0.2)] flex flex-col">
               <div className="flex h-fit w-full justify-between items-start">
                 <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center">
                   <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer"
                     src={post.user.profileLink}
-                    alt="foto de perfil" />
+                    alt="foto de perfil" 
+                    onClick={() => navigate(`/Profile/profilesec/${post.user.id}`)}/>
 
                   <div className="flex flex-col max-w-[650px]">
-                    <h1 className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer">{post.user.username}</h1>
+                    <h1 onClick={() => navigate(`/Profile/profilesec/${post.user.id}`)}
+                    className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer">{post.user.username}</h1>
 
                     <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[340px] h-fit break-words">há 5 min</div>
                   </div>

@@ -26,6 +26,11 @@ export const getLogedUser = async () => {
     return response.data;
 };
 
+export const getUserInfo = async (id: string | number) => {
+    const response = await api.get(`/users/user/${id}`);
+    return response.data;
+};
+
 export const patchUserEdit = async (credentials: {
     profileLink: string;
     name: string;

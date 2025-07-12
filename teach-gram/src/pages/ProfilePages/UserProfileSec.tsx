@@ -1,16 +1,18 @@
 import no_profile from "../../assets/no-profile.png";
 
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
-import { getLogedUser } from "../../services/user.service";
-import { getAllMyPosts } from "../../services/post.service";
+import { getUserInfo } from "../../services/user.service";
+import { getUserPosts } from "../../services/post.service";
 import { Modal } from "../ModalPages/Modal";
-// import { Post } from "../Post";
 import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
-export function ProfileSec() {
+export function UserProfileSec() {
+  const { userId } = useParams();
+
   const [status, setStatus] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,10 +38,12 @@ export function ProfileSec() {
   };
 
   useEffect(() => {
-    const handleLogedUser = async () => {
+    const handleUserInfo = async () => {
       setStatus(true);
+      if (!userId) return;
+
       try {
-        const user = await getLogedUser();
+        const user = await getUserInfo(userId);
         setUser({
           id: user.id,
           name: user.name,
@@ -56,12 +60,13 @@ export function ProfileSec() {
         setStatus(false);
       }
     }
-    handleLogedUser()
+    handleUserInfo()
 
 
     const handlePosts = async () => {
+      if (!userId) return;
       try {
-        const data = await getAllMyPosts();
+        const data = await getUserPosts(userId);
         setPosts(data);
       } catch (error) {
         console.error('Erro ao buscar itens:', error);

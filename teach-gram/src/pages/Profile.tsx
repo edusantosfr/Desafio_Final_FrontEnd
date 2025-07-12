@@ -159,7 +159,7 @@ export function Profile() {
                             }}>
                             <img src={back_button} alt="Voltar" className="h-[3vh]" />
                         </button>
-                        <img className="h-[4vh]" src={logo} alt="logo imagem" />
+                        <img className="h-[5vh]" src={logo} alt="logo imagem" />
                     </section>
 
                     <section className="flex flex-col mt-8 items-center gap-8">

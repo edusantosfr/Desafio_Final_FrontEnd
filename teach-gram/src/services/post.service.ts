@@ -16,6 +16,11 @@ export const getAllMyPosts = async () => {
     return response.data;
 };
 
+export const getUserPosts = async (userId: string | number) => {
+    const response = await api.get(`/posts/user/${userId}`);
+    return response.data;
+};
+
 export const getUsersPosts = async () => {
     const response = await api.get('/posts/users/public');
     return response.data;
