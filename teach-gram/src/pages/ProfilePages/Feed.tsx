@@ -90,7 +90,7 @@ export function Feed() {
                     </div>
                   </section>
                   {post.user.id === Number(userId) && (
-                    <button className="cursor-pointer">
+                    <button className="cursor-pointer w-4 flex justify-center">
                       <img className="h-7"
                         src={post_hamburguer}
                         alt="hamburguer" />

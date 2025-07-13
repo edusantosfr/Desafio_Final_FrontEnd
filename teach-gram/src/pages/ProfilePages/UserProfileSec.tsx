@@ -11,7 +11,6 @@ import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
 import { getUserInfo } from "../../services/user.service";
 import { getUserPosts } from "../../services/post.service";
 import { Modal } from "../ModalPages/Modal";
-import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
 export function UserProfileSec() {
@@ -133,13 +132,8 @@ export function UserProfileSec() {
                               <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[300px] h-fit break-words">{tempoFormatado}</div>
                             </div>
                           </section>
-                          <button className="cursor-pointer">
-                            <img className="h-7"
-                              src={post_hamburguer}
-                              alt="hamburguer" />
-                          </button>
                         </div>
-                        <div className="flex flex-col mt-5 gap-5">
+                        <div className="flex flex-col mt-5 gap-5 w-full">
                           <div className="flex flex-col gap-1">
                             <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words">{post.title}</div>
                             <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>

@@ -226,6 +226,8 @@ export function Profile() {
             </section>
             <section className="overflow-y-auto">
                 <div className="h-auto">
+
+                    {/* Friends Section */}
                     <Modal isOpen={isFriendsModalOpen} onClose={() => setFriendsModalOpen(false)}>
                         <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex flex-col justify-center items-center p-10">
                             <div className="w-full flex justify-end">
@@ -276,27 +278,27 @@ export function Profile() {
                                 </div>
                             </div>
                             <div className="flex gap-3 mt-8">
-                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px]
-                                hover:bg-[#F37671] hover:border-none">
+                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
+                                hover:bg-[#F37671] hover:border-none"> 
                                     <img className="w-3"
                                         src={gray_arrow} alt="flecha" />
                                 </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
                                 hover:bg-[#F37671] hover:text-white hover:border-white
                                 focus:bg-[#F37671] focus:text-white focus:border-white">
                                     <p className="font-normal">1</p>
                                 </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
                                 hover:bg-[#F37671] hover:text-white hover:border-white
                                 focus:bg-[#F37671] focus:text-white focus:border-white">
                                     <p className="font-normal">2</p>
                                 </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
                                 hover:bg-[#F37671] hover:text-white hover:border-white
                                 focus:bg-[#F37671] focus:text-white focus:border-white">
                                     <p className="font-normal">3</p>
                                 </button>
-                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180
+                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180 cursor-pointer
                                 hover:bg-[#F37671] hover:border-none">
                                     <img className="w-3"
                                         src={gray_arrow} alt="flecha" />

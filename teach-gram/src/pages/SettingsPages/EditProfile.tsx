@@ -30,6 +30,22 @@ export function EditProfile() {
     description: ''
   })
 
+  const handleEditProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus(true);
+
+    try {
+      await patchUserEdit(editUserData);
+
+      navigate('/Settings/Menu');
+
+    } catch (error) {
+      console.error("Erro ao fazer a edição:", error);
+    } finally {
+      setStatus(false);
+    }
+  }
+
   useEffect(() => {
     const handleLogedUser = async () => {
       setStatus(true);
@@ -47,22 +63,6 @@ export function EditProfile() {
     }
     handleLogedUser();
   }, [])
-
-  const handleEditProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus(true);
-
-    try {
-      await patchUserEdit(editUserData);
-
-      navigate('/Settings/Menu');
-
-    } catch (error) {
-      console.error("Erro ao fazer a edição:", error);
-    } finally {
-      setStatus(false);
-    }
-  }
 
   return (
     <div className="w-full grid grid-cols-[75vw_25vw]">
