@@ -7,6 +7,7 @@ import friends_button from "../assets/friends-button.png";
 import configuration_button from "../assets/configuration-button.png";
 import no_profile from "../assets/no-profile.png";
 import close_button from "../assets/close-button.png";
+import gray_arrow from "../assets/gray-arrow.png";
 
 import { useContext, useState, useEffect } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
@@ -226,15 +227,80 @@ export function Profile() {
             <section className="overflow-y-auto">
                 <div className="h-auto">
                     <Modal isOpen={isFriendsModalOpen} onClose={() => setFriendsModalOpen(false)}>
-                        <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
-                            <div className="w-full h-full flex flex-col p-5">
+                        <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex flex-col justify-center items-center p-10">
+                            <div className="w-full flex justify-end">
                                 <button
-                                    onClick={() => setIsConfirmedPhoto(false)}
+                                    onClick={() => setFriendsModalOpen(false)}
                                     className="flex cursor-pointer">
-                                    <img src={back_button} alt="botão de fechar modal"
+                                    <img src={close_button} alt="botão de fechar modal"
                                         className="w-[18px] h-[18px]" />
                                 </button>
-
+                            </div>
+                            <div className="w-full flex justify-start py-3 border-b-2 border-[#CECECE]">
+                                <h1 className="text-[25px] font-semibold text-[#303030]">Amigos</h1>
+                            </div>
+                            <div className="w-full p-5 pt-8 flex flex-col gap-6">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-4">
+                                        <img src="https://static.vecteezy.com/ti/fotos-gratis/t2/37371298-ai-gerado-uma-casal-do-amor-faz-uma-em-forma-de-coracao-gesto-enquanto-a-por-do-sol-ai-fundo-foto.jpg"
+                                            className="rounded-full object-cover aspect-square w-15 h-15"
+                                            alt="" />
+                                        <div>
+                                            <h1 className="capitalize text-[20px] font-semibold text-[#303030] break-words">jennierubyjane</h1>
+                                            <div className="text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">Jennie Ruby Jane</div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="h-fit bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer p-1 px-2 font-light
+                                        hover:bg-white hover:text-[#F37671] hover:border-1">
+                                        Ver Perfil
+                                    </button>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-4">
+                                        <img src="https://static.vecteezy.com/ti/fotos-gratis/t2/37371298-ai-gerado-uma-casal-do-amor-faz-uma-em-forma-de-coracao-gesto-enquanto-a-por-do-sol-ai-fundo-foto.jpg"
+                                            className="rounded-full object-cover aspect-square w-15 h-15"
+                                            alt="" />
+                                        <div>
+                                            <h1 className="capitalize text-[20px] font-semibold text-[#303030] break-words">jennierubyjane</h1>
+                                            <div className="text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">Jennie Ruby Jane</div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="h-fit bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer p-1 px-2 font-light
+                                        hover:bg-white hover:text-[#F37671] hover:border-1">
+                                        Ver Perfil
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex gap-3 mt-8">
+                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px]
+                                hover:bg-[#F37671] hover:border-none">
+                                    <img className="w-3"
+                                        src={gray_arrow} alt="flecha" />
+                                </button>
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                hover:bg-[#F37671] hover:text-white hover:border-white
+                                focus:bg-[#F37671] focus:text-white focus:border-white">
+                                    <p className="font-normal">1</p>
+                                </button>
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                hover:bg-[#F37671] hover:text-white hover:border-white
+                                focus:bg-[#F37671] focus:text-white focus:border-white">
+                                    <p className="font-normal">2</p>
+                                </button>
+                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] 
+                                hover:bg-[#F37671] hover:text-white hover:border-white
+                                focus:bg-[#F37671] focus:text-white focus:border-white">
+                                    <p className="font-normal">3</p>
+                                </button>
+                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180
+                                hover:bg-[#F37671] hover:border-none">
+                                    <img className="w-3"
+                                        src={gray_arrow} alt="flecha" />
+                                </button>
                             </div>
                         </section>
                     </Modal>
@@ -267,8 +333,7 @@ export function Profile() {
                                                 <label htmlFor="title" className="text-[15px] text-[#8E8E8E]">Título</label>
                                                 <input id="title" name="title" value={postInfo.title} onChange={handleChange}
                                                     type="text"
-                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
-                                                />
+                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]" />
                                             </div>
 
                                             <div className="flex flex-col w-full max-w-xs">
@@ -276,16 +341,14 @@ export function Profile() {
                                                 <input id="description" name="description" value={postInfo.description} onChange={handleChange}
 
                                                     type="text"
-                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]"
-                                                />
+                                                    className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]" />
                                             </div>
 
                                             <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
                                                 <input type="checkbox"
                                                     checked={postInfo.privatePost}
                                                     onChange={(e) =>
-                                                        setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
-                                                    }
+                                                        setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))}
                                                     className="accent-[#F37671] cursor-pointer" /> Post Privado
                                             </label>
                                         </div>

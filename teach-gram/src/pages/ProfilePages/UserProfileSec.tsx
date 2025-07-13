@@ -3,6 +3,10 @@ import no_profile from "../../assets/no-profile.png";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
+import { patchPostLikes } from "../../services/post.service";
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
 import { getUserInfo } from "../../services/user.service";
 import { getUserPosts } from "../../services/post.service";
@@ -16,10 +20,10 @@ export function UserProfileSec() {
   const [status, setStatus] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState<number | null>(null)
+  const [modalOpen, setModalOpen] = useState<number | null>(null);
 
   const [user, setUser] = useState({
-    id: '',
+    id: 0,
     name: '',
     username: '',
     phone: '',
@@ -35,6 +39,7 @@ export function UserProfileSec() {
     photoLink: string;
     videoLink: string;
     createdAt: string;
+    likes: number;
   };
 
   useEffect(() => {
@@ -75,6 +80,19 @@ export function UserProfileSec() {
     handlePosts();
   }, [])
 
+  const handlePostLikes = async (postId: number) => {
+    try {
+      await patchPostLikes(postId);
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId ? { ...post, likes: post.likes + 1 } : post
+        )
+      );
+    } catch (error) {
+      console.error("Erro ao curtir:", error);
+    }
+  };
+
   return (
     <div className="w-[1000px]">
       {status ? (
@@ -92,56 +110,63 @@ export function UserProfileSec() {
             </div>
           </section>
 
-          {posts.map((post) => (
-            <div key={post.id}>
-              {modalOpen === post.id && (
-                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                  <div className="h-fit flex flex-col gap-15">
-                    <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col">
-                      <div className="flex h-fit w-full justify-between items-start">
-                        <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center">
-                          <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer"
-                            src={user.profileLink}
+          {posts.map((post) => {
+            const tempoFormatado = formatDistanceToNow(new Date(post.createdAt), {
+              addSuffix: true,
+              locale: ptBR,
+            });
+            return (
+              <div key={post.id}>
+                {modalOpen === post.id && (
+                  <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <div className="h-fit flex flex-col gap-15">
+                      <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col">
+                        <div className="flex h-fit w-full justify-between items-start">
+                          <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center">
+                            <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer"
+                              src={user.profileLink}
+                              alt="foto de perfil" />
+
+                            <div className="flex flex-col max-w-[650px]">
+                              <h1 className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer">{user.username}</h1>
+
+                              <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[300px] h-fit break-words">{tempoFormatado}</div>
+                            </div>
+                          </section>
+                          <button className="cursor-pointer">
+                            <img className="h-7"
+                              src={post_hamburguer}
+                              alt="hamburguer" />
+                          </button>
+                        </div>
+                        <div className="flex flex-col mt-5 gap-5">
+                          <div className="flex flex-col gap-1">
+                            <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words">{post.title}</div>
+                            <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>
+                          </div>
+
+                          <img className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
+                            src={post.photoLink}
                             alt="foto de perfil" />
 
-                          <div className="flex flex-col max-w-[650px]">
-                            <h1 className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer">{user.username}</h1>
-
-                            <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[300px] h-fit break-words">há 5 min</div>
+                          <div className="flex items-center gap-5">
+                            <button onClick={() => handlePostLikes(post.id)}
+                            className="cursor-pointer">
+                              <img className="h-10"
+                                src={like_button}
+                                alt="botão de curtida" />
+                            </button>
+                            <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.likes} curtidas</div>
                           </div>
-                        </section>
-                        <button className="cursor-pointer">
-                          <img className="h-7"
-                            src={post_hamburguer}
-                            alt="hamburguer" />
-                        </button>
-                      </div>
-                      <div className="flex flex-col mt-5 gap-5">
-                        <div className="flex flex-col gap-1">
-                          <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words">{post.title}</div>
-                          <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>
+
                         </div>
-
-                        <img className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
-                          src={post.photoLink}
-                          alt="foto de perfil" />
-
-                        <div className="flex items-center gap-5">
-                          <button className="cursor-pointer">
-                            <img className="h-10"
-                              src={like_button}
-                              alt="botão de curtida" />
-                          </button>
-                          <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">20 curtidas</div>
-                        </div>
-
                       </div>
                     </div>
-                  </div>
-                </Modal>
-              )}
-            </div>
-          ))}
+                  </Modal>
+                )}
+              </div>
+            )
+          })}
 
           <section className="flex flex-col items-center gap-5">
             <div className="flex">

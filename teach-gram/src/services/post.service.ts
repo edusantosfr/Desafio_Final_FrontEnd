@@ -25,3 +25,7 @@ export const getUsersPosts = async () => {
     const response = await api.get('/posts/users/public');
     return response.data;
 };
+
+export const patchPostLikes = async (postId: number) => {
+  await api.patch(`/posts/${postId}/update/likes`);
+};

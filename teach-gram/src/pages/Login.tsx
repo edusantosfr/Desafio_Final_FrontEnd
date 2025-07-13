@@ -59,6 +59,9 @@ export function Login() {
             localStorage.setItem('token', token);
             setIsAuthenticated(true);
 
+            const userId = response.user.id;
+            localStorage.setItem('userId', userId);
+
             navigate('/Profile/profilesec');
         } catch (error: any) {
             const msg = error.response?.data?.message;
