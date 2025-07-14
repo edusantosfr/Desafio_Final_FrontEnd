@@ -13,11 +13,11 @@ export const createUser = async (user: {
     return response.data;
 };
 
-export const loginUser = async (credentials: {
+export const loginUser = async (user: {
     mail: string;
     password: string;
 }) => {
-    const response = await api.post('/users/login', credentials);
+    const response = await api.post('/users/login', user);
     return response.data;
 };
 
@@ -31,24 +31,37 @@ export const getUserInfo = async (id: string | number) => {
     return response.data;
 };
 
-export const patchUserEdit = async (credentials: {
+export const patchUserEdit = async (user: {
     profileLink: string;
     name: string;
     username: string;
     description: string;
 }) => {
-    const response = await api.patch('/users/update', credentials);
+    const response = await api.patch('/users/update', user);
     return response.data;
 };
 
-export const patchUserInfo = async (credentials: {
+export const patchUserInfo = async (user: {
     name: string;
     mail: string;
     phone: string;
     password: string;
 }) => {
-    const response = await api.patch('/users/update/info', credentials);
+    const response = await api.patch('/users/update/info', user);
     return response.data;
+};
+
+export const getFriends = async () => {
+    const response = await api.get(`/users/friends`);
+    return response.data;
+};
+
+export const addFriend = async (friendId: number) => {
+    await api.post(`/users/friends/${friendId}/add`);
+};
+
+export const removeFriend = async (friendId: number) => {
+    await api.delete(`/users/friends/${friendId}/remove`);
 };
 
 export const deleteUser = () => {

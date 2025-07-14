@@ -6,10 +6,9 @@ import { useParams } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { patchPostLikes } from "../../services/post.service";
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
-import { getUserInfo } from "../../services/user.service";
-import { getUserPosts } from "../../services/post.service";
+import { getUserInfo, addFriend, removeFriend } from "../../services/user.service";
+import { getUserPosts, patchPostLikes } from "../../services/post.service";
 import { Modal } from "../ModalPages/Modal";
 import like_button from "../../assets/like-button.png";
 
@@ -20,6 +19,8 @@ export function UserProfileSec() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState<number | null>(null);
+
+  const [newFriendId, setNewFriendId] = useState('');
 
   const [user, setUser] = useState({
     id: 0,
@@ -66,7 +67,6 @@ export function UserProfileSec() {
     }
     handleUserInfo()
 
-
     const handlePosts = async () => {
       if (!userId) return;
       try {
@@ -90,7 +90,23 @@ export function UserProfileSec() {
     } catch (error) {
       console.error("Erro ao curtir:", error);
     }
-  };
+  }
+
+  const handleAddFriend = async (friendId: number) => {
+    try {
+      await addFriend(friendId);
+    } catch (error) {
+      console.error('Erro ao adicionar amigo:', error);
+    }
+  }
+
+  const handleRemoveFriend = async (friendId: number) => {
+    try {
+      await removeFriend(friendId);
+    } catch (error) {
+      console.error('Erro ao remover amigo:', error);
+    }
+  }
 
   return (
     <div className="w-[1000px]">
@@ -106,6 +122,12 @@ export function UserProfileSec() {
             <div className="flex flex-col pt-10 gap-4 max-w-[580px]">
               <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words">{user.name}</h1>
               <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words">{user.description}</div>
+              <button
+                onClick={() => handleAddFriend(user.id)}
+                className=" py-0.5 rounded-[8px] text-[15px] bg-[#F37671] text-white cursor-pointer
+                hover">
+                <p>Adicionar</p>
+              </button>
             </div>
           </section>
 
@@ -145,7 +167,7 @@ export function UserProfileSec() {
 
                           <div className="flex items-center gap-5">
                             <button onClick={() => handlePostLikes(post.id)}
-                            className="cursor-pointer">
+                              className="cursor-pointer">
                               <img className="h-10"
                                 src={like_button}
                                 alt="botão de curtida" />
