@@ -9,9 +9,8 @@ import { ptBR } from 'date-fns/locale';
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
 import { Modal } from "../ModalPages/Modal";
 
-import { deletePost, patchPostLikes } from "../../services/post.service";
-import { getLogedUser } from "../../services/user.service";
-import { getAllMyPosts, editPost, getMyPostById } from "../../services/post.service";
+import { getLogedUser, getMyFriends } from "../../services/user.service";
+import { getAllMyPosts, editPost, getMyPostById, deletePost, patchPostLikes } from "../../services/post.service";
 // import { Post } from "../Post";
 import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
@@ -29,6 +28,7 @@ export function ProfileSec() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState<number | null>(null);
   const [activePostId, setActivePostId] = useState<number | null>(null);
+  const [friends, setFriends] = useState<Friend[]>([]);
 
   const [user, setUser] = useState({
     id: 0,
@@ -49,7 +49,17 @@ export function ProfileSec() {
     privatePost: boolean;
     createdAt: string;
     likes: number;
-  };
+  }
+
+  interface Friend {
+    id: number;
+    name: string,
+    username: string,
+    phone: string,
+    mail: string,
+    profileLink: string,
+    description: string
+  }
 
   useEffect(() => {
     const handleLogedUser = async () => {
@@ -84,6 +94,16 @@ export function ProfileSec() {
       }
     };
     handlePosts()
+
+    const loadFriends = async () => {
+      try {
+        const data = await getMyFriends();
+        setFriends(data);
+      } catch (error) {
+        console.error('Erro ao buscar amigos:', error);
+      }
+    };
+    loadFriends();
   }, [])
 
   const handlePostDelete = async (postId: number) => {
@@ -107,7 +127,7 @@ export function ProfileSec() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-  };
+  }
 
   const [editPostData, setEditPostData] = useState({
     title: '',
@@ -145,7 +165,7 @@ export function ProfileSec() {
     } catch (error) {
       console.error("Erro ao carregar post:", error);
     }
-  };
+  }
 
   const handlePostLikes = async (postId: number) => {
     try {
@@ -158,6 +178,15 @@ export function ProfileSec() {
     } catch (error) {
       console.error("Erro ao curtir:", error);
     }
+  }
+
+  const convertToEmbed = (url: string) => {
+    const regex = /watch\?v=([\w-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url;
   };
 
   return (
@@ -235,9 +264,20 @@ export function ProfileSec() {
                             <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>
                           </div>
 
-                          <img className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
-                            src={post.photoLink}
-                            alt="foto de perfil" />
+                          {post.videoLink ? (
+                            <iframe
+                              className="w-full h-[320px] rounded-[8px]"
+                              src={convertToEmbed(post.videoLink)}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                          ) : (
+                            <img
+                              className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
+                              src={post.photoLink}
+                              alt="foto de perfil"
+                            />
+                          )}
 
                           <div className="flex items-center gap-5">
                             <button onClick={() => handlePostLikes(post.id)}
@@ -343,7 +383,7 @@ export function ProfileSec() {
                               name="privatePost"
                               id="privatePost"
                               checked={editPostData.privatePost}
-                              onChange={handleChange}/> Post Privado
+                              onChange={handleChange} /> Post Privado
                           </label>
                         </form>
                       </div>
@@ -364,7 +404,7 @@ export function ProfileSec() {
               <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-10"></div>
 
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">100</h1>
+                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">{friends.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light">Amigos</p>
               </div>
             </div>

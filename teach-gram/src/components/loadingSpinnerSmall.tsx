@@ -4,7 +4,11 @@ export function LoadingSpinnerSmall() {
     return (
         <section className="flex flex-col items-center justify-center gap-10 h-screen">
             <div className="flex items-center justify-center">
-                <img src={loadingLogo} alt="" className="w-50 animate-pulse" />
+                <img src="" alt="" className="w-30 animate-pulse
+                sm:w-50
+                md:w-50
+                lg:w-50
+                xl:w-50" />
             </div>
             <div className="flex flex-row">
                 <div className="flex flex-row gap-1 items-end">

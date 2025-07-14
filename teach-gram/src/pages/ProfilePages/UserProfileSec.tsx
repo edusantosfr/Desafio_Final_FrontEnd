@@ -1,4 +1,6 @@
 import no_profile from "../../assets/no-profile.png";
+import like_button from "../../assets/like-button.png";
+import correct_button from "../../assets/correct-button.png";
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -7,10 +9,9 @@ import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
-import { getUserInfo, addFriend, removeFriend } from "../../services/user.service";
+import { getUserInfo, addFriend, removeFriend, getUserFriends, getMyFriends } from "../../services/user.service";
 import { getUserPosts, patchPostLikes } from "../../services/post.service";
 import { Modal } from "../ModalPages/Modal";
-import like_button from "../../assets/like-button.png";
 
 export function UserProfileSec() {
   const { userId } = useParams();
@@ -20,7 +21,8 @@ export function UserProfileSec() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState<number | null>(null);
 
-  const [newFriendId, setNewFriendId] = useState('');
+  const [myFriends, setMyFriends] = useState<Friend[]>([]);
+  const [userFriends, setUserFriends] = useState<Friend[]>([]);
 
   const [user, setUser] = useState({
     id: 0,
@@ -77,6 +79,27 @@ export function UserProfileSec() {
       }
     };
     handlePosts();
+
+    const loadUserFriends = async () => {
+      if (!userId) return;
+      try {
+        const data = await getUserFriends(userId);
+        setUserFriends(data);
+      } catch (error) {
+        console.error('Erro ao buscar amigos:', error);
+      }
+    };
+    loadUserFriends();
+
+    const loadMyFriends = async () => {
+      try {
+        const data = await getMyFriends();
+        setMyFriends(data);
+      } catch (error) {
+        console.error('Erro ao buscar amigos:', error);
+      }
+    };
+    loadMyFriends();
   }, [])
 
   const handlePostLikes = async (postId: number) => {
@@ -92,21 +115,46 @@ export function UserProfileSec() {
     }
   }
 
-  const handleAddFriend = async (friendId: number) => {
-    try {
-      await addFriend(friendId);
-    } catch (error) {
-      console.error('Erro ao adicionar amigo:', error);
-    }
+  interface Friend {
+    id: number;
+    name: string,
+    username: string,
+    phone: string,
+    mail: string,
+    profileLink: string,
+    description: string
   }
 
-  const handleRemoveFriend = async (friendId: number) => {
+  const isFriend = (friendId: number) =>
+    myFriends.some(friend => friend.id === friendId);
+
+  const handleClick = async (friendId: number) => {
+    if (!userId) return;
     try {
-      await removeFriend(friendId);
+      if (isFriend(friendId)) {
+        await removeFriend(friendId);
+      } else {
+        await addFriend(friendId);
+      }
+
+      const updatedMyFriends = await getMyFriends();
+      setMyFriends(updatedMyFriends);
+
+      const updatedUserFriends = await getUserFriends(userId);
+      setUserFriends(updatedUserFriends);
     } catch (error) {
-      console.error('Erro ao remover amigo:', error);
+      console.error("Erro ao atualizar amizade:", error);
     }
-  }
+  };
+
+  const convertToEmbed = (url: string) => {
+    const regex = /watch\?v=([\w-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url;
+  };
 
   return (
     <div className="w-[1000px]">
@@ -122,12 +170,22 @@ export function UserProfileSec() {
             <div className="flex flex-col pt-10 gap-4 max-w-[580px]">
               <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words">{user.name}</h1>
               <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words">{user.description}</div>
-              <button
-                onClick={() => handleAddFriend(user.id)}
-                className=" py-0.5 rounded-[8px] text-[15px] bg-[#F37671] text-white cursor-pointer
-                hover">
-                <p>Adicionar</p>
-              </button>
+              {isFriend(user.id) ? (
+                <button
+                  onClick={() => handleClick(user.id)}
+                  className="flex items-center gap-1.5 py-0.5 rounded-[8px] text-[15px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2">
+                  <p>Amigos</p>
+                  <img src={correct_button}
+                    className="h-2"
+                    alt="botão de correto" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleClick(user.id)}
+                  className=" py-0.5 rounded-[8px] text-[15px] cursor-pointer hover w-fit px-2 bg-[#F37671] text-white border-[#F37671]">
+                  <p>Adicionar</p>
+                </button>
+              )}
             </div>
           </section>
 
@@ -161,9 +219,20 @@ export function UserProfileSec() {
                             <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>
                           </div>
 
-                          <img className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
-                            src={post.photoLink}
-                            alt="foto de perfil" />
+                          {post.videoLink ? (
+                            <iframe
+                              className="w-full h-[320px] rounded-[8px]"
+                              src={convertToEmbed(post.videoLink)}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                          ) : (
+                            <img
+                              className="object-cover w-full h-full max-h-[500px] cursor-pointer rounded-[8px]"
+                              src={post.photoLink}
+                              alt="foto de perfil"
+                            />
+                          )}
 
                           <div className="flex items-center gap-5">
                             <button onClick={() => handlePostLikes(post.id)}
@@ -194,7 +263,7 @@ export function UserProfileSec() {
               <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-10"></div>
 
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">100</h1>
+                <h1 className="capitalize text-[20px] font-semibold text-[#303030]">{userFriends.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light">Amigos</p>
               </div>
             </div>

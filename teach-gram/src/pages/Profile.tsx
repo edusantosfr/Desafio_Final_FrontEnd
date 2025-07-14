@@ -13,7 +13,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
 
 import { Modal } from "./ModalPages/Modal";
-import { getLogedUser } from "../services/user.service";
+import { getLogedUser, getMyFriends } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";
 import { useUser } from "../context/UserContext";
 import { createPost } from "../services/post.service";
@@ -23,9 +23,17 @@ export function Profile() {
     const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
     const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
-    const [msg, setMsg] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [mediaInput, setMediaInput] = useState('');
+    const [friends, setFriends] = useState<Friend[]>([]);
+
+    //Friends Carrossel
+    const [currentPage, setCurrentPage] = useState(1);
+    const friendsPerPage = 4;
+
+    const totalPages = Math.ceil(friends.length / friendsPerPage);
+    const startIndex = (currentPage - 1) * friendsPerPage;
+    const currentFriends = friends.slice(startIndex, startIndex + friendsPerPage);
 
     const navigate = useNavigate();
 
@@ -38,6 +46,26 @@ export function Profile() {
         username: '',
         description: ''
     })
+
+    interface Friend {
+        id: number;
+        name: string,
+        username: string,
+        phone: string,
+        mail: string,
+        profileLink: string,
+        description: string
+    }
+
+    const loadFriends = async () => {
+        try {
+            const data = await getMyFriends();
+            setFriends(data);
+
+        } catch (error) {
+            console.error('Erro ao buscar amigos:', error);
+        }
+    };
 
     useEffect(() => {
         const handleLogedUser = async () => {
@@ -61,6 +89,9 @@ export function Profile() {
             }
         }
         handleLogedUser();
+
+
+        loadFriends();
     }, [])
 
     const [postInfo, setPostInfo] = useState({
@@ -143,8 +174,6 @@ export function Profile() {
             window.location.reload();
 
         } catch (error: any) {
-            const msg = error.response?.data?.message;
-            setMsg(msg);
         }
     }
 
@@ -177,13 +206,16 @@ export function Profile() {
 
                         <button
                             type="button"
-                            onClick={() => setFriendsModalOpen(true)}
+                            onClick={() => {
+                                loadFriends()
+                                setFriendsModalOpen(true)
+                            }}
                             className="grid grid-cols-[35%_65%] items-center cursor-pointer border border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline">
                             <div className="flex justify-center">
                                 <img src={friends_button} alt="Amigos" className="h-[3vh]" />
                             </div>
                             <div className="flex justify-start">
-                                <h1 className="text-[20px] font-normal text-[#8E8E8E]">Friends</h1>
+                                <h1 className="text-[20px] font-normal text-[#8E8E8E]">Amigos</h1>
                             </div>
                         </button>
 
@@ -242,63 +274,50 @@ export function Profile() {
                                 <h1 className="text-[25px] font-semibold text-[#303030]">Amigos</h1>
                             </div>
                             <div className="w-full p-5 pt-8 flex flex-col gap-6">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex items-center gap-4">
-                                        <img src="https://static.vecteezy.com/ti/fotos-gratis/t2/37371298-ai-gerado-uma-casal-do-amor-faz-uma-em-forma-de-coracao-gesto-enquanto-a-por-do-sol-ai-fundo-foto.jpg"
-                                            className="rounded-full object-cover aspect-square w-15 h-15"
-                                            alt="" />
-                                        <div>
-                                            <h1 className="capitalize text-[20px] font-semibold text-[#303030] break-words">jennierubyjane</h1>
-                                            <div className="text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">Jennie Ruby Jane</div>
+                                {currentFriends.map(friend => (
+                                    <div key={friend.id}
+                                        className="flex justify-between items-center">
+                                        <div className="flex items-center gap-4">
+                                            <img src={friend.profileLink}
+                                                className="rounded-full object-cover aspect-square w-15 h-15"
+                                                alt="foto de perfil" />
+                                            <div>
+                                                <h1 className="capitalize text-[20px] font-semibold text-[#303030] break-words">{friend.username}</h1>
+                                                <div className="capitalize text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">{friend.name}</div>
+                                            </div>
                                         </div>
+                                        <button
+                                            onClick={() => {
+                                                setFriendsModalOpen(false)
+                                                navigate(`/Profile/profilesec/${friend.id}`)
+                                            }}
+                                            className="h-fit bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer p-1 px-2 font-light
+                                            hover:bg-white hover:text-[#F37671] hover:border-1">
+                                            Ver Perfil
+                                        </button>
                                     </div>
-                                    <button
-                                        type="submit"
-                                        className="h-fit bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer p-1 px-2 font-light
-                                        hover:bg-white hover:text-[#F37671] hover:border-1">
-                                        Ver Perfil
-                                    </button>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <div className="flex items-center gap-4">
-                                        <img src="https://static.vecteezy.com/ti/fotos-gratis/t2/37371298-ai-gerado-uma-casal-do-amor-faz-uma-em-forma-de-coracao-gesto-enquanto-a-por-do-sol-ai-fundo-foto.jpg"
-                                            className="rounded-full object-cover aspect-square w-15 h-15"
-                                            alt="" />
-                                        <div>
-                                            <h1 className="capitalize text-[20px] font-semibold text-[#303030] break-words">jennierubyjane</h1>
-                                            <div className="text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">Jennie Ruby Jane</div>
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="h-fit bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer p-1 px-2 font-light
-                                        hover:bg-white hover:text-[#F37671] hover:border-1">
-                                        Ver Perfil
-                                    </button>
-                                </div>
+                                ))}
                             </div>
                             <div className="flex gap-3 mt-8">
-                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
-                                hover:bg-[#F37671] hover:border-none"> 
+                                <button onClick={() => setCurrentPage((prev) => prev - 1)}
+                                    disabled={currentPage === 1}
+                                    className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
+                                hover:bg-[#F37671] hover:border-none">
                                     <img className="w-3"
                                         src={gray_arrow} alt="flecha" />
                                 </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
-                                hover:bg-[#F37671] hover:text-white hover:border-white
-                                focus:bg-[#F37671] focus:text-white focus:border-white">
-                                    <p className="font-normal">1</p>
-                                </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
-                                hover:bg-[#F37671] hover:text-white hover:border-white
-                                focus:bg-[#F37671] focus:text-white focus:border-white">
-                                    <p className="font-normal">2</p>
-                                </button>
-                                <button className="border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
-                                hover:bg-[#F37671] hover:text-white hover:border-white
-                                focus:bg-[#F37671] focus:text-white focus:border-white">
-                                    <p className="font-normal">3</p>
-                                </button>
-                                <button className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180 cursor-pointer
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                    <button key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] ${currentPage === page ?
+                                            "bg-[#F37671] text-white border-[#F37671]" :
+                                            "text-[#C4C4C4] hover:bg-gray-200"}`}>
+                                        {page}
+                                    </button>
+                                ))}
+                                <button onClick={() => setCurrentPage((prev) => prev + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180 cursor-pointer
                                 hover:bg-[#F37671] hover:border-none">
                                     <img className="w-3"
                                         src={gray_arrow} alt="flecha" />

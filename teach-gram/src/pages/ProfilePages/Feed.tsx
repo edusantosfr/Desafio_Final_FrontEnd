@@ -125,6 +125,15 @@ export function Feed() {
     }
   };
 
+  const convertToEmbed = (url: string) => {
+    const regex = /watch\?v=([\w-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url;
+  };
+
   return (
     <div className="grid grid-cols-[1fr_300px] h-full">
       <div className="overflow-y-auto h-screen p-20 pt-45 flex flex-col gap-10">
@@ -140,6 +149,7 @@ export function Feed() {
               className="h-fit flex flex-col gap-15">
               <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_5px_rgba(0,0,0,0.2)] flex flex-col items-end relative z-0" >
                 <div className="flex h-fit w-full justify-between items-start">
+                  
                   <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center">
                     <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer"
                       src={post.user.profileLink}
@@ -153,7 +163,8 @@ export function Feed() {
                       <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[340px] h-fit break-words">{tempoFormatado}</div>
                     </div>
                   </section>
-                  <div className="relative z-0">
+
+                  <section className="relative z-0">
                     {activePostId === post.id && (
                       <div className="absolute -translate-x-25 w-24 bg-white border border-[#E2E2E2] shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-[8px] flex flex-col items-center justify-center">
                         <button
@@ -182,18 +193,27 @@ export function Feed() {
                           alt="hamburguer" />
                       </button>
                     )}
-                  </div>
+                  </section>
 
                 </div>
-                <div className="flex flex-col mt-5 gap-5">
+                <div className="flex flex-col mt-5 gap-5 w-full">
                   <div className="flex flex-col gap-1">
                     <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words">{post.title}</div>
                     <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.description}</div>
                   </div>
 
-                  <img className="object-cover w-full h-full max-h-[400px] cursor-pointer rounded-[8px]"
-                    src={post.photoLink}
-                    alt="foto de perfil" />
+                  {post.videoLink ? (
+                    <iframe
+                      className="w-full h-[320px] rounded-[8px]"
+                      src={convertToEmbed(post.videoLink)}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <img className="object-cover w-full h-full max-h-[400px] cursor-pointer rounded-[8px]"
+                      src={post.photoLink}
+                      alt="foto de perfil" />
+                  )}
 
                   <div className="flex items-center gap-5">
                     <button onClick={() => handlePostLikes(post.id)}

@@ -51,7 +51,12 @@ export const patchUserInfo = async (user: {
     return response.data;
 };
 
-export const getFriends = async () => {
+export const getUserFriends = async (userId: string | number) => {
+    const response = await api.get(`/users/friends/${userId}`);
+    return response.data;
+};
+
+export const getMyFriends = async () => {
     const response = await api.get(`/users/friends`);
     return response.data;
 };
