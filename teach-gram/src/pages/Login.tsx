@@ -291,7 +291,7 @@ export function Login() {
                                             lg:w-full
                                             xl:w-full">
                                             <label htmlFor="profileLink" className="text-sm">Link</label>
-                                            <input name="profileLink"
+                                            <input name="profileLink" id="profileLink"
                                                 type="url"
                                                 placeholder="Insira seu link"
                                                 value={formData.profileLink}
@@ -341,7 +341,7 @@ export function Login() {
                                         lg:text-[14px]
                                         xl:text-[13px]
                                         ">Nome</label>
-                                        <input name="name" value={formData.name} onChange={handleChange}
+                                        <input name="name" id="name" value={formData.name} onChange={handleChange}
                                             type="text"
                                             placeholder="Digite seu nome"
                                             className="p-2 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]
@@ -357,7 +357,7 @@ export function Login() {
                                         md:text-[14px]
                                         lg:text-[14px]
                                         xl:text-[13px]">Email</label>
-                                        <input name="mail" value={formData.mail} onChange={handleChange}
+                                        <input name="mail" id="mail" value={formData.mail} onChange={handleChange}
                                             type="email"
                                             placeholder="Digite seu E-mail"
                                             className="p-2 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]
@@ -375,7 +375,7 @@ export function Login() {
                                         xl:text-[13px]">Username</label>
                                         <div className="relative w-full max-w-xs">
                                             <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none select-none font-light">@</span>
-                                            <input name="username" value={formData.username} onChange={handleChange}
+                                            <input name="username" id="username" value={formData.username} onChange={handleChange}
                                                 type="text"
                                                 placeholder="seu_username"
                                                 className="pl-8 pr-4 py-2 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671] w-full
@@ -392,7 +392,7 @@ export function Login() {
                                         md:text-[14px]
                                         lg:text-[14px]
                                         xl:text-[13px]">Descrição</label>
-                                        <input name="description" value={formData.description} onChange={handleChange}
+                                        <input name="description" id="description" value={formData.description} onChange={handleChange}
                                             type="text"
                                             placeholder="Faça uma descrição"
                                             className="p-2 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]
@@ -403,12 +403,12 @@ export function Login() {
                                     </div>
 
                                     <div className="flex flex-col w-full max-w-xs gap-1">
-                                        <label htmlFor="phone" className="text-[12px]
+                                        <label htmlFor="phone"  className="text-[12px]
                                         sm:text-[14px]
                                         md:text-[14px]
                                         lg:text-[14px]
                                         xl:text-[13px]">Celular</label>
-                                        <input name="phone" value={formData.phone} onChange={handleChange}
+                                        <input name="phone" id="phone" value={formData.phone} onChange={handleChange}
                                             type="text"
                                             placeholder="Digite se número de celular"
                                             className="p-2 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671sm:p-3 sm:pl-4
@@ -423,7 +423,7 @@ export function Login() {
                                         md:text-[14px]
                                         lg:text-[14px]
                                         xl:text-[13px]">Senha</label>
-                                        <input name="password" value={formData.password} onChange={handleChange}
+                                        <input name="password" id="password" value={formData.password} onChange={handleChange}
                                             type="password"
                                             placeholder="Digite sua senha"
                                             className="p-2 pl-4 border border-[#B5B5B5] rounded-lg text-sm text-[#303030] focus:outline-none focus:ring-2 focus:ring-[#F37671]

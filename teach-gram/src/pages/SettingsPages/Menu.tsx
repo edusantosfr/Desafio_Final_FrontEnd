@@ -34,46 +34,102 @@ export function Menu() {
             {status ? (
                 <LoadingSpinner />
             ) : (
-                <div className="w-full grid grid-cols-[75vw_25vw]">
+                <div className="w-full grid grid-cols-[100vw]
+                sm:grid-cols-[100vw]
+                md:grid-cols-[50vw_50vw]
+                lg:grid-cols-[50vw_50vw]
+                xl:grid-cols-[75vw_25vw]">
                     <div className="flex justify-center">
-                        <div className="grid grid-rows-[15vh_85vh] w-[85%]">
+                        <div className="grid grid-rows-[15vh_85vh] w-[85%] gap-5
+                        sm:gap-0
+                        md:gap-0
+                        lg:gap-0
+                        xl:gap-0">
                             <section className="flex flex-row gap-5 items-center">
                                 <button
                                     type="button"
                                     onClick={() => navigate("/Profile/Profilesec")}
                                     className="cursor-pointer">
-                                    <img src={back_button} alt="Voltar" className="h-[3vh]" />
+                                    <img src={back_button} alt="Voltar" className="h-[2vh]
+                                    sm:h-[2.5vh]
+                                    md:h-[2.5vh]
+                                    lg:h-[3vh]
+                                    xl:h-[3vh]" />
                                 </button>
                             </section>
                             <div className="flex justify-center items-center">
-                                <section className="w-[80%] h-[90%] flex flex-col gap-12">
+                                <section className="w-[90%] h-[90%] flex flex-col gap-12
+                                sm:w-[80%]
+                                md:w-[80%]
+                                lg:w-[80%]
+                                xl:w-[80%]">
 
                                     <NavButton icon={arrow} label="Configurações de Conta" to="/Settings/Info" />
                                     <NavButton icon={arrow} label="Editar Perfil" to="/Settings/Edit" />
 
-                                    <button className="flex cursor-pointer w-[14vw]"
+                                    <button className="flex cursor-pointer w-full
+                                    sm:w-full
+                                    md:w-[50vw]
+                                    lg:w-[14vw]
+                                    xl:w-[14vw]"
                                         onClick={() => setModalOpen(true)}>
-                                        <h1 className="text-[24px] font-light text-[#F37671] hover:underline">Excluir Conta</h1>
+                                        <h1 className="text-[17px] font-light text-[#F37671] hover:underline
+                                        sm:text-[24px]
+                                        md:text-[24px]
+                                        lg:text-[24px]
+                                        xl:text-[24px]">Excluir Conta</h1>
                                     </button>
 
                                     <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                                        <div className="bg-white rounded-[30px] shadow-lg z-60 max-w-lg w-[528px] h-fit">
-                                            <div className="pt-8 pb-3 pl-12">
-                                                <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Excluir conta</h2>
+                                        <div className="bg-white rounded-[30px] shadow-lg z-60 max-w-lg w-[280px] h-fit
+                                        sm:w-[512px]
+                                        md:w-[512px]
+                                        lg:w-[512px]
+                                        xl:w-[512px]">
+                                            <div className="pt-8 pb-3 pl-0 justify-center flex
+                                            sm:block sm:pl-12
+                                            md:block md:pl-12
+                                            lg:block lg:pl-12
+                                            xl:block xl:pl-12">
+                                                <h2 className="text-[20px] font-semibold mb-4 text-[#303030]
+                                                sm:text-[24px]
+                                                md:text-[24px]
+                                                lg:text-[24px]
+                                                xl:text-[24px]">Excluir conta</h2>
                                             </div>
                                             <hr className="border-[#CECECE] border-1" />
                                             <div className="flex items-center justify-center">
-                                                <div className="flex flex-col w-[80%] pt-8 pb-8 gap-10">
-                                                    <p className="mb-4 text-[15px] text-[#303030]">Todos os seus dados serão excluídos.</p>
-                                                    <div className="flex justify-center gap-12">
+                                                <div className="flex flex-col w-[80%] py-8 gap-2
+                                                sm:gap-10
+                                                md:gap-10
+                                                lg:gap-10
+                                                xl:gap-10">
+                                                    <p className="mb-4 text-[13px] text-[#303030] text-center
+                                                    sm:text-[15px] sm:text-left
+                                                    md:text-[15px] md:text-left
+                                                    lg:text-[15px] lg:text-left
+                                                    xl:text-[15px] xl:text-left">Todos os seus dados serão excluídos.</p>
+                                                    <div className="flex justify-center gap-4
+                                                    sm:gap-12
+                                                    md:gap-12
+                                                    lg:gap-12
+                                                    xl:gap-12">
                                                         <button
                                                             onClick={() => setModalOpen(false)}
-                                                            className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
+                                                            className="px-2 py-0.5 rounded-[8px] text-[12px] border-[#F37671] border-1 text-[#F37671] cursor-pointer
+                                                            sm:text-[15px] sm:px-10
+                                                            md:text-[15px] md:px-10
+                                                            lg:text-[15px] lg:px-10
+                                                            xl:text-[15px] xl:px-10">
                                                             Cancelar
                                                         </button>
                                                         <button
                                                             onClick={() => handleDelete()}
-                                                            className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
+                                                            className="px-2 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[12px] cursor-pointer
+                                                            sm:text-[15px] sm:px-10
+                                                            md:text-[15px] md:px-10
+                                                            lg:text-[15px] lg:px-10
+                                                            xl:text-[15px] xl:px-10">
                                                             Confirmar
                                                         </button>
                                                     </div>
@@ -86,7 +142,11 @@ export function Menu() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-end">
+                    <div className="justify-end hidden
+                    sm:hidden
+                    md:flex
+                    lg:flex
+                    xl:flex">
                         <img src={config_detail}
                             alt=""
                             className="h-screen" />
@@ -101,11 +161,23 @@ function NavButton({ icon, label, to }: { icon: string; label: string; to: strin
     return (
         <Link
             to={to}
-            className="w-[25vw] cursor-pointer flex items-center justify-between">
-            <h1 className="text-[24px] font-semibold text-[#303030] hover:text-[#F37671]">{label}</h1>
+            className="w-full cursor-pointer flex items-center justify-between
+            sm:w-full
+            md:w-[45vw]
+            lg:w-[50vw]
+            xl:w-[30vw]">
+            <h1 className="text-[17px] font-semibold text-[#303030] hover:text-[#F37671]
+            sm:text-[24px]
+            md:text-[24px]
+            lg:text-[24px]
+            xl:text-[24px]">{label}</h1>
             <img src={icon}
                 alt=""
-                className="h-[2.5vh]" />
+                className="h-[2vh]
+                sm:h-[2.5vh]
+                md:h-[2.5vh]
+                lg:h-[2.5vh]
+                xl:h-[2.5vh]" />
         </Link>
     );
 }

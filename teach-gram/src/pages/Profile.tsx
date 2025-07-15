@@ -309,9 +309,9 @@ export function Profile() {
                                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                                     <button key={page}
                                         onClick={() => setCurrentPage(page)}
-                                        className={`border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] ${currentPage === page ?
+                                        className={`border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer ${currentPage === page ?
                                             "bg-[#F37671] text-white border-[#F37671]" :
-                                            "text-[#C4C4C4] hover:bg-gray-200"}`}>
+                                            "text-[#C4C4C4] hover:bg-[#F37671] hover:text-white"}`}>
                                         {page}
                                     </button>
                                 ))}

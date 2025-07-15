@@ -11,7 +11,6 @@ import { Modal } from "../ModalPages/Modal";
 
 import { getLogedUser, getMyFriends } from "../../services/user.service";
 import { getAllMyPosts, editPost, getMyPostById, deletePost, patchPostLikes } from "../../services/post.service";
-// import { Post } from "../Post";
 import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
@@ -194,9 +193,19 @@ export function ProfileSec() {
       {status ? (
         <LoadingSpinnerSmall />
       ) : (
-        <div className="grid grid-rows-[auto_auto] justify-center w-full">
+        <div className="grid grid-rows-[auto_auto] justify-center w-full
+        sm:w-full
+        md:w-full
+        lg:w-full
+        xl:w-[80%]
+        2xl:w-full">
           <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto">
-            <img className="rounded-full object-cover aspect-square w-70 h-70"
+            <img className="rounded-full object-cover aspect-square w-70 h-70
+            sm:w-70 sm:h-70
+            md:w-70 md:h-70
+            lg:w-70 lg:h-70
+            xl:w-60 xl:h-60
+            2xl:w-70 2xl:h-70"
               src={user.profileLink || no_profile}
               alt="foto de perfil" />
 
@@ -408,7 +417,12 @@ export function ProfileSec() {
                 <p className="text-[20px] text-[#6b6b6b] font-light">Amigos</p>
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-1">
+            <div className="grid grid-cols-3 gap-1
+            sm:grid-cols-3
+            md:grid-cols-3
+            lg:grid-cols-3
+            xl:grid-cols-3
+            2xl:grid-cols-4">
               {posts.map(post => (
                 <div key={post.id}
                   className="cursor-pointer"
