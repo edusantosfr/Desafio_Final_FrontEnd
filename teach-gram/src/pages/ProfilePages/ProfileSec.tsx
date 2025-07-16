@@ -1,5 +1,6 @@
 import no_profile from "../../assets/no-profile.png";
 import close_button from "../../assets/close-button.png";
+import { usePosts } from "../../context/PostContext";
 
 import { useState, useEffect } from "react";
 
@@ -15,7 +16,7 @@ import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
 export function ProfileSec() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { posts, setPosts } = usePosts();
   const [status, setStatus] = useState(false);
 
   const [isEditPostModalOpen, setIsEditPostModalOpen] = useState(false);
@@ -38,17 +39,6 @@ export function ProfileSec() {
     profileLink: '',
     description: ''
   })
-
-  type Post = {
-    id: number;
-    title: string;
-    description: string;
-    photoLink: string;
-    videoLink: string;
-    privatePost: boolean;
-    createdAt: string;
-    likes: number;
-  }
 
   interface Friend {
     id: number;
@@ -167,8 +157,9 @@ export function ProfileSec() {
   const handlePostLikes = async (postId: number) => {
     try {
       await patchPostLikes(postId);
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
+
+      setPosts(
+        posts.map((post) =>
           post.id === postId ? { ...post, likes: post.likes + 1 } : post
         )
       );
@@ -256,9 +247,10 @@ export function ProfileSec() {
                       2xl:w-[550px] 2xl:p-8">
                         {activePostId === post.id && (
                           <div className="-translate-x-5 absolute w-24 bg-white border border-[#E2E2E2] shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-[8px] z-10 flex flex-col items-center justify-center">
-                            <button
+                            <button type="button"
                               className="flex justify-center w-full px-4 pb-1 pt-2 text-left hover:bg-gray-100"
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault()
                                 setModalOpen(null);
                                 setIsModalOpen(false);
                                 setIsEditPostModalOpen(true);
@@ -266,9 +258,10 @@ export function ProfileSec() {
                               }}>
                               <p className="text-[15px] text-[#F37671] font-medium">Editar</p>
                             </button>
-                            <button
+                            <button type="button"
                               className="flex justify-center w-full px-4 pb-2 pt-1 text-left hover:bg-gray-100"
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault()
                                 setIsDeletePostModalOpen(true);
                                 setDeleteModalOpen(post.id);
                               }}>
@@ -309,7 +302,11 @@ export function ProfileSec() {
                               2xl:text-[20px]">{tempoFormatado}</div>
                             </div>
                           </section>
-                          <button onClick={() => setActivePostId(activePostId === post.id ? null : post.id)}
+                          <button type="button"
+                            onClick={(e) => {
+                              setActivePostId(activePostId === post.id ? null : post.id)
+                              e.preventDefault()
+                            }}
                             className="cursor-pointer w-4 flex justify-center">
                             <img className="h-7"
                               src={post_hamburguer}
@@ -363,7 +360,11 @@ export function ProfileSec() {
                           )}
 
                           <div className="flex items-center gap-5">
-                            <button onClick={() => handlePostLikes(post.id)}
+                            <button type="button"
+                              onClick={(e) => {
+                                handlePostLikes(post.id)
+                                e.preventDefault()
+                              }}
                               className="cursor-pointer">
                               <img className="h-10"
                                 src={like_button}
@@ -385,13 +386,19 @@ export function ProfileSec() {
                       <div className="flex items-center justify-center">
                         <div className="flex flex-col w-[80%] gap-10">
                           <div className="flex justify-center gap-12">
-                            <button
-                              onClick={() => setIsDeletePostModalOpen(false)}
+                            <button type="button"
+                              onClick={(e) => {
+                                setIsDeletePostModalOpen(false)
+                                e.preventDefault()
+                              }}
                               className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
                               Cancelar
                             </button>
-                            <button
-                              onClick={() => handlePostDelete(post.id)}
+                            <button type="button"
+                              onClick={(e) => {
+                                handlePostDelete(post.id)
+                                e.preventDefault()
+                              }}
                               className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
                               Confirmar
                             </button>
@@ -416,8 +423,11 @@ export function ProfileSec() {
                       lg:p-6
                       xl:p-6
                       2xl:p-7">
-                        <button
-                          onClick={() => setIsEditPostModalOpen(false)}
+                        <button type="button"
+                          onClick={(e) => {
+                            setIsEditPostModalOpen(false)
+                            e.preventDefault()
+                          }}
                           className="flex cursor-pointer">
                           <img src={close_button} alt="botão de fechar modal"
                             className="w-[18px] h-[18px]
@@ -446,6 +456,7 @@ export function ProfileSec() {
                             xl:text-[20px]
                             2xl:text-[25px]">Editar publicação</h1>
                             <button type="submit"
+                              onClick={(e) => e.preventDefault()}
                               className="flex cursor-pointer">
                               <p className="text-[#F37671] hover:underline
                               sm:text-[16px]
@@ -580,7 +591,8 @@ export function ProfileSec() {
               {posts.map(post => (
                 <div key={post.id}
                   className="cursor-pointer"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault()
                     setIsModalOpen(true);
                     setModalOpen(post.id);
                   }}>

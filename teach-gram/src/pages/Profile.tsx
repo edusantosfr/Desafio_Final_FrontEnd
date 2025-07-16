@@ -11,6 +11,7 @@ import gray_arrow from "../assets/gray-arrow.png";
 
 import { useContext, useState, useEffect } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 
 import { Modal } from "./ModalPages/Modal";
 import { getLogedUser, getMyFriends } from "../services/user.service";
@@ -26,6 +27,8 @@ export function Profile() {
     const [imageUrl, setImageUrl] = useState('');
     const [mediaInput, setMediaInput] = useState('');
     const [friends, setFriends] = useState<Friend[]>([]);
+
+    const isDesktop = useMediaQuery({ minWidth: 1280 });
 
     //Friends Carrossel
     const [currentPage, setCurrentPage] = useState(1);
@@ -90,7 +93,6 @@ export function Profile() {
         }
         handleLogedUser();
 
-
         loadFriends();
     }, [])
 
@@ -126,11 +128,13 @@ export function Profile() {
     }, [imageUrl])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
         const { name, value } = e.target;
         setPostInfo((prev) => ({ ...prev, [name]: value }));
     }
 
     const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
         const { value } = e.target;
 
         setMediaInput(value);
@@ -171,7 +175,6 @@ export function Profile() {
             setIsConfirmingPhoto(false);
             setModalOpen(false);
             setIsConfirmedPhoto(false);
-            window.location.reload();
 
         } catch (error: any) {
         }
@@ -216,7 +219,7 @@ export function Profile() {
             md:grid md:grid-cols-5 md:mt-0 md:gap-0
             lg:grid lg:grid-cols-5 lg:mt-0 lg:gap-0
             xl:flex-col xl:flex xl:mt-8 xl:gap-8
-            2xl:flex-col 2xl:flex 2xl:mt-8 2xl:gap-8"> 
+            2xl:flex-col 2xl:flex 2xl:mt-8 2xl:gap-8">
                 <Link
                     to="Feed"
                     className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
@@ -250,9 +253,11 @@ export function Profile() {
 
                 <button
                     type="button"
-                    onClick={() => {
-                        loadFriends()
-                        setFriendsModalOpen(true)
+                    onClick={(e) => {
+                        e.preventDefault();
+                        console.log("Clique no botão — URL atual:", window.location.href);
+                        loadFriends();
+                        setFriendsModalOpen(true);
                     }}
                     className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[10vh] w-[15vw] no-underline
                     sm:w-50 sm:grid-cols-[35%_65%] sm:border-0 sm:h-[10vh]
@@ -387,14 +392,18 @@ export function Profile() {
     lg:flex lg:justify-center
     xl:block xl:justify-start
     2xl:block 2xl:justify-start">
+
         <Outlet />
 
         {/* Friends Section */}
         <Modal isOpen={isFriendsModalOpen} onClose={() => setFriendsModalOpen(false)}>
             <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex flex-col justify-center items-center p-10">
                 <div className="w-full flex justify-end">
-                    <button
-                        onClick={() => setFriendsModalOpen(false)}
+                    <button type="button"
+                        onClick={(e) => {
+                            setFriendsModalOpen(false)
+                            e.preventDefault()
+                        }}
                         className="flex cursor-pointer">
                         <img src={close_button} alt="botão de fechar modal"
                             className="w-[18px] h-[18px]" />
@@ -408,7 +417,7 @@ export function Profile() {
                         <div key={friend.id}
                             className="flex justify-between items-center">
                             <div className="flex items-center gap-4">
-                                <img src={friend.profileLink || undefined}
+                                <img src={friend.profileLink}
                                     className="rounded-full object-cover aspect-square w-15 h-15"
                                     alt="foto de perfil" />
                                 <div>
@@ -416,7 +425,7 @@ export function Profile() {
                                     <div className="capitalize text-[15px] text-[#A09F9F] font-semibold w-full h-fit break-words">{friend.name}</div>
                                 </div>
                             </div>
-                            <button
+                            <button type="button"
                                 onClick={() => {
                                     setFriendsModalOpen(false)
                                     navigate(`/Profile/profilesec/${friend.id}`)
@@ -429,7 +438,8 @@ export function Profile() {
                     ))}
                 </div>
                 <div className="flex gap-3 mt-8">
-                    <button onClick={() => setCurrentPage((prev) => prev - 1)}
+                    <button type="button"
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
                         disabled={currentPage === 1}
                         className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer
                         hover:bg-[#F37671] hover:border-none">
@@ -437,7 +447,8 @@ export function Profile() {
                             src={gray_arrow} alt="flecha" />
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <button key={page}
+                        <button type="button"
+                            key={page}
                             onClick={() => setCurrentPage(page)}
                             className={`border-1 border-[#C4C4C4] text-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] cursor-pointer ${currentPage === page ?
                                 "bg-[#F37671] text-white border-[#F37671]" :
@@ -445,7 +456,8 @@ export function Profile() {
                             {page}
                         </button>
                     ))}
-                    <button onClick={() => setCurrentPage((prev) => prev + 1)}
+                    <button type="button"
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
                         disabled={currentPage === totalPages}
                         className="border-1 border-[#C4C4C4] w-7 h-7 flex items-center justify-center rounded-[6px] rotate-180 cursor-pointer
                         hover:bg-[#F37671] hover:border-none">
@@ -460,7 +472,7 @@ export function Profile() {
             {isConfirmedPhoto ? (
                 <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
                     <div className="w-full h-full flex flex-col p-5">
-                        <button
+                        <button type="button"
                             onClick={() => setIsConfirmedPhoto(false)}
                             className="flex cursor-pointer">
                             <img src={back_button} alt="botão de fechar modal"
@@ -471,12 +483,13 @@ export function Profile() {
                             <div className="flex flex-row items-center justify-between">
                                 <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
                                 <button type="submit"
+                                    onClick={(e) => e.preventDefault()}
                                     className="flex cursor-pointer">
                                     <p className="text-[#F37671] hover:underline">Compartilhar</p>
                                 </button>
                             </div>
                             <div className="flex flex-col gap-3">
-                                <img src={imageUrl || undefined}
+                                <img src={imageUrl}
                                     alt="Imagem inserida"
                                     className="h-90 w-full object-cover aspect-square rounded-2xl pb-2" />
 
@@ -498,8 +511,10 @@ export function Profile() {
                                 <label className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
                                     <input type="checkbox"
                                         checked={postInfo.privatePost}
-                                        onChange={(e) =>
-                                            setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))}
+                                        onChange={(e) => {
+                                            e.preventDefault
+                                            setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
+                                        }}
                                         className="accent-[#F37671] cursor-pointer" /> Post Privado
                                 </label>
                             </div>
@@ -512,7 +527,7 @@ export function Profile() {
                     {isConfirmingPhoto ? (
                         <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center">
                             <div className="w-full h-full flex flex-col p-5">
-                                <button
+                                <button type="button"
                                     onClick={handleCloseModalBtn}
                                     className="flex cursor-pointer">
                                     <img src={close_button} alt="botão de fechar modal"
@@ -521,13 +536,13 @@ export function Profile() {
                                 <div className="flex flex-col px-7 gap-5">
                                     <div className="flex flex-row items-center justify-between">
                                         <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
-                                        <button
+                                        <button type="button"
                                             onClick={() => setIsConfirmedPhoto(true)}
                                             className="flex cursor-pointer">
                                             <p className="text-[#F37671] hover:underline">Avançar</p>
                                         </button>
                                     </div>
-                                    <img src={imageUrl || undefined}
+                                    <img src={imageUrl}
                                         alt="Imagem inserida"
                                         className="h-100 w-full object-cover mb-4 aspect-square pb-2 rounded-2xl" />
                                 </div>
@@ -537,7 +552,7 @@ export function Profile() {
                         <div className="flex items-center justify-center">
                             <div className="mt-8 w-[80%] flex justify-between">
                                 <h2 className="text-[24px] font-semibold mb-4 text-[#303030]">Criar nova publicação</h2>
-                                <button
+                                <button type="button"
                                     onClick={() => setModalOpen(false)}
                                     className="flex cursor-pointer">
                                     <img src={close_button} alt="botão de fechar modal"
@@ -572,32 +587,28 @@ export function Profile() {
 
     return (
         <div className="h-screen">
-
-            <div className="grid grid-rows-[auto_1fr_auto] h-full
-            xl:hidden
-            2xl:hidden">
-                <section className="flex justify-center items-center shadow-[0_0_7px_rgba(0,0,0,0.2)]">
-                    <Logo />
-                </section>
-                <section className="overflow-y-auto">
-                    <Pagina />
-                </section>
-                <section className="flex justify-center items-center shadow-[0_0_7px_rgba(0,0,0,0.2)]">
-                    <Menu />
-                </section>
-            </div>
-
-            <div className="hidden grid-cols-[25vw_75vw] h-full
-            xl:grid
-            2xl:grid">
-                <section className="flex justify-center items-center">
-                    <Menu />
-                </section>
-                <section className="overflow-y-auto">
-                    <Pagina />
-                </section>
-            </div>
-
+            {isDesktop ? (
+                <div className="grid grid-cols-[25vw_75vw] h-full">
+                    <section className="flex justify-center items-center">
+                        <Menu />
+                    </section>
+                    <section className="overflow-y-auto">
+                        <Pagina />
+                    </section>
+                </div>
+            ) : (
+                <div className="grid grid-rows-[auto_1fr_auto] h-full">
+                    <section className="flex justify-center items-center shadow-[0_0_7px_rgba(0,0,0,0.2)]">
+                        <Logo />
+                    </section>
+                    <section className="overflow-y-auto">
+                        <Pagina />
+                    </section>
+                    <section className="flex justify-center items-center shadow-[0_0_7px_rgba(0,0,0,0.2)]">
+                        <Menu />
+                    </section>
+                </div>
+            )}
         </div>
     )
 }

@@ -15,33 +15,36 @@ import { EditProfile } from '../pages/SettingsPages/EditProfile.tsx';
 
 import { UserProvider } from "../context/UserContext";
 import { AuthProvider } from '../context/AuthContext';
+import { PostProvider } from "../context/PostContext";
 
 export function AppRoutes() {
     return (
         <AuthProvider>
             <UserProvider>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Login />} />
+                <PostProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Login />} />
 
-                        <Route element={<PrivateRoutes />}>
-                            <Route path="/Profile" element={<Navigate to="/Profile/profilesec" replace />} />
-                            <Route path="/Profile" element={<Profile />}>
-                                <Route path="feed" element={<Feed />} />
-                                <Route path="profilesec" element={<ProfileSec />} />
-                                <Route path="profilesec/:userId" element={<UserProfileSec />} />
-                                
-                            </Route>
+                            <Route element={<PrivateRoutes />}>
+                                <Route path="/Profile" element={<Navigate to="/Profile/profilesec" replace />} />
+                                <Route path="/Profile" element={<Profile />}>
+                                    <Route path="feed" element={<Feed />} />
+                                    <Route path="profilesec" element={<ProfileSec />} />
+                                    <Route path="profilesec/:userId" element={<UserProfileSec />} />
 
-                            <Route path="/Settings" element={<Settings />}>
-                                <Route index element={<Navigate to="menu" replace />} />
-                                <Route path="menu" element={<Menu />} />
-                                <Route path="edit" element={<EditProfile />} />
-                                <Route path="info" element={<ProfileInfo />} />
+                                </Route>
+
+                                <Route path="/Settings" element={<Settings />}>
+                                    <Route index element={<Navigate to="menu" replace />} />
+                                    <Route path="menu" element={<Menu />} />
+                                    <Route path="edit" element={<EditProfile />} />
+                                    <Route path="info" element={<ProfileInfo />} />
+                                </Route>
                             </Route>
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
+                        </Routes>
+                    </BrowserRouter>
+                </PostProvider>
             </UserProvider>
         </AuthProvider>
     )
