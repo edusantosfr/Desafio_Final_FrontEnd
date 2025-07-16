@@ -76,7 +76,7 @@ export function Menu() {
                                         <h1 className="text-[17px] font-light text-[#F37671] hover:underline
                                         sm:text-[24px]
                                         md:text-[24px]
-                                        lg:text-[24px]
+                                        lg:text-[22px]
                                         xl:text-[24px]">Excluir Conta</h1>
                                     </button>
 
@@ -169,7 +169,7 @@ function NavButton({ icon, label, to }: { icon: string; label: string; to: strin
             <h1 className="text-[17px] font-semibold text-[#303030] hover:text-[#F37671]
             sm:text-[24px]
             md:text-[24px]
-            lg:text-[24px]
+            lg:text-[22px]
             xl:text-[24px]">{label}</h1>
             <img src={icon}
                 alt=""

@@ -74,7 +74,7 @@ export function EditProfile() {
         <div className="grid grid-rows-[8vh_92vh] w-[85%] 
         sm:grid-rows-[10vh_90vh]
         md:grid-rows-[15vh_85vh]
-        lg:grid-rows-[15vh_85vh]
+        lg:grid-rows-[13vh_87vh]
         xl:grid-rows-[13vh_87vh]">
           <section className="flex flex-row gap-5 items-center">
             <button
@@ -100,14 +100,14 @@ export function EditProfile() {
                 <div className="flex flex-col gap-7
                 sm:gap-10
                 md:gap-10
-                lg:gap-10
+                lg:gap-8
                 xl:gap-7">
                   <div
                     className="w-full flex items-center justify-between">
                     <h1 className="text-[19px] font-semibold text-[#303030]
                     sm:text-[25px]
                     md:text-[25px]
-                    lg:text-[25px]
+                    lg:text-[22px]
                     xl:text-[24px]">Editar Perfil</h1>
                   </div>
 
@@ -126,14 +126,14 @@ export function EditProfile() {
                         <label htmlFor="profileLink" className="text-[14px]
                         sm:text-[16px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[16px]">Foto de perfil</label>
                         <input id="profileLink" name="profileLink" value={editUserData.profileLink} onChange={handleChange}
                           type="url"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
                           sm:text-[16px]
                           md:text-[18px]
-                          lg:text-[18px]
+                          lg:text-[16px]
                           xl:text-[16px]"
                         />
                       </div>
@@ -142,14 +142,14 @@ export function EditProfile() {
                         <label htmlFor="name" className="text-[14px]
                         sm:text-[16px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[16px]">Nome</label>
                         <input id="name" name="name" value={editUserData.name} onChange={handleChange}
                           type="text"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
                           sm:text-[16px]
                           md:text-[18px]
-                          lg:text-[18px]
+                          lg:text-[16px]
                           xl:text-[16px]"
                         />
                       </div>
@@ -158,14 +158,14 @@ export function EditProfile() {
                         <label htmlFor="username" className="text-[14px]
                         sm:text-[16px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[16px]">Nome de Usuário</label>
                         <input id="username" name="username" value={editUserData.username} onChange={handleChange}
                           type="text"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
                           sm:text-[16px]
                           md:text-[18px]
-                          lg:text-[18px]
+                          lg:text-[16px]
                           xl:text-[16px]"
                         />
                       </div>
@@ -174,14 +174,14 @@ export function EditProfile() {
                         <label htmlFor="description" className="text-[14px]
                         sm:text-[16px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[16px]">Bio</label>
                         <input id="description" name="description" value={editUserData.description} onChange={handleChange}
                           type="text"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
                           sm:text-[16px]
                           md:text-[18px]
-                          lg:text-[18px]
+                          lg:text-[16px]
                           xl:text-[16px]"
                         />
                       </div>

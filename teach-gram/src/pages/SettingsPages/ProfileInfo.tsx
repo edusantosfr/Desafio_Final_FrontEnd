@@ -132,7 +132,7 @@ export function ProfileInfo() {
                     <h1 className="text-[19px] font-semibold text-[#303030]
                     sm:text-[24px] 
                     md:text-[24px] 
-                    lg:text-[24px] 
+                    lg:text-[22px] 
                     xl:text-[24px] ">Configurações de Conta</h1>
                   </div>
 
@@ -146,14 +146,14 @@ export function ProfileInfo() {
                         <label htmlFor="name" className="text-[14px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]">Nome</label>
                         <input id="name" name="name" value={editUserData.name} onChange={handleChange}
                           type="text"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671] text-[15px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]"
                         />
                       </div>
@@ -166,14 +166,14 @@ export function ProfileInfo() {
                         <label htmlFor="mail" className="text-[14px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]">Email</label>
                         <input id="mail" name="mail" value={editUserData.mail} onChange={handleChange}
                           type="email"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671] text-[15px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]"
                         />
                       </div>
@@ -186,14 +186,14 @@ export function ProfileInfo() {
                         <label htmlFor="phone" className="text-[14px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]">Celular</label>
                         <input id="phone" name="phone" value={editUserData.phone} onChange={handleChange}
                           type="text"
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671] text-[15px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]"
                         />
                       </div>
@@ -206,7 +206,7 @@ export function ProfileInfo() {
                         <label htmlFor="password" className="text-[14px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]">Senha</label>
                         <input id="password" name="password" value={editUserData.password} onChange={handleChange}
                           type="password"
@@ -214,7 +214,7 @@ export function ProfileInfo() {
                           className="truncate pt-1 border-b-1 border-[#E6E6E6] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671] text-[15px]
                         sm:text-[18px]
                         md:text-[18px]
-                        lg:text-[18px]
+                        lg:text-[16px]
                         xl:text-[18px]"
                         />
                       </div>
