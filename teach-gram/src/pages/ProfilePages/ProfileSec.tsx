@@ -1,6 +1,5 @@
 import no_profile from "../../assets/no-profile.png";
 import close_button from "../../assets/close-button.png";
-import { usePosts } from "../../context/PostContext";
 
 import { useState, useEffect } from "react";
 
@@ -16,7 +15,7 @@ import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
 export function ProfileSec() {
-  const { posts, setPosts } = usePosts();
+  const [posts, setPosts] = useState<Post[]>([]);
   const [status, setStatus] = useState(false);
 
   const [isEditPostModalOpen, setIsEditPostModalOpen] = useState(false);
@@ -49,6 +48,16 @@ export function ProfileSec() {
     profileLink: string,
     description: string
   }
+
+  type Post = {
+    id: number;
+    title: string;
+    description: string;
+    photoLink: string;
+    videoLink: string;
+    createdAt: string;
+    likes: number;
+  };
 
   useEffect(() => {
     const handleLogedUser = async () => {
@@ -178,10 +187,10 @@ export function ProfileSec() {
   };
 
   return (
-    <div className="w-[1000px]
-    sm:w-[700px]
-    md:w-[700px]
-    lg:w-[600px]
+    <div className="w-full
+    sm:w-full
+    md:w-full
+    lg:w-[700px]
     xl:w-[1000px]
     2xl:w-[1000px]">
       {status ? (
@@ -193,39 +202,39 @@ export function ProfileSec() {
         lg:w-full
         xl:w-[80%]
         2xl:w-full">
-          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto
-          sm:gap-20 sm:py-[60px]
-          md:gap-20 md:py-[60px]
-          lg:gap-10 lg:py-[40px]
-          xl:gap-20 xl:py-[60px]
-          2xl:gap-20 2xl:py-[60px]">
+          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto px-[40px] flex-col items-center
+          sm:gap-0 sm:py-[40px] sm:px-[0px] sm:flex-col sm:items-center
+          md:gap-10 md:py-[50px] md:px-[50px] md:flex-row md:items-start
+          lg:gap-15 lg:py-[40px] lg:px-[0px] lg:flex-row lg:items-start
+          xl:gap-20 xl:py-[60px] xl:px-[0px] xl:flex-row xl:items-start
+          2xl:gap-20 2xl:py-[60px] 2xl:px-[0px] 2xl:flex-row 2xl:items-start">
             <img className="rounded-full object-cover aspect-square w-70 h-70
-            sm:w-60 sm:h-60 
-            md:w-60 md:h-60 
+            sm:w-50 sm:h-50 
+            md:w-55 md:h-55
             lg:w-50 lg:h-50 
             xl:w-60 xl:h-60
             2xl:w-70 2xl:h-70 "
               src={user.profileLink || no_profile}
               alt="foto de perfil" />
 
-            <div className="flex flex-col pt-10 gap-4 max-w-140
-            sm:max-w-140
-            md:max-w-140
-            lg:max-w-80
+            <div className="flex flex-col pt-10 gap-4 max-w-100
+            sm:max-w-100
+            md:max-w-100
+            lg:max-w-90
             xl:max-w-100
             2xl:max-w-140">
-              <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words
-              sm:text-[25px]
-              md:text-[25px]
-              lg:text-[20px]
-              xl:text-[20px]
-              2xl:text-[25px]">{user.name}</h1>
-              <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words
-              sm:text-[20px]
-              md:text-[20px]
-              lg:text-[16px]
-              xl:text-[18px]
-              2xl:text-[20px]">{user.description}</div>
+              <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words text-center
+              sm:text-[22px] sm:text-center
+              md:text-[22px] md:text-start
+              lg:text-[20px] lg:text-start
+              xl:text-[20px] xl:text-start
+              2xl:text-[25px] 2xl:text-start">{user.name}</h1>
+              <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words text-center
+              sm:text-[18px] sm:text-center
+              md:text-[18px] md:text-start
+              lg:text-[16px] lg:text-start
+              xl:text-[18px] xl:text-start
+              2xl:text-[20px] 2xl:text-start">{user.description}</div>
             </div>
           </section>
 
@@ -249,8 +258,7 @@ export function ProfileSec() {
                           <div className="-translate-x-5 absolute w-24 bg-white border border-[#E2E2E2] shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-[8px] z-10 flex flex-col items-center justify-center">
                             <button type="button"
                               className="flex justify-center w-full px-4 pb-1 pt-2 text-left hover:bg-gray-100"
-                              onClick={(e) => {
-                                e.preventDefault()
+                              onClick={() => {
                                 setModalOpen(null);
                                 setIsModalOpen(false);
                                 setIsEditPostModalOpen(true);
@@ -260,8 +268,7 @@ export function ProfileSec() {
                             </button>
                             <button type="button"
                               className="flex justify-center w-full px-4 pb-2 pt-1 text-left hover:bg-gray-100"
-                              onClick={(e) => {
-                                e.preventDefault()
+                              onClick={() => {
                                 setIsDeletePostModalOpen(true);
                                 setDeleteModalOpen(post.id);
                               }}>
@@ -303,9 +310,8 @@ export function ProfileSec() {
                             </div>
                           </section>
                           <button type="button"
-                            onClick={(e) => {
+                            onClick={() => {
                               setActivePostId(activePostId === post.id ? null : post.id)
-                              e.preventDefault()
                             }}
                             className="cursor-pointer w-4 flex justify-center">
                             <img className="h-7"
@@ -361,9 +367,8 @@ export function ProfileSec() {
 
                           <div className="flex items-center gap-5">
                             <button type="button"
-                              onClick={(e) => {
+                              onClick={() => {
                                 handlePostLikes(post.id)
-                                e.preventDefault()
                               }}
                               className="cursor-pointer">
                               <img className="h-10"
@@ -387,17 +392,15 @@ export function ProfileSec() {
                         <div className="flex flex-col w-[80%] gap-10">
                           <div className="flex justify-center gap-12">
                             <button type="button"
-                              onClick={(e) => {
+                              onClick={() => {
                                 setIsDeletePostModalOpen(false)
-                                e.preventDefault()
                               }}
                               className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
                               Cancelar
                             </button>
                             <button type="button"
-                              onClick={(e) => {
+                              onClick={() => {
                                 handlePostDelete(post.id)
-                                e.preventDefault()
                               }}
                               className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
                               Confirmar
@@ -424,9 +427,8 @@ export function ProfileSec() {
                       xl:p-6
                       2xl:p-7">
                         <button type="button"
-                          onClick={(e) => {
+                          onClick={() => {
                             setIsEditPostModalOpen(false)
-                            e.preventDefault()
                           }}
                           className="flex cursor-pointer">
                           <img src={close_button} alt="botão de fechar modal"
@@ -438,8 +440,7 @@ export function ProfileSec() {
                             2xl:w-[16px] 2xl:h-[16px]" />
                         </button>
 
-                        <form onSubmit={(e) => {
-                          e.preventDefault();
+                        <form onSubmit={() => {
                           handlePostEdit(post.id);
                         }}
                           className="flex flex-col px-7 gap-5
@@ -456,7 +457,6 @@ export function ProfileSec() {
                             xl:text-[20px]
                             2xl:text-[25px]">Editar publicação</h1>
                             <button type="submit"
-                              onClick={(e) => e.preventDefault()}
                               className="flex cursor-pointer">
                               <p className="text-[#F37671] hover:underline
                               sm:text-[16px]
@@ -547,21 +547,21 @@ export function ProfileSec() {
             <div className="flex">
               <div className="flex flex-col items-center">
                 <h1 className="capitalize text-[20px] font-semibold text-[#303030]
-                sm:text-[20px]
+                sm:text-[18px]
                 md:text-[20px]
                 lg:text-[18px]
                 xl:text-[20px]
                 2xl:text-[20px]">{posts.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light
-                sm:text-[20px]
-                md:text-[20px]
+                sm:text-[18px]
+                md:text-[18px]
                 lg:text-[16px]
                 xl:text-[18px]
                 2xl:text-[20px]">Posts</p>
               </div>
 
-              <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-10
-              sm:mx-10
+              <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-8
+              sm:mx-8
               md:mx-10
               lg:mx-8
               xl:mx-8
@@ -569,13 +569,13 @@ export function ProfileSec() {
 
               <div className="flex flex-col items-center">
                 <h1 className="capitalize text-[20px] font-semibold text-[#303030]
-                sm:text-[20px]
+                sm:text-[18px]
                 md:text-[20px]
                 lg:text-[18px]
                 xl:text-[20px]
                 2xl:text-[20px]">{friends.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light
-                sm:text-[20px]
+                sm:text-[18px]
                 md:text-[20px]
                 lg:text-[16px]
                 xl:text-[18px]
@@ -591,8 +591,7 @@ export function ProfileSec() {
               {posts.map(post => (
                 <div key={post.id}
                   className="cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault()
+                  onClick={() => {
                     setIsModalOpen(true);
                     setModalOpen(post.id);
                   }}>

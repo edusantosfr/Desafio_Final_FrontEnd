@@ -24,6 +24,7 @@ export function Profile() {
     const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
     const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
+    const [msg, setMsg] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [mediaInput, setMediaInput] = useState('');
     const [friends, setFriends] = useState<Friend[]>([]);
@@ -93,6 +94,7 @@ export function Profile() {
         }
         handleLogedUser();
 
+
         loadFriends();
     }, [])
 
@@ -128,13 +130,12 @@ export function Profile() {
     }, [imageUrl])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        e.preventDefault();
         const { name, value } = e.target;
+        console.log('Digitando:', name, value);
         setPostInfo((prev) => ({ ...prev, [name]: value }));
     }
 
     const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        e.preventDefault();
         const { value } = e.target;
 
         setMediaInput(value);
@@ -168,8 +169,8 @@ export function Profile() {
     }
 
     const handleRegisterPost = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
         try {
+            e.preventDefault();
             await createPost(postInfo);
 
             setIsConfirmingPhoto(false);
@@ -177,24 +178,31 @@ export function Profile() {
             setIsConfirmedPhoto(false);
 
         } catch (error: any) {
+            const msg = error.response?.data?.message;
+            setMsg(msg);
         }
     }
 
     const Logo = () =>
         <div className="h-20 flex w-full items-center px-20
-        sm:px-20
-        md:px-20
-        lg:px-20
-        xl:px-0
-        2xl:px-0">
-            <img className="h-[5vh]" src={logo} alt="logo imagem" />
+        sm:px-15 sm:h-20
+        md:px-20 md:h-20
+        lg:px-20 lg:h-20
+        xl:px-0 xl:h-20
+        2xl:px-0 2xl:h-20">
+            <img className="h-[5vh]
+            sm:h-[4vh]
+            md:h-[5vh]
+            lg:h-[5vh]
+            xl:h-[5vh]
+            2xl:h-[5vh]" src={logo} alt="logo imagem" />
         </div>
 
     // MENU
     const Menu = () =>
         <div className="grid grid-rows-[100%] w-[80%] 
-        sm:grid-rows-[100%] sm:w-[80%]
-        md:grid-rows-[100%] md:w-[80%]
+        sm:grid-rows-[100%] sm:w-[100%]
+        md:grid-rows-[100%] md:w-[100%]
         lg:grid-rows-[100%] lg:w-[100%]
         xl:grid-rows-[10vh_85vh] xl:w-[80%]
         2xl:grid-rows-[15vh_85vh] 2xl:w-[80%]">
@@ -223,14 +231,14 @@ export function Profile() {
                 <Link
                     to="Feed"
                     className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
-                    sm:w-50 sm:grid-cols-[35%_65%] sm:border-0
-                    md:w-50 md:grid-cols-[35%_65%] md:border-0
+                    sm:w-full sm:grid-cols-[100%] sm:border-0
+                    md:w-full md:grid-cols-[100%] md:border-0
                     lg:w-full lg:grid-cols-[100%] lg:border-0
                     xl:w-60 xl:grid-cols-[30%_70%] xl:border-1
                     2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1">
                     <div className="flex justify-center">
                         <img src={feed_button} alt="Feed" className="h-8
-                        sm:h-8
+                        sm:h-6
                         md:h-8
                         lg:h-8
                         xl:h-[3vh]
@@ -253,21 +261,19 @@ export function Profile() {
 
                 <button
                     type="button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        console.log("Clique no botão — URL atual:", window.location.href);
+                    onClick={() => {
                         loadFriends();
                         setFriendsModalOpen(true);
                     }}
-                    className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[10vh] w-[15vw] no-underline
-                    sm:w-50 sm:grid-cols-[35%_65%] sm:border-0 sm:h-[10vh]
-                    md:w-50 md:grid-cols-[35%_65%] md:border-0 md:h-[10vh]
-                    lg:w-full lg:grid-cols-[100%] lg:border-0 lg:h-[10vh]
-                    xl:w-60 xl:grid-cols-[30%_70%] xl:border-1 xl:h-[9vh]
-                    2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1 2xl:h-[9vh]">
+                    className="grid grid-cols-[100%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
+                    sm:w-full sm:grid-cols-[100%] sm:border-0
+                    md:w-full md:grid-cols-[100%] md:border-0
+                    lg:w-full lg:grid-cols-[100%] lg:border-0
+                    xl:w-60 xl:grid-cols-[30%_70%] xl:border-1
+                    2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1">
                     <div className="flex justify-center">
                         <img src={friends_button} alt="Amigos" className="h-8
-                        sm:h-8
+                        sm:h-6
                         md:h-8
                         lg:h-8
                         xl:h-[3vh]
@@ -290,9 +296,9 @@ export function Profile() {
 
                 <Link
                     to="Profilesec"
-                    className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
-                    sm:w-50 sm:grid-cols-[35%_65%] sm:border-0
-                    md:w-50 md:grid-cols-[35%_65%] md:border-0
+                    className="grid grid-cols-[100%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
+                    sm:w-full sm:grid-cols-[100%] sm:border-0
+                    md:w-full md:grid-cols-[100%] md:border-0
                     lg:w-full lg:grid-cols-[100%] lg:border-0
                     xl:w-60 xl:grid-cols-[30%_70%] xl:border-1
                     2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1">
@@ -322,15 +328,15 @@ export function Profile() {
                 <button
                     type="button"
                     onClick={() => navigate("../Settings/Menu")}
-                    className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
-                    sm:w-50 sm:grid-cols-[35%_65%] sm:border-0
-                    md:w-50 md:grid-cols-[35%_65%] md:border-0
+                    className="grid grid-cols-[100%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
+                    sm:w-full sm:grid-cols-[100%] sm:border-0
+                    md:w-full md:grid-cols-[100%] md:border-0
                     lg:w-full lg:grid-cols-[100%] lg:border-0
                     xl:w-60 xl:grid-cols-[30%_70%] xl:border-1
                     2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1">
                     <div className="flex justify-center">
                         <img src={configuration_button} alt="Settings" className="h-8
-                        sm:h-8
+                        sm:h-6
                         md:h-8
                         lg:h-8
                         xl:h-[3vh]
@@ -354,15 +360,15 @@ export function Profile() {
                 <button
                     type="button"
                     onClick={() => setModalOpen(true)}
-                    className="grid grid-cols-[35%_65%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
-                    sm:w-50 sm:grid-cols-[35%_65%] sm:border-0
-                    md:w-50 md:grid-cols-[35%_65%] md:border-0
+                    className="grid grid-cols-[100%] items-center cursor-pointer border-1 border-[#E2E2E2] rounded-[15px] h-[9vh] w-[15vw] no-underline
+                    sm:w-full sm:grid-cols-[100%] sm:border-0
+                    md:w-full md:grid-cols-[100%] md:border-0
                     lg:w-full lg:grid-cols-[100%] lg:border-0
                     xl:w-60 xl:grid-cols-[30%_70%] xl:border-1
                     2xl:w-[15vw] 2xl:grid-cols-[35%_65%] 2xl:border-1">
                     <div className="flex justify-center">
                         <img src={create_post_button} alt="Create" className="h-8
-                        sm:h-8
+                        sm:h-6
                         md:h-8
                         lg:h-8
                         xl:h-[3vh]
@@ -400,9 +406,8 @@ export function Profile() {
             <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex flex-col justify-center items-center p-10">
                 <div className="w-full flex justify-end">
                     <button type="button"
-                        onClick={(e) => {
+                        onClick={() => {
                             setFriendsModalOpen(false)
-                            e.preventDefault()
                         }}
                         className="flex cursor-pointer">
                         <img src={close_button} alt="botão de fechar modal"
@@ -483,7 +488,6 @@ export function Profile() {
                             <div className="flex flex-row items-center justify-between">
                                 <h1 className="text-[25px] font-semibold text-[#303030]">Criar nova publicação</h1>
                                 <button type="submit"
-                                    onClick={(e) => e.preventDefault()}
                                     className="flex cursor-pointer">
                                     <p className="text-[#F37671] hover:underline">Compartilhar</p>
                                 </button>
@@ -503,7 +507,6 @@ export function Profile() {
                                 <div className="flex flex-col w-full max-w-xs">
                                     <label htmlFor="description" className="text-[15px] text-[#8E8E8E]">Descrição</label>
                                     <input id="description" name="description" value={postInfo.description} onChange={handleChange}
-
                                         type="text"
                                         className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]" />
                                 </div>
@@ -512,7 +515,6 @@ export function Profile() {
                                     <input type="checkbox"
                                         checked={postInfo.privatePost}
                                         onChange={(e) => {
-                                            e.preventDefault
                                             setPostInfo((prev) => ({ ...prev, privatePost: e.target.checked }))
                                         }}
                                         className="accent-[#F37671] cursor-pointer" /> Post Privado
@@ -588,7 +590,7 @@ export function Profile() {
     return (
         <div className="h-screen">
             {isDesktop ? (
-                <div className="grid grid-cols-[25vw_75vw] h-full">
+                <div className="grid grid-cols-[25vw_75vw]">
                     <section className="flex justify-center items-center">
                         <Menu />
                     </section>

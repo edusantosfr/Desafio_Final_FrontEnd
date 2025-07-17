@@ -139,9 +139,9 @@ export function Feed() {
     lg:grid-cols-[1fr]
     xl:grid-cols-[1fr_300px]
     2xl:grid-cols-[1fr_300px]">
-      <div className=" h-screen p-20 pt-45 flex flex-col gap-0 
-      sm:pt-32 sm:p-10 sm:gap-0
-      md:pt-32 md:p-10 md:gap-0
+      <div className=" h-screen p-20 pt-8 flex flex-col gap-0 
+      sm:pt-8 sm:p-10 sm:gap-0
+      md:pt-8 md:p-10 md:gap-0
       lg:pt-8 lg:p-10 lg:gap-0 
       xl:pt-32 xl:p-10 xl:gap-8 xl:overflow-y-auto
       2xl:pt-48 2xl:p-20 2xl:gap-10 2xl:overflow-y-auto">

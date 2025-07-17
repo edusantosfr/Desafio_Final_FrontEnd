@@ -155,10 +155,10 @@ export function UserProfileSec() {
   };
 
   return (
-    <div className="w-[1000px]
-    sm:w-[700px]
-    md:w-[700px]
-    lg:w-[600px]
+    <div className="w-full
+    sm:w-full
+    md:w-full
+    lg:w-[700px]
     xl:w-[1000px]
     2xl:w-[1000px]">
       {status ? (
@@ -170,48 +170,48 @@ export function UserProfileSec() {
         lg:w-full
         xl:w-[80%]
         2xl:w-full">
-          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto
-          sm:gap-20 sm:py-[60px]
-          md:gap-20 md:py-[60px]
-          lg:gap-10 lg:py-[40px]
-          xl:gap-20 xl:py-[60px]
-          2xl:gap-20 2xl:py-[60px]">
+          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto px-[40px] flex-col items-center
+          sm:gap-0 sm:py-[40px] sm:px-[0px] sm:flex-col sm:items-center
+          md:gap-10 md:py-[50px] md:px-[50px] md:flex-row md:items-start
+          lg:gap-15 lg:py-[40px] lg:px-[0px] lg:flex-row lg:items-start
+          xl:gap-20 xl:py-[60px] xl:px-[0px] xl:flex-row xl:items-start
+          2xl:gap-20 2xl:py-[60px] 2xl:px-[0px] 2xl:flex-row 2xl:items-start">
             <img className="rounded-full object-cover aspect-square w-70 h-70
-            sm:w-60 sm:h-60 
-            md:w-60 md:h-60 
+            sm:w-50 sm:h-50 
+            md:w-55 md:h-55
             lg:w-50 lg:h-50 
             xl:w-60 xl:h-60
-            2xl:w-70 2xl:h-70"
+            2xl:w-70 2xl:h-70 "
               src={user.profileLink || no_profile}
               alt="foto de perfil" />
 
-            <div className="flex flex-col pt-10 gap-4 max-w-140
-            sm:max-w-140
-            md:max-w-140
-            lg:max-w-80
+            <div className="flex flex-col pt-10 gap-4 max-w-100
+            sm:max-w-100
+            md:max-w-100
+            lg:max-w-90
             xl:max-w-100
             2xl:max-w-140">
               <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words
-              sm:text-[25px]
-              md:text-[25px]
-              lg:text-[20px]
-              xl:text-[20px]
-              2xl:text-[25px]">{user.name}</h1>
+              sm:text-[22px] sm:text-center
+              md:text-[22px] md:text-start
+              lg:text-[20px] lg:text-start
+              xl:text-[20px] xl:text-start
+              2xl:text-[25px] 2xl:text-start">{user.name}</h1>
               <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words
-              sm:text-[20px]
-              md:text-[20px]
-              lg:text-[16px]
-              xl:text-[18px]
-              2xl:text-[20px]">{user.description}</div>
+              sm:text-[18px] sm:text-center
+              md:text-[18px] md:text-start
+              lg:text-[16px] lg:text-start
+              xl:text-[18px] xl:text-start
+              2xl:text-[20px] 2xl:text-start">{user.description}</div>
               {isFriend(user.id) ? (
                 <button
                   onClick={() => handleClick(user.id)}
-                  className="flex items-center gap-1.5 py-0.5 rounded-[8px] text-[13px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2
-                  sm:text-[13px] sm:
-                  md:text-[13px] md:
-                  lg:text-[13px] lg:
-                  xl:text-[15px] xl:
-                  2xl:text-[15px] 2xl:">
+                  className="items-center gap-1.5 py-0.5 rounded-[8px] text-[13px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2 hidden
+                  sm:text-[13px] sm:hidden
+                  md:text-[13px] md:hidden
+                  lg:text-[13px] lg:flex
+                  xl:text-[15px] xl:flex
+                  2xl:text-[15px] 2xl:flex">
                   <p>Amigos</p>
                   <img src={correct_button}
                     className="h-2"
@@ -220,12 +220,12 @@ export function UserProfileSec() {
               ) : (
                 <button
                   onClick={() => handleClick(user.id)}
-                  className=" py-0.5 rounded-[8px] text-[13px] cursor-pointer hover w-fit px-2 bg-[#F37671] text-white border-[#F37671]
-                  sm:text-[13px] sm:
-                  md:text-[13px] md:
-                  lg:text-[13px] lg:
-                  xl:text-[15px] xl:
-                  2xl:text-[15px] 2xl:">
+                  className=" py-0.5 rounded-[8px] text-[13px] cursor-pointer hover w-fit px-2 bg-[#F37671] text-white border-[#F37671] hidden
+                  sm:text-[13px] sm:hidden
+                  md:text-[13px] md:hidden
+                  lg:text-[13px] lg:flex
+                  xl:text-[15px] xl:flex
+                  2xl:text-[15px] 2xl:flex">
                   <p>Adicionar</p>
                 </button>
               )}
@@ -347,24 +347,24 @@ export function UserProfileSec() {
           })}
 
           <section className="flex flex-col items-center gap-5">
-            <div className="flex">
+            <div className="flex items-center">
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]
-                sm:text-[20px]
-                md:text-[20px]
-                lg:text-[18px]
-                xl:text-[20px]
-                2xl:text-[20px]">{posts.length}</h1>
+                <h1 className="capitalize text-[20px] font-semibold text-[#303030] items-center
+                sm:text-[18px] sm:items-start
+                md:text-[20px] md:items-start
+                lg:text-[18px] lg:items-start
+                xl:text-[20px] xl:items-start
+                2xl:text-[20px] 2xl:items-start">{posts.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light
-                sm:text-[20px]
-                md:text-[20px]
+                sm:text-[18px]
+                md:text-[18px]
                 lg:text-[16px]
                 xl:text-[18px]
                 2xl:text-[20px]">Posts</p>
               </div>
 
-              <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-10
-              sm:mx-10
+              <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-8
+              sm:mx-8
               md:mx-10
               lg:mx-8
               xl:mx-8
@@ -372,18 +372,46 @@ export function UserProfileSec() {
 
               <div className="flex flex-col items-center">
                 <h1 className="capitalize text-[20px] font-semibold text-[#303030]
-                sm:text-[20px]
+                sm:text-[18px]
                 md:text-[20px]
                 lg:text-[18px]
                 xl:text-[20px]
                 2xl:text-[20px]">{userFriends.length}</h1>
                 <p className="text-[20px] text-[#6b6b6b] font-light
-                sm:text-[20px]
+                sm:text-[18px]
                 md:text-[20px]
                 lg:text-[16px]
                 xl:text-[18px]
                 2xl:text-[20px]">Amigos</p>
               </div>
+
+              {isFriend(user.id) ? (
+                <button
+                  onClick={() => handleClick(user.id)}
+                  className="ml-10 flex items-center gap-1.5 py-0.5 rounded-[8px] text-[13px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2 h-8
+                  sm:text-[13px] sm:flex
+                  md:text-[13px] md:flex
+                  lg:text-[13px] lg:hidden
+                  xl:text-[15px] xl:hidden
+                  2xl:text-[15px] 2xl:hidden">
+                  <p>Amigos</p>
+                  <img src={correct_button}
+                    className="h-2"
+                    alt="botão de correto" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleClick(user.id)}
+                  className="ml-10 py-0.5 rounded-[8px] text-[13px] cursor-pointer hover w-fit px-2 bg-[#F37671] text-white border-[#F37671] flex h-8 items-center
+                  sm:text-[13px] sm:flex
+                  md:text-[13px] md:flex
+                  lg:text-[13px] lg:hidden
+                  xl:text-[15px] xl:hidden
+                  2xl:text-[15px] 2xl:hidden">
+                  <p>Adicionar</p>
+                </button>
+              )}
+
             </div>
             <div className="grid grid-cols-3 gap-1
             sm:grid-cols-3
@@ -400,7 +428,7 @@ export function UserProfileSec() {
                   }}>
                   <img src={post.photoLink}
                     alt="Imagem de Post"
-                    className="object-cover aspect-square" />
+                    className="object-cover aspect-square h-full" />
                 </div>
               ))}
             </div>

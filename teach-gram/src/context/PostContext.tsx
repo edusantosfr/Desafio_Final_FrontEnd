@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { createPost } from "../services/post.service"; // ajuste o caminho
 
 type Post = {
   id: number;
@@ -12,18 +11,9 @@ type Post = {
   likes: number;
 };
 
-type PostForm = {
-  title: string;
-  description: string;
-  photoLink: string;
-  videoLink: string;
-  privatePost: boolean;
-};
-
 interface PostContextType {
   posts: Post[];
   setPosts: (posts: Post[]) => void;
-  createNewPost: (data: PostForm) => Promise<void>;
 }
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
@@ -35,17 +25,8 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     setPostsState(newPosts);
   };
 
-  const createNewPost = async (data: PostForm) => {
-    try {
-      const post = await createPost(data);
-      setPostsState(prev => [post, ...prev]);
-    } catch (error) {
-      console.error("Erro ao criar post:", error);
-    }
-  };
-
   return (
-    <PostContext.Provider value={{ posts, setPosts, createNewPost }}>
+    <PostContext.Provider value={{ posts, setPosts }}>
       {children}
     </PostContext.Provider>
   );
