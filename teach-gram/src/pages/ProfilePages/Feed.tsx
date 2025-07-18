@@ -133,13 +133,13 @@ export function Feed() {
   };
 
   return (
-    <div className="grid grid-cols-[1fr_300px] h-full
+    <div className="grid grid-cols-[1fr] h-full
     sm:grid-cols-[1fr]
     md:grid-cols-[1fr]
     lg:grid-cols-[1fr]
     xl:grid-cols-[1fr_300px]
     2xl:grid-cols-[1fr_300px]">
-      <div className=" h-screen p-20 pt-8 flex flex-col gap-0 
+      <div className=" h-screen p-20 pt-4 flex flex-col gap-0 
       sm:pt-8 sm:p-10 sm:gap-0
       md:pt-8 md:p-10 md:gap-0
       lg:pt-8 lg:p-10 lg:gap-0 
@@ -154,22 +154,22 @@ export function Feed() {
 
           return (
             <div key={post.id}
-              className="h-fit flex flex-col gap-15">
-              <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_5px_rgba(0,0,0,0.2)] flex flex-col items-end relative z-0 mb-8
-              sm:w-[500px] sm:p-6 sm:mb-8
-              md:w-[500px] md:p-6 md:mb-8
-              lg:w-[500px] lg:p-6 lg:mb-8
-              xl:w-[500px] xl:p-6 xl:mb-0
-              2xl:w-[550px] 2xl:p-8 2xl:mb-0" >
+              className="h-fit flex flex-col">
+              <div className="h-fit w-[300px] bg-white rounded-[12px] p-4 shadow-[0_0_5px_rgba(0,0,0,0.2)] flex flex-col items-end relative z-0 mb-6
+              sm:w-[500px] sm:p-6 sm:mb-8 sm:rounded-[18px]
+              md:w-[500px] md:p-6 md:mb-8 md:rounded-[18px]
+              lg:w-[500px] lg:p-6 lg:mb-8 lg:rounded-[18px]
+              xl:w-[500px] xl:p-6 xl:mb-0 xl:rounded-[18px]
+              2xl:w-[550px] 2xl:p-8 2xl:mb-0 2xl:rounded-[18px]" >
                 <div className="flex h-fit w-full justify-between items-start">
                   
-                  <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center
+                  <section className="flex gap-3 w-full max-w-screen-lg mx-auto items-center
                   sm:gap-4
                   md:gap-4
                   lg:gap-4
                   xl:gap-4
                   2xl:gap-8">
-                    <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer
+                    <img className="rounded-full object-cover aspect-square w-12 h-12 cursor-pointer
                     sm:w-18 sm:h-18
                     md:w-18 md:h-18
                     lg:w-18 lg:h-18
@@ -181,14 +181,14 @@ export function Feed() {
 
                     <div className="flex flex-col max-w-[650px]">
                       <h1 onClick={() => post.user.id === Number(userId) ? navigate('/Profile/profilesec') : navigate(`/Profile/profilesec/${post.user.id}`)}
-                        className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer
+                        className="capitalize text-[16px] font-light text-[#8E8E8E] break-words cursor-pointer
                         sm:text-[22px]
                         md:text-[22px]
                         lg:text-[22px]
                         xl:text-[22px]
                         2xl:text-[25px]">{post.user.username}</h1>
 
-                      <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[340px] h-fit break-words
+                      <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[340px] h-fit break-words
                       sm:text-[20px]
                       md:text-[20px]
                       lg:text-[20px]
@@ -199,14 +199,24 @@ export function Feed() {
 
                   <section className="relative z-0">
                     {activePostId === post.id && (
-                      <div className="absolute -translate-x-25 w-24 bg-white border border-[#E2E2E2] shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-[8px] flex flex-col items-center justify-center">
+                      <div className="absolute -translate-x-19 w-18 bg-white border border-[#E2E2E2] shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-[8px] flex flex-col items-center justify-center
+                      sm:w-24 sm:-translate-x-25
+                      md:w-24 md:-translate-x-25
+                      lg:w-24 lg:-translate-x-25
+                      xl:w-24 xl:-translate-x-25
+                      2xl:w-24 2xl:-translate-x-25">
                         <button
                           className="flex justify-center w-full px-4 pb-1 pt-2 text-left hover:bg-gray-100"
                           onClick={() => {
                             setIsEditPostModalOpen(true);
                             handleOpenEditModal(post.id);
                           }}>
-                          <p className="text-[15px] text-[#F37671] font-medium">Editar</p>
+                          <p className="text-[12px] text-[#F37671] font-medium
+                          sm:text-[15px]
+                          md:text-[15px]
+                          lg:text-[15px]
+                          xl:text-[15px]
+                          2xl:text-[15px]">Editar</p>
                         </button>
                         <button
                           className="flex justify-center w-full px-4 pb-2 pt-1 text-left hover:bg-gray-100"
@@ -214,14 +224,24 @@ export function Feed() {
                             setIsDeletePostModalOpen(true);
                             setDeleteModalOpen(post.id);
                           }}>
-                          <p className="text-[15px] text-[#F37671] font-medium">Excluir</p>
+                          <p className="text-[12px] text-[#F37671] font-medium
+                          sm:text-[15px]
+                          md:text-[15px]
+                          lg:text-[15px]
+                          xl:text-[15px]
+                          2xl:text-[15px]">Excluir</p>
                         </button>
                       </div>
                     )}
                     {post.user.id === Number(userId) && (
                       <button onClick={() => setActivePostId(activePostId === post.id ? null : post.id)}
                         className="cursor-pointer w-4 flex justify-center">
-                        <img className="h-7"
+                        <img className="h-5
+                        sm:h-7
+                        md:h-7
+                        lg:h-7
+                        xl:h-7
+                        2xl:h-7"
                           src={post_hamburguer}
                           alt="hamburguer" />
                       </button>
@@ -229,25 +249,25 @@ export function Feed() {
                   </section>
 
                 </div>
-                <div className="flex flex-col mt-5 gap-5 w-full
-                sm:gap-3
-                md:gap-3
-                lg:gap-3
-                xl:gap-3
-                2xl:gap-5">
-                  <div className="flex flex-col gap-1
+                <div className="flex flex-col mt-3 gap-2 w-full
+                sm:gap-3 sm:mt-5
+                md:gap-3 md:mt-5
+                lg:gap-3 lg:mt-5
+                xl:gap-3 xl:mt-5
+                2xl:gap-5 2xl:mt-5">
+                  <div className="flex flex-col gap-0
                   sm:gap-0
                   md:gap-0
                   lg:gap-0
                   xl:gap-0
                   2xl:gap-1">
-                    <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words
+                    <div className="text-[14px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words
                     sm:text-[18px]
                     md:text-[18px]
                     lg:text-[18px]
                     xl:text-[18px]
                     2xl:text-[20px]">{post.title}</div>
-                    <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
+                    <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
                     sm:text-[16px]
                     md:text-[16px]
                     lg:text-[16px]
@@ -257,7 +277,7 @@ export function Feed() {
 
                   {post.videoLink ? (
                     <iframe
-                      className="w-full h-[320px] rounded-[8px]
+                      className="w-full h-[180px] rounded-[8px]
                       sm:h-[280px]
                       md:h-[280px]
                       lg:h-[280px]
@@ -268,19 +288,39 @@ export function Feed() {
                       allowFullScreen
                     ></iframe>
                   ) : (
-                    <img className="object-cover w-full h-full max-h-[400px] cursor-pointer rounded-[8px]"
+                    <img className="object-cover w-full h-full max-h-[280px] cursor-pointer rounded-[8px]
+                    sm:max-h-[400px]
+                    md:max-h-[400px]
+                    lg:max-h-[400px]
+                    xl:max-h-[400px]
+                    2xl:max-h-[400px]"
                       src={post.photoLink || undefined}
                       alt="foto de perfil" />
                   )}
 
-                  <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-2
+                  sm:gap-5
+                  md:gap-5
+                  lg:gap-5
+                  xl:gap-5
+                  2xl:gap-5">
                     <button onClick={() => handlePostLikes(post.id)}
                       className="cursor-pointer">
-                      <img className="h-10"
+                      <img className="h-6
+                      sm:h-10
+                      md:h-10
+                      lg:h-10
+                      xl:h-10
+                      2xl:h-10"
                         src={like_button}
                         alt="botão de curtida" />
                     </button>
-                    <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.likes} curtidas</div>
+                    <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
+                    sm:text-[20px]
+                    md:text-[20px]
+                    lg:text-[20px]
+                    xl:text-[20px]
+                    2xl:text-[20px]">{post.likes} curtidas</div>
                   </div>
 
                 </div>

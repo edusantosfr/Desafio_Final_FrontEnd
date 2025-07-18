@@ -1,22 +1,23 @@
 import no_profile from "../../assets/no-profile.png";
 import close_button from "../../assets/close-button.png";
-
-import { useState, useEffect } from "react";
-
-import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-
-import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
-import { Modal } from "../ModalPages/Modal";
-
-import { getLogedUser, getMyFriends } from "../../services/user.service";
-import { getAllMyPosts, editPost, getMyPostById, deletePost, patchPostLikes } from "../../services/post.service";
+import back_button from "../../assets/backButton.png";
 import post_hamburguer from "../../assets/post-hamburguer.png";
 import like_button from "../../assets/like-button.png";
 
+import { useState, useEffect } from "react";
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { useNavigate } from "react-router-dom";
+
+import { LoadingSpinnerSmall } from "../../components/loadingSpinnerSmall";
+import { Modal } from "../ModalPages/Modal";
+import { getLogedUser, getMyFriends } from "../../services/user.service";
+import { getAllMyPosts, editPost, getMyPostById, deletePost, patchPostLikes } from "../../services/post.service";
+
 export function ProfileSec() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [status, setStatus] = useState(false);
+  //const [status, setStatus] = useState(false);
 
   const [isEditPostModalOpen, setIsEditPostModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState<number | null>(null);
@@ -57,9 +58,36 @@ export function ProfileSec() {
     videoLink: string;
     createdAt: string;
     likes: number;
-  };
+  }
+
+  const handleVoltar = () => {
+    const logo = document.getElementById("logo");
+    const menu = document.getElementById("menu");
+
+    if (logo) logo.style.display = "flex";
+    if (menu) menu.style.display = "flex";
+
+    navigate(-1);
+  }
 
   useEffect(() => {
+    const logo = document.getElementById("logo");
+    const menu = document.getElementById("menu");
+
+    const updateProfilePage = () => {
+      const width = window.innerWidth;
+
+      if (width < 640) {
+        if (logo) logo.style.display = "none";
+        if (menu) menu.style.display = "none";
+      } else {
+        if (logo) logo.style.display = "flex";
+        if (menu) menu.style.display = "flex";
+      }
+    }
+    updateProfilePage();
+    window.addEventListener("resize", updateProfilePage);
+
     const handleLogedUser = async () => {
       try {
         const user = await getLogedUser();
@@ -88,8 +116,9 @@ export function ProfileSec() {
       } catch (error) {
         console.error('Erro ao buscar itens:', error);
       }
-    };
+    }
     handlePosts()
+
 
     const loadFriends = async () => {
       try {
@@ -98,8 +127,12 @@ export function ProfileSec() {
       } catch (error) {
         console.error('Erro ao buscar amigos:', error);
       }
-    };
-    loadFriends();
+    }
+    loadFriends()
+
+    return () => {
+      window.removeEventListener("resize", updateProfilePage);
+    }
   }, [])
 
   const handlePostDelete = async (postId: number) => {
@@ -122,7 +155,7 @@ export function ProfileSec() {
     setEditPostData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
-    }));
+    }))
   }
 
   const [editPostData, setEditPostData] = useState({
@@ -156,7 +189,7 @@ export function ProfileSec() {
         photoLink: post.photoLink,
         videoLink: post.videoLink,
         privatePost: post.privatePost
-      });
+      })
       setEditModalOpen(postId);
     } catch (error) {
       console.error("Erro ao carregar post:", error);
@@ -171,7 +204,7 @@ export function ProfileSec() {
         posts.map((post) =>
           post.id === postId ? { ...post, likes: post.likes + 1 } : post
         )
-      );
+      )
     } catch (error) {
       console.error("Erro ao curtir:", error);
     }
@@ -184,7 +217,7 @@ export function ProfileSec() {
       return `https://www.youtube.com/embed/${match[1]}`;
     }
     return url;
-  };
+  }
 
   return (
     <div className="w-full
@@ -202,34 +235,59 @@ export function ProfileSec() {
         lg:w-full
         xl:w-[80%]
         2xl:w-full">
-          <section className="flex py-[60px] gap-20 w-full max-w-screen-lg mx-auto px-[40px] flex-col items-center
+          <section className="flex pt-[30px] pb-[20px] gap-0 w-full max-w-screen-lg mx-auto px-[40px] flex-col items-center
           sm:gap-0 sm:py-[40px] sm:px-[0px] sm:flex-col sm:items-center
           md:gap-10 md:py-[50px] md:px-[50px] md:flex-row md:items-start
           lg:gap-15 lg:py-[40px] lg:px-[0px] lg:flex-row lg:items-start
           xl:gap-20 xl:py-[60px] xl:px-[0px] xl:flex-row xl:items-start
           2xl:gap-20 2xl:py-[60px] 2xl:px-[0px] 2xl:flex-row 2xl:items-start">
-            <img className="rounded-full object-cover aspect-square w-70 h-70
-            sm:w-50 sm:h-50 
-            md:w-55 md:h-55
-            lg:w-50 lg:h-50 
-            xl:w-60 xl:h-60
-            2xl:w-70 2xl:h-70 "
-              src={user.profileLink || no_profile}
-              alt="foto de perfil" />
+            <div className="w-full flex flex-col gap-5
+            sm:gap-0
+            md:gap-0
+            lg:gap-0
+            xl:gap-0
+            2xl:gap-0">
+              <button type="button"
+                onClick={handleVoltar}
+                className="flex cursor-pointer
+                sm:hidden
+                md:hidden
+                lg:hidden
+                xl:hidden
+                2xl:hidden">
+                <img src={back_button} alt="botão de fechar modal"
+                  className="w-[14px] h-[14px]
+                  sm:w-[18px] sm:h-[18px]
+                  md:w-[18px] md:h-[18px]
+                  lg:w-[18px] lg:h-[18px]
+                  xl:w-[18px] xl:h-[18px] 
+                  2xl:w-[18px] 2xl:h-[18px]" />
+              </button>
+              <div className="w-full flex justify-center">
+                <img className="rounded-full object-cover aspect-square w-35 h-35
+                sm:w-50 sm:h-50 
+                md:w-55 md:h-55
+                lg:w-50 lg:h-50 
+                xl:w-60 xl:h-60
+                2xl:w-70 2xl:h-70"
+                  src={user.profileLink || no_profile}
+                  alt="foto de perfil" />
+              </div>
+            </div>
 
-            <div className="flex flex-col pt-10 gap-4 max-w-100
-            sm:max-w-100
-            md:max-w-100
-            lg:max-w-90
-            xl:max-w-100
-            2xl:max-w-140">
-              <h1 className="capitalize text-[25px] font-semibold text-[#303030] break-words text-center
+            <div className="flex flex-col pt-5 gap-2 max-w-60
+            sm:max-w-100 sm:pt-10 sm:gap-4
+            md:max-w-100 md:pt-10 md:gap-4
+            lg:max-w-90 lg:pt-10 lg:gap-4
+            xl:max-w-100 xl:pt-10 xl:gap-4
+            2xl:max-w-140 2xl:pt-10 2xl:gap-4">
+              <h1 className="capitalize text-[18px] font-semibold text-[#303030] break-words text-center
               sm:text-[22px] sm:text-center
               md:text-[22px] md:text-start
               lg:text-[20px] lg:text-start
               xl:text-[20px] xl:text-start
               2xl:text-[25px] 2xl:text-start">{user.name}</h1>
-              <div className="text-[20px] text-[#6b6b6b] font-light w-full h-fit break-words text-center
+              <div className="text-[14px] text-[#6b6b6b] font-normal w-full h-fit break-words text-center
               sm:text-[18px] sm:text-center
               md:text-[18px] md:text-start
               lg:text-[16px] lg:text-start
@@ -546,13 +604,13 @@ export function ProfileSec() {
           <section className="flex flex-col items-center gap-5">
             <div className="flex">
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]
+                <h1 className="text-[16px] font-semibold text-[#303030]
                 sm:text-[18px]
                 md:text-[20px]
                 lg:text-[18px]
                 xl:text-[20px]
                 2xl:text-[20px]">{posts.length}</h1>
-                <p className="text-[20px] text-[#6b6b6b] font-light
+                <p className="text-[14px] text-[#6b6b6b] font-normal
                 sm:text-[18px]
                 md:text-[18px]
                 lg:text-[16px]
@@ -560,21 +618,21 @@ export function ProfileSec() {
                 2xl:text-[20px]">Posts</p>
               </div>
 
-              <div className="mt-1 w-[1px] h-10 bg-[#DBDADA] mx-8
-              sm:mx-8
-              md:mx-10
-              lg:mx-8
-              xl:mx-8
-              2xl:mx-10"></div>
+              <div className="mt-1 w-[1px] h-8 bg-[#DBDADA] mx-3
+              sm:mx-8 sm:h-10
+              md:mx-10 md:h-10
+              lg:mx-8 lg:h-10
+              xl:mx-8 xl:h-10
+              2xl:mx-10 2xl:h-10"></div>
 
               <div className="flex flex-col items-center">
-                <h1 className="capitalize text-[20px] font-semibold text-[#303030]
+                <h1 className="text-[16px] font-semibold text-[#303030]
                 sm:text-[18px]
                 md:text-[20px]
                 lg:text-[18px]
                 xl:text-[20px]
                 2xl:text-[20px]">{friends.length}</h1>
-                <p className="text-[20px] text-[#6b6b6b] font-light
+                <p className="text-[14px] text-[#6b6b6b] font-normal
                 sm:text-[18px]
                 md:text-[20px]
                 lg:text-[16px]
@@ -582,12 +640,12 @@ export function ProfileSec() {
                 2xl:text-[20px]">Amigos</p>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-1
-            sm:grid-cols-3
-            md:grid-cols-3
-            lg:grid-cols-3
-            xl:grid-cols-3
-            2xl:grid-cols-4">
+            <div className="grid grid-cols-3 gap-0.5
+            sm:grid-cols-3 sm:gap-1
+            md:grid-cols-3 md:gap-1
+            lg:grid-cols-3 lg:gap-1
+            xl:grid-cols-3 xl:gap-1
+            2xl:grid-cols-4 2xl:gap-1">
               {posts.map(post => (
                 <div key={post.id}
                   className="cursor-pointer"
