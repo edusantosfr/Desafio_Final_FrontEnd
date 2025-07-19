@@ -27,7 +27,7 @@ export function AppRoutes() {
                             <Route path="/" element={<Login />} />
 
                             <Route element={<PrivateRoutes />}>
-                                <Route path="/Profile" element={<Navigate to="/Profile/profilesec" replace />} />
+                                <Route path="/Profile" element={<Navigate to="/Profile/feed" replace />} />
                                 <Route path="/Profile" element={<Profile />}>
                                     <Route path="feed" element={<Feed />} />
                                     <Route path="profilesec" element={<ProfileSec />} />

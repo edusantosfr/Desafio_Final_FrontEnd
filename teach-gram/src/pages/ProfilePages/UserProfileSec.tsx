@@ -52,9 +52,9 @@ export function UserProfileSec() {
     if (logo) logo.style.display = "flex";
     if (menu) menu.style.display = "flex";
 
-    navigate(-1);
+    navigate('/Profile/feed');
   }
-
+  
   useEffect(() => {
     const logo = document.getElementById("logo");
     const menu = document.getElementById("menu");

@@ -96,7 +96,7 @@ export function ProfileInfo() {
       lg:grid-cols-[60vw_40vw]
       xl:grid-cols-[75vw_25vw]">
       <div className="flex justify-center">
-        <div className="grid grid-rows-[8vh_92vh] w-[85%] 
+        <div className="grid grid-rows-[8vh_92vh] w-[88%] 
         sm:grid-rows-[5vh_95vh]
         md:grid-rows-[15vh_85vh]
         lg:grid-rows-[15vh_85vh]
@@ -104,7 +104,7 @@ export function ProfileInfo() {
           <section className="flex flex-row gap-5 items-center">
             <button
               type="button"
-              onClick={() => navigate("/Settings/Menu ")}
+              onClick={() => navigate("/Settings/Menu")}
               className="cursor-pointer">
               <img src={back_button} alt="Voltar" className="h-[3vh] hidden
               sm:h-[2.5vh] sm:hidden
@@ -225,6 +225,7 @@ export function ProfileInfo() {
                     lg:gap-6
                     xl:gap-6">
                       <button
+                        type="button"
                         onClick={() => navigate("/Settings/Menu")}
                         className="w-20 py-0.5 rounded-[8px] text-[14px] border-[#F37671] border-1 text-[#F37671] cursor-pointer block
                         sm:block sm:text-[15px] sm:py-1

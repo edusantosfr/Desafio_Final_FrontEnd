@@ -328,19 +328,44 @@ export function Feed() {
 
               {deleteModalOpen === post.id && (
                 <Modal isOpen={isDeletePostModalOpen} onClose={() => setIsDeletePostModalOpen(false)}>
-                  <div className="bg-white rounded-[30px] shadow-lg z-60 max-w-lg w-fit h-fit flex flex-col items-center p-12 gap-8">
-                    <h2 className="text-[24px] font-semibold text-[#303030]">Excluir Publicação?</h2>
+                  <div className="bg-white rounded-[20px] shadow-lg z-60 max-w-[290px] w-fit h-fit flex flex-col items-center p-6 gap-6
+                    sm:max-w-[512px] sm:rounded-[30px] sm:p-12 sm:gap-8
+                    md:max-w-[512px] md:rounded-[30px] md:p-12 md:gap-8
+                    lg:max-w-[512px] lg:rounded-[30px] lg:p-12 lg:gap-8
+                    xl:max-w-[512px] xl:rounded-[30px] xl:p-12 xl:gap-8
+                    2xl:max-w-[512px] 2xl:rounded-[30px] 2xl:p-12 2xl:gap-8">
+                    <h2 className="text-[18px] font-semibold text-[#303030]
+                      sm:text-[24px]
+                      md:text-[24px]
+                      lg:text-[24px]
+                      xl:text-[24px]
+                      2xl:text-[24px]">Excluir Publicação?</h2>
                     <div className="flex items-center justify-center">
                       <div className="flex flex-col w-[80%] gap-10">
-                        <div className="flex justify-center gap-12">
+                        <div className="flex justify-center gap-6
+                        sm:gap-12
+                        md:gap-12
+                        lg:gap-12
+                        xl:gap-12
+                        2xl:gap-12">
                           <button
                             onClick={() => setIsDeletePostModalOpen(false)}
-                            className="px-10 py-0.5 rounded-[8px] text-[15px] border-[#F37671] border-1 text-[#F37671] cursor-pointer">
+                            className="px-6 py-0.5 rounded-[8px] text-[12px] border-[#F37671] border-1 text-[#F37671] cursor-pointer
+                            sm:text-[15px] sm:px-10
+                            md:text-[15px] md:px-10
+                            lg:text-[15px] lg:px-10
+                            xl:text-[15px] xl:px-10
+                            2xl:text-[15px] 2xl:px-10">
                             Cancelar
                           </button>
                           <button
                             onClick={() => handlePostDelete(post.id)}
-                            className="px-10 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[15px] cursor-pointer">
+                            className="px-6 py-0.5 bg-[#F37671] text-white rounded-[8px] text-[12px] cursor-pointer
+                            sm:text-[15px] sm:px-10
+                            md:text-[15px] md:px-10
+                            lg:text-[15px] lg:px-10
+                            xl:text-[15px] xl:px-10
+                            2xl:text-[15px] 2xl:px-10">
                             Confirmar
                           </button>
                         </div>
@@ -352,13 +377,13 @@ export function Feed() {
 
               {editModalOpen === post.id && (
                 <Modal isOpen={isEditPostModalOpen} onClose={() => setIsEditPostModalOpen(false)}>
-                  <section className="bg-white rounded-[30px] shadow-lg z-60 w-[528px] flex justify-center items-center
-                  sm:w-[460px]
-                  md:w-[460px]
-                  lg:w-[460px]
-                  xl:w-[460px]
-                  2xl:w-[528px]">
-                    <div className="w-full h-full flex flex-col p-7
+                  <section className="bg-white rounded-[20px] shadow-lg z-60 w-[280px] flex justify-center items-center
+                    sm:w-[460px] sm:rounded-[30px]
+                    md:w-[460px] md:rounded-[30px]
+                    lg:w-[460px] lg:rounded-[30px]
+                    xl:w-[460px] xl:rounded-[30px]
+                    2xl:w-[528px] 2xl:rounded-[30px]">
+                    <div className="w-full h-full flex flex-col p-4
                     sm:p-6
                     md:p-6
                     lg:p-6
@@ -368,7 +393,7 @@ export function Feed() {
                         onClick={() => setIsEditPostModalOpen(false)}
                         className="flex cursor-pointer">
                         <img src={close_button} alt="botão de fechar modal"
-                          className="w-[18px] h-[18px]
+                          className="w-[12px] h-[12px]
                           sm:w-[16px] sm:h-[16px]
                           md:w-[16px] md:h-[16px]
                           lg:w-[16px] lg:h-[16px]
@@ -380,14 +405,14 @@ export function Feed() {
                         e.preventDefault();
                         handlePostEdit(post.id);
                       }}
-                        className="flex flex-col px-7 gap-5
-                        sm:gap-3
-                        md:gap-3
-                        lg:gap-3
-                        xl:gap-3
-                        2xl:gap-5">
+                        className="flex flex-col px-1 gap-1 mt-2
+                          sm:gap-3 sm:mt-0 sm:px-7
+                          md:gap-3 md:mt-0 md:px-7
+                          lg:gap-3 lg:mt-0 lg:px-7
+                          xl:gap-3 xl:mt-0 xl:px-7
+                          2xl:gap-5 2xl:mt-0 2xl:px-7">
                         <div className="flex flex-row items-center justify-between">
-                          <h1 className="text-[25px] font-semibold text-[#303030]
+                          <h1 className="text-[14px] font-semibold text-[#303030]
                           sm:text-[20px]
                           md:text-[20px]
                           lg:text-[20px]
@@ -395,7 +420,7 @@ export function Feed() {
                           2xl:text-[25px]">Editar publicação</h1>
                           <button type="submit"
                             className="flex cursor-pointer">
-                            <p className="text-[#F37671] hover:underline
+                            <p className="text-[#F37671] hover:underline text-[14px]
                             sm:text-[16px]
                             md:text-[16px]
                             lg:text-[16px]
@@ -403,67 +428,96 @@ export function Feed() {
                             2xl:text-[20px]">Salvar</p>
                           </button>
                         </div>
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-2
+                        sm:gap-3
+                        md:gap-3
+                        lg:gap-3
+                        xl:gap-3
+                        2xl:gap-3">
                           <img src={editPostData.photoLink || undefined}
                             alt="Imagem inserida"
-                            className="h-90 w-full object-cover aspect-square rounded-2xl pb-2
-                            sm:h-70
-                            md:h-70
-                            lg:h-70
-                            xl:h-70
-                            2xl:h-90" />
+                            className="h-50 w-full object-cover aspect-square rounded-2xl pb-0
+                            sm:h-70 sm:pb-2
+                            md:h-70 md:pb-2
+                            lg:h-70 lg:pb-2
+                            xl:h-70 xl:pb-2
+                            2xl:h-90 2xl:pb-2" />
 
                           <div className="flex flex-col w-full max-w-xs">
-                            <label htmlFor="photoLink" className="text-[15px] text-[#303030]">Link da Foto</label>
+                            <label htmlFor="photoLink" className="text-[12px] text-[#303030]
+                            sm:text-[15px]
+                            md:text-[15px]
+                            lg:text-[15px]
+                            xl:text-[15px]
+                            2xl:text-[15px]">Link da Foto</label>
                             <input id="photoLink" name="photoLink" type="url" value={editPostData.photoLink} onChange={handleChange}
-                              className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
-                              sm:w-89
-                              md:w-89
-                              lg:w-89
-                              xl:w-89
-                              2xl:w-100" />
+                              className="px-1 w-60 truncate border-b-1 border-[#E6E6E6] text-[12px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
+                              sm:w-89 sm:text-[15px]
+                              md:w-89 md:text-[15px]
+                              lg:w-89 lg:text-[15px]
+                              xl:w-89 xl:text-[15px]
+                              2xl:w-100 2xl:text-[15px]" />
                           </div>
 
                           <div className="flex flex-col w-full max-w-xs">
-                            <label htmlFor="title" className="text-[15px] text-[#303030]">Título</label>
+                            <label htmlFor="title" className="text-[12px] text-[#303030]sm:text-[15px]
+                            md:text-[15px]
+                            lg:text-[15px]
+                            xl:text-[15px]
+                            2xl:text-[15px]">Título</label>
                             <input id="title" name="title" value={editPostData.title} onChange={handleChange}
                               type="text"
-                              className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
-                              sm:w-89
-                              md:w-89
-                              lg:w-89
-                              xl:w-89
-                              2xl:w-100" />
+                              className="px-1 w-60 truncate border-b-1 border-[#E6E6E6] text-[12px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
+                              sm:w-89 sm:text-[15px]
+                              md:w-89 md:text-[15px]
+                              lg:w-89 lg:text-[15px]
+                              xl:w-89 xl:text-[15px]
+                              2xl:w-100 2xl:text-[15px]" />
                           </div>
 
                           <div className="flex flex-col w-full max-w-xs">
-                            <label htmlFor="description" className="text-[15px] text-[#303030]">Descrição</label>
+                            <label htmlFor="description" className="text-[12px] text-[#303030]
+                            sm:text-[15px]
+                            md:text-[15px]
+                            lg:text-[15px]
+                            xl:text-[15px]
+                            2xl:text-[15px]">Descrição</label>
                             <input id="description" name="description" value={editPostData.description} onChange={handleChange}
 
                               type="text"
-                              className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
-                              sm:w-89
-                              md:w-89
-                              lg:w-89
-                              xl:w-89
-                              2xl:w-100" />
+                              className="px-1 w-60 truncate border-b-1 border-[#E6E6E6] text-[12px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
+                              sm:w-89 sm:text-[15px]
+                              md:w-89 md:text-[15px]
+                              lg:w-89 lg:text-[15px]
+                              xl:w-89 xl:text-[15px]
+                              2xl:w-100 2xl:text-[15px]" />
                           </div>
 
                           <div className="flex flex-col w-full max-w-xs">
-                            <label htmlFor="videoLink" className="text-[15px] text-[#303030]">Link do Vídeo 'Opcional'</label>
+                            <label htmlFor="videoLink" className="text-[12px] text-[#303030]
+                            sm:text-[15px]
+                            md:text-[15px]
+                            lg:text-[15px]
+                            xl:text-[15px]
+                            2xl:text-[15px]">Link do Vídeo 'Opcional'</label>
                             <input id="videoLink" name="videoLink" value={editPostData.videoLink} onChange={handleChange}
                               type="url"
-                              className="px-1 w-100 truncate border-b-1 border-[#E6E6E6] text-[15px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
-                              sm:w-89
-                              md:w-89
-                              lg:w-89
-                              xl:w-89
-                              2xl:w-100" />
+                              className="px-1 w-60 truncate border-b-1 border-[#E6E6E6] text-[12px] text-[#717171] focus:text-[#F37671] focus:outline-none focus:border-[#F37671]
+                              sm:w-89 sm:text-[15px]
+                              md:w-89 md:text-[15px]
+                              lg:w-89 lg:text-[15px]
+                              xl:w-89 xl:text-[15px]
+                              2xl:w-100 2xl:text-[15px]" />
                           </div>
                         </div>
 
                         <label htmlFor="privatePost"
-                          className="flex items-center gap-1 text-[15px] text-[#8E8E8E] cursor-pointer pb-5">
+                          className="flex items-center gap-1 text-[12px] text-[#8E8E8E] cursor-pointer pb-0 pt-2
+                          sm:text-[15px] sm:pb-5 sm:pt-0
+                          md:text-[15px] md:pb-5 md:pt-0
+                          lg:text-[15px] lg:pb-5 lg:pt-0
+                          xl:text-[15px] xl:pb-5 xl:pt-0
+                          2xl:text-[15px] 2xl:pb-5 2xl:pt-0">
                           <input
                             type="checkbox"
                             name="privatePost"

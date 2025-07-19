@@ -24,7 +24,7 @@ export function Menu() {
         } catch (error) {
             console.error("Erro ao deletar o user:", error);
         } finally {
-            navigate('/');
+            navigate('/Profile/feed');
             setStatus(false);
         }
     };
@@ -48,7 +48,7 @@ export function Menu() {
                             <section className="flex flex-row gap-5 items-center">
                                 <button
                                     type="button"
-                                    onClick={() => navigate("/Profile/Profilesec")}
+                                    onClick={() => navigate("/Profile/feed")}
                                     className="cursor-pointer">
                                     <img src={back_button} alt="Voltar" className="h-[2vh]
                                     sm:h-[2.5vh]

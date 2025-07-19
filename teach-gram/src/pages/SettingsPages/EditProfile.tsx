@@ -71,10 +71,10 @@ export function EditProfile() {
     lg:grid-cols-[60vw_40vw]
     xl:grid-cols-[75vw_25vw]">
       <div className="flex justify-center">
-        <div className="grid grid-rows-[8vh_92vh] w-[85%] 
+        <div className="grid grid-rows-[8vh_92vh] w-[87%] 
         sm:grid-rows-[10vh_90vh]
         md:grid-rows-[15vh_85vh]
-        lg:grid-rows-[13vh_87vh]
+        lg:grid-rows-[15vh_85vh]
         xl:grid-rows-[13vh_87vh]">
           <section className="flex flex-row gap-5 items-center">
             <button
