@@ -212,6 +212,8 @@ export function Profile() {
                 <button type="button" className="cursor-pointer"
                     onClick={() => {
                         setIsAuthenticated(false);
+                        sessionStorage.clear(); 
+                        localStorage.clear();
                         navigate("../");
                     }}>
                     <img src={back_button} alt="Voltar" className="h-[3vh]" />

@@ -21,6 +21,7 @@ export function Login() {
     const [isChoosingProfilePicture, setIsChoosingProfilePicture] = useState(false);
     const [status, setStatus] = useState(false);
     const [verify, setVerify] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const [loginData, setLoginData] = useState({
         mail: '',
@@ -56,7 +57,12 @@ export function Login() {
             });
 
             const token = response.token;
-            localStorage.setItem('token', token);
+            if (rememberMe) {
+                localStorage.setItem("token", token);
+            } else {
+                sessionStorage.setItem("token", token);
+            }
+
             setIsAuthenticated(true);
 
             const userId = response.user.id;
@@ -173,7 +179,10 @@ export function Login() {
                                     lg:text-[13px]
                                     xl:text-[13px]">
                                         <label className="flex items-center gap-1 text-[#303030] cursor-pointer">
-                                            <input type="checkbox" className="accent-[#F37671] cursor-pointer" /> Lembrar senha
+                                            <input type="checkbox" 
+                                            checked={rememberMe}
+                                            onChange={(e) => setRememberMe(e.target.checked)}
+                                            className="accent-[#F37671] cursor-pointer" /> Lembrar senha
                                         </label>
                                         <a href="#" className="text-[#666666] hover:underline">Esqueci minha senha</a>
                                     </div>
@@ -231,7 +240,6 @@ export function Login() {
                                 md:max-w-xs
                                 lg:max-w-72
                                 xl:max-w-xs"
-                                    //onClick={loadingLogin}
                                     type="submit">
                                     <img src={google_login} alt="logo imagem" className="w-40
                                     sm:w-45
@@ -245,7 +253,6 @@ export function Login() {
                                 md:max-w-xs
                                 lg:max-w-72
                                 xl:max-w-xs"
-                                    //onClick={loadingLogin}
                                     type="submit">
                                     <img src={apple_login} alt="logo imagem" className="w-40
                                     sm:w-45
@@ -414,7 +421,7 @@ export function Login() {
                                     </div>
 
                                     <div className="flex flex-col w-full max-w-xs gap-1">
-                                        <label htmlFor="phone"  className="text-[12px]
+                                        <label htmlFor="phone" className="text-[12px]
                                         sm:text-[14px]
                                         md:text-[14px]
                                         lg:text-[14px]

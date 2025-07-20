@@ -48,10 +48,10 @@ export function Feed() {
   useEffect(() => {
     getUsersPosts()
       .then(setPosts)
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        console.error(error);
       });
-  }, []);
+  }, [])
 
   const handlePostLikes = async (postId: number) => {
     try {
@@ -85,7 +85,7 @@ export function Feed() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-  };
+  }
 
   const [editPostData, setEditPostData] = useState({
     title: '',
@@ -121,7 +121,7 @@ export function Feed() {
     } catch (error) {
       console.error("Erro ao carregar post:", error);
     }
-  };
+  }
 
   const convertToEmbed = (url: string) => {
     const regex = /watch\?v=([\w-]+)/;
@@ -130,7 +130,7 @@ export function Feed() {
       return `https://www.youtube.com/embed/${match[1]}`;
     }
     return url;
-  };
+  }
 
   return (
     <div className="grid grid-cols-[1fr] h-full
@@ -142,7 +142,7 @@ export function Feed() {
       <div className=" h-screen p-20 pt-4 flex flex-col gap-0 
       sm:pt-8 sm:p-10 sm:gap-0
       md:pt-8 md:p-10 md:gap-0
-      lg:pt-8 lg:p-10 lg:gap-0 
+      lg:pt-8 lg:p-10 lg:gap-0
       xl:pt-30 xl:p-10 xl:gap-8 xl:overflow-y-auto
       2xl:pt-45 2xl:p-20 2xl:gap-10 2xl:overflow-y-auto">
 
@@ -162,7 +162,7 @@ export function Feed() {
               xl:w-[500px] xl:p-6 xl:mb-0 xl:rounded-[18px]
               2xl:w-[550px] 2xl:p-8 2xl:mb-0 2xl:rounded-[18px]" >
                 <div className="flex h-fit w-full justify-between items-start">
-                  
+
                   <section className="flex gap-3 w-full max-w-screen-lg mx-auto items-center
                   sm:gap-4
                   md:gap-4
@@ -274,7 +274,6 @@ export function Feed() {
                     xl:text-[16px]
                     2xl:text-[20px]">{post.description}</div>
                   </div>
-
                   {post.videoLink ? (
                     <iframe
                       className="w-full h-[180px] rounded-[8px]

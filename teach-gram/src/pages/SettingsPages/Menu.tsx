@@ -33,6 +33,8 @@ export function Menu() {
 
     const handleLogout = () => {
         setStatus(true);
+        sessionStorage.clear(); 
+        localStorage.clear();
         setLogoutModalOpen(false);
         setIsAuthenticated(false);
 

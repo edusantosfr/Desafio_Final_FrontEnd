@@ -37,7 +37,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setUserState(null);
     setAuthState(false);
-    // limpar localStorage/token
   };
 
   return (

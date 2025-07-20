@@ -17,7 +17,7 @@ import { getAllMyPosts, editPost, getMyPostById, deletePost, patchPostLikes } fr
 export function ProfileSec() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([]);
-  //const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(false);
 
   const [isEditPostModalOpen, setIsEditPostModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState<number | null>(null);
