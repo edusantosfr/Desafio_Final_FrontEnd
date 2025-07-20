@@ -437,7 +437,8 @@ export function ProfileSec() {
                             ></iframe>
                           ) : (
                             <img
-                              className="object-cover w-full h-full max-h-[280px] cursor-pointer rounded-[8pxsm:max-h-[400px]
+                              className="object-cover w-full h-full max-h-[280px] cursor-pointer rounded-[8px] 
+                              sm:max-h-[400px]
                               md:max-h-[400px]
                               lg:max-h-[400px]
                               xl:max-h-[400px]

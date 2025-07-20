@@ -24,7 +24,6 @@ export function Profile() {
     const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
     const [isConfirmingPhoto, setIsConfirmingPhoto] = useState(false);
-    const [msg, setMsg] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
     const [mediaInput, setMediaInput] = useState('');
@@ -105,7 +104,7 @@ export function Profile() {
             } else {
                 setFriendsPerPage(4);
             }
-        };
+        }
 
         updateFriendsPage();
 
@@ -167,7 +166,7 @@ export function Profile() {
                 photoLink: imageUrl,
                 videoLink: videoUrl,
                 privatePost: formData.get("privatePost") === "on"
-            };
+            }
 
             await createPost(postInfo);
 
@@ -176,11 +175,11 @@ export function Profile() {
             setIsConfirmedPhoto(false);
 
         } catch (error: any) {
-            const msg = error.response?.data?.message;
-            setMsg(msg);
+            console.log(error)
         }
     }
 
+    //LOGO
     const Logo = () =>
         <div className="h-15 flex w-full items-center px-10
         sm:px-15 sm:h-20
@@ -212,8 +211,8 @@ export function Profile() {
             2xl:flex">
                 <button type="button" className="cursor-pointer"
                     onClick={() => {
-                        setIsAuthenticated(false)
-                        navigate("../")
+                        setIsAuthenticated(false);
+                        navigate("../");
                     }}>
                     <img src={back_button} alt="Voltar" className="h-[3vh]" />
                 </button>

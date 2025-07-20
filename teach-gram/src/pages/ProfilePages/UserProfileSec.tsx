@@ -209,11 +209,11 @@ export function UserProfileSec() {
           xl:gap-20 xl:py-[60px] xl:px-[0px] xl:flex-row xl:items-start
           2xl:gap-20 2xl:py-[60px] 2xl:px-[0px] 2xl:flex-row 2xl:items-start">
             <div className="w-full flex flex-col gap-5
-            sm:gap-0
-            md:gap-0
-            lg:gap-0
-            xl:gap-0
-            2xl:gap-0">
+            sm:gap-0 sm:w-full
+            md:gap-0 md:w-fit
+            lg:gap-0 lg:w-fit
+            xl:gap-0 xl:w-fit
+            2xl:gap-0 2xl:w-fit">
               <button type="button"
                 onClick={handleVoltar}
                 className="flex cursor-pointer
@@ -230,13 +230,18 @@ export function UserProfileSec() {
                   xl:w-[18px] xl:h-[18px] 
                   2xl:w-[18px] 2xl:h-[18px]" />
               </button>
-              <div className="w-full flex justify-center">
+              <div className="w-full flex justify-center
+              sm:w-full sm:justify-center
+              md:w-fit md:justify-start
+              lg:w-fit lg:justify-start
+              xl:w-fit xl:justify-start
+              2xl:w-fit 2xl:justify-start">
                 <img className="rounded-full object-cover aspect-square w-35 h-35
-                sm:w-50 sm:h-50 
-                md:w-55 md:h-55
-                lg:w-50 lg:h-50 
-                xl:w-60 xl:h-60
-                2xl:w-70 2xl:h-70"
+                sm:w-50 sm:h-50 sm: sm:
+                md:w-55 md:h-55 md: md:
+                lg:w-50 lg:h-50 lg: lg:
+                xl:w-60 xl:h-60 xl: xl:
+                2xl:w-70 2xl:h-70 2xl: 2xl:"
                   src={user.profileLink || no_profile}
                   alt="foto de perfil" />
               </div>
@@ -263,12 +268,12 @@ export function UserProfileSec() {
               {isFriend(user.id) ? (
                 <button
                   onClick={() => handleClick(user.id)}
-                  className="items-center gap-1.5 py-0.5 rounded-[8px] text-[13px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2 hidden
-                  sm:text-[13px] sm:hidden
-                  md:text-[13px] md:hidden
-                  lg:text-[13px] lg:flex
-                  xl:text-[15px] xl:flex
-                  2xl:text-[15px] 2xl:flex">
+                  className="items-center gap-1.5 py-0.5 rounded-[8px] text-[13px] text-[#666666] border-1 border-[#666666] cursor-pointer hover w-fit px-2 pr-0 hidden
+                  sm:text-[13px] sm:hidden sm:pr-0
+                  md:text-[13px] md:hidden md:pr-0
+                  lg:text-[13px] lg:flex lg:pr-4
+                  xl:text-[15px] xl:flex xl:pr-4
+                  2xl:text-[15px] 2xl:flex 2xl:pr-4">
                   <p>Amigos</p>
                   <img src={correct_button}
                     className="h-2"
@@ -299,20 +304,20 @@ export function UserProfileSec() {
                 {modalOpen === post.id && (
                   <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                     <div className="h-fit flex flex-col gap-15">
-                      <div className="h-fit w-[550px] bg-white rounded-[18px] p-8 shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col
+                      <div className="h-fit w-[280px] bg-white rounded-[18px] p-4 shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col items-end
                       sm:w-[480px] sm:p-6
                       md:w-[480px] md:p-6
                       lg:w-[480px] lg:p-6
                       xl:w-[480px] xl:p-6
                       2xl:w-[550px] 2xl:p-8">
                         <div className="flex h-fit w-full justify-between items-start">
-                          <section className="flex gap-8 w-full max-w-screen-lg mx-auto items-center
+                          <section className="flex gap-3 w-full max-w-screen-lg mx-auto items-center
                           sm:gap-4
                           md:gap-4
                           lg:gap-4
                           xl:gap-4
                           2xl:gap-8">
-                            <img className="rounded-full object-cover aspect-square w-22 h-22 cursor-pointer
+                            <img className="rounded-full object-cover aspect-square w-12 h-12 cursor-pointer
                             sm:w-18 sm:h-18
                             md:w-18 md:h-18
                             lg:w-18 lg:h-18
@@ -322,14 +327,14 @@ export function UserProfileSec() {
                               alt="foto de perfil" />
 
                             <div className="flex flex-col max-w-[650px]">
-                              <h1 className="capitalize text-[25px] font-light text-[#8E8E8E] break-words cursor-pointer
+                              <h1 className="capitalize text-[16px] font-light text-[#8E8E8E] break-words cursor-pointer
                               sm:text-[22px]
                               md:text-[22px]
                               lg:text-[22px]
                               xl:text-[22px]
                               2xl:text-[25px]">{user.username}</h1>
 
-                              <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[300px] h-fit break-words
+                              <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[300px] h-fit break-words
                               sm:text-[20px]
                               md:text-[20px]
                               lg:text-[20px]
@@ -338,25 +343,25 @@ export function UserProfileSec() {
                             </div>
                           </section>
                         </div>
-                        <div className="flex flex-col mt-5 gap-5 w-full
-                        sm:gap-3
-                        md:gap-3
-                        lg:gap-3
-                        xl:gap-3
-                        2xl:gap-5">
-                          <div className="flex flex-col gap-1
+                        <div className="flex flex-col mt-3 gap-2 w-full
+                        sm:gap-3 sm:mt-5
+                        md:gap-3 md:mt-5
+                        lg:gap-3 lg:mt-5
+                        xl:gap-3 xl:mt-5
+                        2xl:gap-5 2xl:mt-5">
+                          <div className="flex flex-col gap-0
                           sm:gap-0
                           md:gap-0
                           lg:gap-0
                           xl:gap-0
                           2xl:gap-1">
-                            <div className="text-[20px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words
+                            <div className="text-[14px] text-[#4d4d4d] font-semibold w-full max-w-[480px] h-fit break-words
                             sm:text-[18px]
                             md:text-[18px]
                             lg:text-[18px]
                             xl:text-[18px]
                             2xl:text-[20px]">{post.title}</div>
-                            <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
+                            <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
                             sm:text-[16px]
                             md:text-[16px]
                             lg:text-[16px]
@@ -366,7 +371,7 @@ export function UserProfileSec() {
 
                           {post.videoLink ? (
                             <iframe
-                              className="w-full h-[320px] rounded-[8px]
+                              className="w-full h-[180px] rounded-[8px]
                               sm:h-[280px]
                               md:h-[280px]
                               lg:h-[280px]
@@ -378,20 +383,40 @@ export function UserProfileSec() {
                             ></iframe>
                           ) : (
                             <img
-                              className="object-cover w-full h-full max-h-[360px]  cursor-pointer rounded-[8px]"
+                              className="object-cover w-full h-full max-h-[280px] cursor-pointer rounded-[8px] 
+                              sm:max-h-[400px]
+                              md:max-h-[400px]
+                              lg:max-h-[400px]
+                              xl:max-h-[400px]
+                              2xl:max-h-[400px]"
                               src={post.photoLink}
                               alt="foto de perfil"
                             />
                           )}
 
-                          <div className="flex items-center gap-5">
+                          <div className="flex items-center gap-2
+                          sm:gap-5
+                          md:gap-5
+                          lg:gap-5
+                          xl:gap-5
+                          2xl:gap-5">
                             <button onClick={() => handlePostLikes(post.id)}
                               className="cursor-pointer">
-                              <img className="h-10"
+                              <img className="h-6
+                              sm:h-10
+                              md:h-10
+                              lg:h-10
+                              xl:h-10
+                              2xl:h-10"
                                 src={like_button}
                                 alt="botão de curtida" />
                             </button>
-                            <div className="text-[20px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words">{post.likes} curtidas</div>
+                            <div className="text-[14px] text-[#8E8E8E] font-light w-full max-w-[480px] h-fit break-words
+                            sm:text-[20px]
+                            md:text-[20px]
+                            lg:text-[20px]
+                            xl:text-[20px]
+                            2xl:text-[20px]">{post.likes} curtidas</div>
                           </div>
 
                         </div>
