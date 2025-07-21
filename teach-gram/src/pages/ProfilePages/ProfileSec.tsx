@@ -241,11 +241,11 @@ export function ProfileSec() {
           xl:gap-20 xl:py-[60px] xl:px-[0px] xl:flex-row xl:items-start
           2xl:gap-20 2xl:py-[60px] 2xl:px-[0px] 2xl:flex-row 2xl:items-start">
             <div className="w-full flex flex-col gap-5
-            sm:gap-0
-            md:gap-0
-            lg:gap-0
-            xl:gap-0
-            2xl:gap-0">
+            sm:gap-0 sm:w-full
+            md:gap-0 md:w-fit
+            lg:gap-0 lg:w-fit
+            xl:gap-0 xl:w-fit
+            2xl:gap-0 2xl:w-fit">
               <button type="button"
                 onClick={handleVoltar}
                 className="flex cursor-pointer
