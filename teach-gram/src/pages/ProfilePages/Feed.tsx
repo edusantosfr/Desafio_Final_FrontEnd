@@ -5,15 +5,15 @@ import close_button from "../../assets/close-button.png";
 
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { useState } from "react";
 
-import { editPost, getMyPostById, patchPostLikes, deletePost } from "../../services/post.service";
+import { getUsersPosts, editPost, getMyPostById, patchPostLikes, deletePost } from "../../services/post.service";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../ModalPages/Modal";
-import { usePostContext } from "../../context/PostContext";
+
+import { useEffect, useState } from "react";
 
 export function Feed() {
-  const { posts, refreshPosts } = usePostContext();
+  const [posts, setPosts] = useState<Post[]>([]);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -32,6 +32,35 @@ export function Feed() {
     privatePost: false
   })
 
+  type User = {
+    id: number;
+    name: string;
+    email: string;
+    username: string;
+    description: string;
+    phone: string;
+    profileLink: string;
+  }
+
+  type Post = {
+    id: number;
+    title: string;
+    description: string;
+    photoLink: string;
+    videoLink: string;
+    createdAt: string;
+    likes: number;
+    user: User;
+  }
+
+  useEffect(() => {
+    getUsersPosts()
+      .then(setPosts)
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [])
+
   const convertToEmbed = (url: string) => {
     const regex = /watch\?v=([\w-]+)/;
     const match = url.match(regex);
@@ -44,11 +73,15 @@ export function Feed() {
   const handlePostLikes = async (postId: number) => {
     try {
       await patchPostLikes(postId);
-      await refreshPosts();
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId ? { ...post, likes: post.likes + 1 } : post
+        )
+      );
     } catch (error) {
       console.error("Erro ao curtir:", error);
     }
-  };
+  }
 
   const handlePostDelete = async (postId: number) => {
     try {

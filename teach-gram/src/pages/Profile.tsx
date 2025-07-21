@@ -17,12 +17,10 @@ import { Modal } from "./ModalPages/Modal";
 import { getLogedUser, getMyFriends } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";
 import { createPost } from "../services/post.service";
-import { usePostContext } from "../context/PostContext";
 
 export function Profile() {
     const isDesktop = useMediaQuery({ minWidth: 1280 });
     
-    const { refreshPosts } = usePostContext();
     const [isModalOpen, setModalOpen] = useState(false);
     const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
@@ -156,7 +154,6 @@ export function Profile() {
             }
 
             await createPost(postInfo);
-            await refreshPosts();
 
             setIsConfirmingPhoto(false);
             setModalOpen(false);
