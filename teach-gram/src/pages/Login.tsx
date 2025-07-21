@@ -39,10 +39,17 @@ export function Login() {
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
         if (isLogin) {
             setLoginData({ ...loginData, [e.target.name]: e.target.value });
         } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
+            setFormData(prev => ({
+                ...prev,
+                [name]: name === "username"
+                    ? value.startsWith('@') ? value : `@${value}`
+                    : value
+            }));
         }
     }
 
@@ -180,10 +187,10 @@ export function Login() {
                                     lg:text-[13px]
                                     xl:text-[13px]">
                                         <label className="flex items-center gap-1 text-[#303030] cursor-pointer">
-                                            <input type="checkbox" 
-                                            checked={rememberMe}
-                                            onChange={(e) => setRememberMe(e.target.checked)}
-                                            className="accent-[#F37671] cursor-pointer" /> Lembrar senha
+                                            <input type="checkbox"
+                                                checked={rememberMe}
+                                                onChange={(e) => setRememberMe(e.target.checked)}
+                                                className="accent-[#F37671] cursor-pointer" /> Lembrar senha
                                         </label>
                                         <a href="#" className="text-[#666666] hover:underline">Esqueci minha senha</a>
                                     </div>
