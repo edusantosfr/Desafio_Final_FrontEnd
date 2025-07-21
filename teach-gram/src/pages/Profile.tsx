@@ -658,6 +658,7 @@ export function Profile() {
                                 xl:text-[15px] xl:pb-5
                                 2xl:text-[15px] 2xl:pb-5">
                                     <input
+                                        id="privatePost" name="privatePost"
                                         type="checkbox"
                                         className="accent-[#F37671] cursor-pointer" />
                                     Post Privado

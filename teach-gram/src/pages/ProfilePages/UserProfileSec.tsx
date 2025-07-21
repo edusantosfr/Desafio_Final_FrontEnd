@@ -17,7 +17,6 @@ export function UserProfileSec() {
   const navigate = useNavigate();
   const { userId } = useParams();
 
-  const [status, setStatus] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState<number | null>(null);

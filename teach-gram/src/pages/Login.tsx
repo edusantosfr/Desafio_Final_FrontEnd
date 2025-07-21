@@ -65,11 +65,11 @@ export function Login() {
             });
 
             const token = response.token;
-            if (rememberMe) {
-                localStorage.setItem("token", token);
-            } else {
-                sessionStorage.setItem("token", token);
-            }
+            const expirationTime = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 3600 * 1000;
+            const expirationDate = new Date().getTime() + expirationTime;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('tokenExpiration', expirationDate.toString());
 
             setIsAuthenticated(true);
 
