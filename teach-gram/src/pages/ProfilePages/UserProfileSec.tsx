@@ -376,7 +376,7 @@ export function UserProfileSec() {
                               lg:h-[280px]
                               xl:h-[280px]
                               2xl:h-[320px]"
-                              src={convertToEmbed(post.videoLink)}
+                              src={convertToEmbed(post.videoLink)  || undefined}
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             ></iframe>
@@ -388,7 +388,7 @@ export function UserProfileSec() {
                               lg:max-h-[400px]
                               xl:max-h-[400px]
                               2xl:max-h-[400px]"
-                              src={post.photoLink}
+                              src={post.photoLink  || undefined}
                               alt="foto de perfil"
                             />
                           )}
@@ -507,7 +507,7 @@ export function UserProfileSec() {
                     setIsModalOpen(true);
                     setModalOpen(post.id);
                   }}>
-                  <img src={post.photoLink}
+                  <img src={post.photoLink  || undefined}
                     alt="Imagem de Post"
                     className="object-cover aspect-square h-full" />
                 </div>
