@@ -16,10 +16,13 @@ import { useMediaQuery } from 'react-responsive';
 import { Modal } from "./ModalPages/Modal";
 import { getLogedUser, getMyFriends } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";
-import { useUser } from "../context/UserContext";
 import { createPost } from "../services/post.service";
+import { usePostContext } from "../context/PostContext";
 
 export function Profile() {
+    const isDesktop = useMediaQuery({ minWidth: 1280 });
+    
+    const { refreshPosts } = usePostContext();
     const [isModalOpen, setModalOpen] = useState(false);
     const [isFriendsModalOpen, setFriendsModalOpen] = useState(false);
     const [isConfirmedPhoto, setIsConfirmedPhoto] = useState(false);
@@ -29,20 +32,15 @@ export function Profile() {
     const [mediaInput, setMediaInput] = useState('');
     const [friends, setFriends] = useState<Friend[]>([]);
 
-    const isDesktop = useMediaQuery({ minWidth: 1280 });
-
     //Friends Carrossel
     const [currentPage, setCurrentPage] = useState(1);
     const [friendsPerPage, setFriendsPerPage] = useState(4);
-
     const totalPages = Math.ceil(friends.length / friendsPerPage);
     const startIndex = (currentPage - 1) * friendsPerPage;
     const currentFriends = friends.slice(startIndex, startIndex + friendsPerPage);
 
     const navigate = useNavigate();
-
     const { setIsAuthenticated } = useContext(AuthContext);
-    const { setUser } = useUser();
 
     const [userInfo, setUserInfo] = useState({
         profileLink: '',
@@ -61,11 +59,11 @@ export function Profile() {
         description: string
     }
 
+    //FRIENDS
     const loadFriends = async () => {
         try {
             const data = await getMyFriends();
             setFriends(data);
-
         } catch (error) {
             console.error('Erro ao buscar amigos:', error);
         }
@@ -75,19 +73,7 @@ export function Profile() {
         const handleLogedUser = async () => {
             try {
                 const user = await getLogedUser();
-
-                setUser({
-                    id: user.id,
-                    name: user.name,
-                    username: user.username,
-                    phone: user.phone,
-                    mail: user.mail,
-                    profileLink: user.profileLink,
-                    description: user.description
-                });
-
                 setUserInfo(user);
-
             } catch (error) {
                 console.error("Erro ao fazer ao pegar as informações do usuário:", error);
             }
@@ -98,7 +84,6 @@ export function Profile() {
 
         const updateFriendsPage = () => {
             const width = window.innerWidth;
-
             if (width < 640) {
                 setFriendsPerPage(8);
             } else {
@@ -112,6 +97,7 @@ export function Profile() {
         return () => window.removeEventListener('resize', updateFriendsPage);
     }, [])
 
+    //MEDIA (VIDEO/FOTO)
     const isValidImage = (url: string) => /\.(png|jpg|jpeg)$/i.test(url)
 
     const isYouTubeLink = (url: string) =>
@@ -154,6 +140,7 @@ export function Profile() {
         }
     }
 
+    //REGISTER POST
     const handleRegisterPost = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
@@ -169,6 +156,7 @@ export function Profile() {
             }
 
             await createPost(postInfo);
+            await refreshPosts();
 
             setIsConfirmingPhoto(false);
             setModalOpen(false);
@@ -569,7 +557,7 @@ export function Profile() {
         </Modal>
 
         <Modal isOpen={isModalOpen} onClose={() => {
-            setModalOpen(false)
+            setModalOpen(false);
             setMediaInput('');
             setImageUrl('');
         }}>

@@ -50,6 +50,7 @@ export function Login() {
         e.preventDefault();
         setStatus(true);
         localStorage.clear();
+        sessionStorage.clear();
         try {
             const response = await loginUser({
                 mail: loginData.mail,

@@ -15,11 +15,13 @@ import { EditProfile } from '../pages/SettingsPages/EditProfile.tsx';
 
 import { UserProvider } from "../context/UserContext";
 import { AuthProvider } from '../context/AuthContext';
+import { PostProvider } from '../context/PostContext.tsx';
 
 export function AppRoutes() {
     return (
         <AuthProvider>
             <UserProvider>
+                <PostProvider>
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<Login />} />
@@ -42,6 +44,7 @@ export function AppRoutes() {
                             </Route>
                         </Routes>
                     </BrowserRouter>
+                </PostProvider>
             </UserProvider>
         </AuthProvider>
     )

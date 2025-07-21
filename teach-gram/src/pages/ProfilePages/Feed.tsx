@@ -5,15 +5,15 @@ import close_button from "../../assets/close-button.png";
 
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { useState } from "react";
 
-import { getUsersPosts, editPost, getMyPostById, patchPostLikes, deletePost } from "../../services/post.service";
+import { editPost, getMyPostById, patchPostLikes, deletePost } from "../../services/post.service";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../ModalPages/Modal";
-
-import { useEffect, useState } from "react";
+import { usePostContext } from "../../context/PostContext";
 
 export function Feed() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { posts, refreshPosts } = usePostContext();
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -24,47 +24,31 @@ export function Feed() {
   const [deleteModalOpen, setDeleteModalOpen] = useState<number | null>(null);
   const [activePostId, setActivePostId] = useState<number | null>(null);
 
-  type User = {
-    id: number;
-    name: string;
-    email: string;
-    username: string;
-    description: string;
-    phone: string;
-    profileLink: string;
-  }
+  const [editPostData, setEditPostData] = useState({
+    title: '',
+    description: '',
+    photoLink: '',
+    videoLink: '',
+    privatePost: false
+  })
 
-  type Post = {
-    id: number;
-    title: string;
-    description: string;
-    photoLink: string;
-    videoLink: string;
-    createdAt: string;
-    likes: number;
-    user: User;
+  const convertToEmbed = (url: string) => {
+    const regex = /watch\?v=([\w-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url;
   }
-
-  useEffect(() => {
-    getUsersPosts()
-      .then(setPosts)
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [])
 
   const handlePostLikes = async (postId: number) => {
     try {
       await patchPostLikes(postId);
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId ? { ...post, likes: post.likes + 1 } : post
-        )
-      );
+      await refreshPosts();
     } catch (error) {
       console.error("Erro ao curtir:", error);
     }
-  }
+  };
 
   const handlePostDelete = async (postId: number) => {
     try {
@@ -86,14 +70,6 @@ export function Feed() {
       [name]: type === 'checkbox' ? checked : value
     }));
   }
-
-  const [editPostData, setEditPostData] = useState({
-    title: '',
-    description: '',
-    photoLink: '',
-    videoLink: '',
-    privatePost: false
-  })
 
   const handlePostEdit = async (postId: number) => {
     try {
@@ -121,15 +97,6 @@ export function Feed() {
     } catch (error) {
       console.error("Erro ao carregar post:", error);
     }
-  }
-
-  const convertToEmbed = (url: string) => {
-    const regex = /watch\?v=([\w-]+)/;
-    const match = url.match(regex);
-    if (match) {
-      return `https://www.youtube.com/embed/${match[1]}`;
-    }
-    return url;
   }
 
   return (
